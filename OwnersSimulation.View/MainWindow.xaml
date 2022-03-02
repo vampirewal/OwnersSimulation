@@ -4,7 +4,8 @@
                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                      xmlns:VWin="Vampirewal.Windows"
-                     xmlns:map="clr-namespace:OwnersSimulation.View.CustomControls.Map" xmlns:vc="Vampirewal.CustomControl"
+                     xmlns:map="clr-namespace:OwnersSimulation.View.CustomControls.Map"
+                     xmlns:vc="Vampirewal.CustomControl"
                      xmlns:local="clr-namespace:OwnersSimulation.View"
                      DataContext="{Binding Source={StaticResource Locator},Path=MainViewModel}"
                      mc:Ignorable="d"
@@ -99,17 +100,24 @@
         </Grid>
     </VWin:MainWindowBase.LeftContent>
     <VWin:MainWindowBase.BottomCustomAreas>
-        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-            <vc:TitleContent Title="灵石" Margin="0,0,3,2" FontSize="15"
-                             TitleForeground="{StaticResource BaseForeground}" TitleVerticalAlignment="Center"
+        <StackPanel Orientation="Horizontal"
+                    VerticalAlignment="Center">
+            <vc:TitleContent Title="灵石"
+                             Margin="0,0,3,2"
+                             FontSize="15"
+                             TitleForeground="{StaticResource BaseForeground}"
+                             TitleVerticalAlignment="Center"
                              TitleWidth="50">
-                <TextBox IsReadOnly="True" Text="100"  FontSize="12" Width="100"/>
+                <TextBox IsReadOnly="True"
+                         Text="100"
+                         FontSize="12"
+                         Width="100" />
             </vc:TitleContent>
-            <Border BorderThickness="1" BorderBrush="#ddd" />
+            <Border BorderThickness="1"
+                    BorderBrush="#ddd" />
             <TextBlock Text="测试"
                        FontSize="15" />
         </StackPanel>
-       
     </VWin:MainWindowBase.BottomCustomAreas>
     <Grid>
         <ContentControl Content="{Binding ShowUI}"

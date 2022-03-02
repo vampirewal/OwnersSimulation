@@ -20,15 +20,11 @@ namespace OwnersSimulation.View
         protected override void OnStartup(StartupEventArgs e)
         {
             SetAssembly(Assembly.GetExecutingAssembly());
+
             base.OnStartup(e);
 
             OpenWinodw(ViewKeys.LoginView);
 
-            //if (OpenDialogWindowGetResult(ViewKeys.LoginView) is United model)
-            //{
-            //    OpenDialogWindowGetResultByPassData(ViewKeys.MainView, model);
-            //    //OpenWinodw(ViewKeys.MainView);
-            //}
         }
     }
 }

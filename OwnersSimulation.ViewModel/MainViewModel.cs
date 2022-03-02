@@ -11,6 +11,8 @@
 //----------------------------------------------------------------*/
 #endregion
 
+using OwnersSimulation.Model;
+using OwnersSimulation.Model.Component;
 using OwnersSimulation.Model.Map;
 using OwnersSimulation.Model.Self;
 using System;
@@ -27,10 +29,13 @@ namespace OwnersSimulation.ViewModel
 {
     public class MainViewModel : BillVM<United>
     {
-        public MainViewModel(IDataContext dc,IAppConfig config
+        private IOwnerSimulationDataContext OSDC { get; set; }
+        public MainViewModel(IDataContext dc,IAppConfig config, IOwnerSimulationDataContext osdc
             ) 
             : base(dc, config)
         {
+
+            OSDC = osdc;
             //构造函数
 
             Title = config.AppChineseName;
@@ -46,13 +51,20 @@ namespace OwnersSimulation.ViewModel
         public override void PassData(object obj)
         {
             var model = obj as United;
+
             if (model != null)
             {
                 SetEntity(model);
                 Title = Title + $"-{Entity.UnitedName}";
 
                 owner = DC.Client.Queryable<Owner>().First(f => f.UnitedId == model.BillId);
+
+                OSDC.SetOwner(owner);
+
+                ShowUI = Messenger.Default.Send<FrameworkElement>("GetView", ViewKeys.WildViewModel);
             }
+
+            ReturnResult = false;
         }
 
         private bool ReturnResult { get; set; }
@@ -86,6 +98,8 @@ namespace OwnersSimulation.ViewModel
 
         public RelayCommand ReturnLoginViewCommand => new RelayCommand(() =>
         {
+            OSDC.ClearData();
+
             ReturnResult = true;
             ((Window)View).Close();
 
@@ -118,6 +132,7 @@ namespace OwnersSimulation.ViewModel
             switch (s)
             {
                 case "wild":
+                    ShowUI=Messenger.Default.Send<FrameworkElement>("GetView",ViewKeys.WildViewModel);
                     break;
             }
 

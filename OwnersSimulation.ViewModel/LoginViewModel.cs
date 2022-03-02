@@ -12,6 +12,7 @@
 #endregion
 
 using OwnersSimulation.Model;
+using OwnersSimulation.Model.Component;
 using OwnersSimulation.Model.Self;
 using SqlSugar;
 using System;
@@ -36,12 +37,26 @@ namespace OwnersSimulation.ViewModel
 
     public class LoginViewModel:BillListBaseVM<United, United_Search>
     {
-        public LoginViewModel(IDataContext dc,IAppConfig config,IDialogMessage dialog):base(dc,config, dialog)
+        private IOwnerSimulationDataContext OSDC { get; set; }
+
+        public LoginViewModel(IDataContext dc,IAppConfig config,IDialogMessage dialog, IOwnerSimulationDataContext osdc) :base(dc,config, dialog)
         {
+            OSDC = osdc;
+
             //构造函数
             Title = config.AppChineseName;
 
             GetList();
+
+            //Map map = new Map()
+            //{
+            //    MapName = "主城",
+            //    ActiveMinLevel = 0,
+            //    IsActive = true,
+
+            //};
+
+            //DC.AddEntity(map);
         }
 
         protected override void InitVM()
@@ -148,6 +163,8 @@ namespace OwnersSimulation.ViewModel
             
             ((Window)View).Hide();
             ((Window)View).ShowInTaskbar = false;
+
+            OSDC.SetUnited(u);
 
             var GetResult = Messenger.Default.Send<object>("OpenDialogWindowGetResultByPassData", ViewKeys.MainView, u);
 

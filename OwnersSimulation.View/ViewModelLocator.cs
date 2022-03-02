@@ -12,7 +12,9 @@
 #endregion
 
 using OwnersSimulation.DataContext;
+using OwnersSimulation.Model.Component;
 using OwnersSimulation.ViewModel;
+using OwnersSimulation.ViewModel.MainPage;
 using OwnersSimulation.ViewModel.Self;
 using System;
 using System.Collections.Generic;
@@ -37,7 +39,8 @@ namespace OwnersSimulation.View
             CustomIoC.Instance.Register<IAppConfig,VampirewalConfig>();
             CustomIoC.Instance.Register<IDialogMessage, VampirewalDialog>();
             CustomIoC.Instance.Register<IDataContext, OwnersSimulationDB>();
-            
+
+            CustomIoC.Instance.Register<IOwnerSimulationDataContext, OwnerSimulationDataContext>();
         }
 
         public override void InitRegisterViewModel()
@@ -47,6 +50,8 @@ namespace OwnersSimulation.View
 
             CustomIoC.Instance.Register<AddUnitedViewModel>(); 
             CustomIoC.Instance.Register<AddOwnerViewModel>();
+
+            CustomIoC.Instance.Register<WildViewModel>();
 
         }
 
@@ -58,6 +63,9 @@ namespace OwnersSimulation.View
 
         public AddUnitedViewModel AddUnitedViewModel => CustomIoC.Instance.GetInstanceWithoutCaching<AddUnitedViewModel>();
         public AddOwnerViewModel AddOwnerViewModel => CustomIoC.Instance.GetInstanceWithoutCaching<AddOwnerViewModel>();
+
+
+        public WildViewModel WildViewModel => CustomIoC.Instance.GetInstanceWithoutCaching<WildViewModel>();
 
         #endregion
     }

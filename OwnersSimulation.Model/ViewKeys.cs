@@ -43,5 +43,10 @@ namespace OwnersSimulation.Model
         /// </summary>
         public static string AddOwnerView { get => $"{BaseViewKey}AddOwnerView"; }
         #endregion
+
+        /// <summary>
+        /// 野外View
+        /// </summary>
+        public static string WildViewModel { get => $"{BaseViewKey}WildView"; }
     }
 }

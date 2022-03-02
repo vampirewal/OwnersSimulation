@@ -34,6 +34,9 @@ namespace OwnersSimulation.DataContext
             CreateTable<United>();
             CreateTable<Owner>();
             CreateTable<Disciple>();
+
+            CreateTable<Map>();
+            CreateTable<OsTask>();
         }
     }
 }
