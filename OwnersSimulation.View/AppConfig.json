@@ -1,0 +1,39 @@
+{
+    "LogLevel": 0,
+    "AppChineseName": "掌门模拟",
+    "AppVersion": "1.0.0.0",
+    "ConnectionStrings": [
+      {
+        "Key": "default",
+        "Value": "Data Source=OwnersSimulationDB.db",
+        "DbType": 2,
+        "Version": "1.0",
+        "DbContext": "OperationHelperDB"
+      }
+    ],
+    "DbType": 1,
+    "EncryptKey": "",
+    "AppSettings": {},
+    "FileUploadOptions": {
+        "SaveFileMode": 0,
+        "UploadDir": "d:\\upload",
+        "UploadLimit": 20971520
+    },
+    "Domains": [
+        {
+            "Name": "Example(例子)",
+            "Address": "127.0.0.1",
+            "Port": 9527,
+            "EntryUrl": "https://www.baidu.com"
+        }
+    ],
+    "UpdateSetting": {
+        "UpdateName": "XX",
+        "ServerIp": "127.0.0.1",
+        "ServerPort": "1234",
+        "AppToken": "aaaa"
+    },
+    "pageSetting": {
+        "Limit": 20
+    }
+}

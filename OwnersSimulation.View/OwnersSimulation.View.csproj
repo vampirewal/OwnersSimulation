@@ -1,0 +1,35 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<TargetFramework>net5.0-windows</TargetFramework>
+		<Nullable>enable</Nullable>
+		<UseWPF>true</UseWPF>
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <None Remove="AppConfig.json" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Vampirewal.Core" Version="2.0.0.3" />
+		<PackageReference Include="HandyControl" Version="3.3.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\OwnersSimulation.DataContext\OwnersSimulation.DataContext.csproj" />
+	  <ProjectReference Include="..\OwnersSimulation.Model\OwnersSimulation.Model.csproj" />
+	  <ProjectReference Include="..\OwnersSimulation.ViewModel\OwnersSimulation.ViewModel.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Content Include="AppConfig.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="MainPage\" />
+	</ItemGroup>
+
+</Project>

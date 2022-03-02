@@ -1,0 +1,82 @@
+﻿<VWin:MainWindowBase x:Class="OwnersSimulation.View.LoginView"
+                     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                     xmlns:VWin="Vampirewal.Windows"
+                     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                     xmlns:local="clr-namespace:OwnersSimulation.View"
+                     mc:Ignorable="d"
+                     DataContext="{Binding Source={StaticResource Locator},Path=LoginViewModel}"
+                     Title="{Binding Title}"
+                     Height="600"
+                     TitleFontSize="15"
+                     Background="{StaticResource BaseBackground}"
+                     Foreground="{StaticResource BaseForeground}"
+                     LeftMenuMaxWidth="200"
+                     IsOpenWindowSize="False"
+                     IsShowMaxButton="False"
+                     IsShowMinButton="False"
+                     Width="850">
+    <VWin:MainWindowBase.LeftContent>
+        <StackPanel>
+            <TextBlock Text="介绍"
+                       HorizontalAlignment="Center"
+                       FontSize="20"
+                       Foreground="{StaticResource BaseForeground}" />
+        </StackPanel>
+    </VWin:MainWindowBase.LeftContent>
+    <VWin:MainWindowBase.TopCustomButtons>
+        <Button Style="{StaticResource ButtonPrimary.Small}"
+                Margin="2,0"
+                Content="刷新"
+                Command="{Binding RefreshUnitedCommand}" />
+        <Button Style="{StaticResource ButtonSuccess.Small}"
+                Margin="2,0"
+                Content="新增"
+                Command="{Binding AddNewUnitedCommand}" />
+    </VWin:MainWindowBase.TopCustomButtons>
+    <Grid>
+        <ItemsControl ItemsSource="{Binding EntityList}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel Orientation="Horizontal" />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Border Background="{StaticResource BaseBackground3}"
+                            CornerRadius="5"
+                            Width="150"
+                            Height="100"
+                            Margin="5">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="30" />
+                                <RowDefinition />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                            <TextBlock Text="{Binding UnitedName}"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center" />
+                            <TextBlock Grid.Row="1"
+                                       Text="管理门派时间"
+                                       HorizontalAlignment="Left"
+                                       VerticalAlignment="Center"
+                                       Margin="5,0"
+                                       ToolTip="管理门派时间" />
+                            <UniformGrid Columns="2"
+                                         Grid.Row="2">
+                                <Button Style="{StaticResource ButtonSuccess.Small}"
+                                        Content="管理门派"
+                                        Command="{Binding DataContext.StartUnitedManagementCommand,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=VWin:MainWindowBase}}"
+                                        CommandParameter="{Binding}" />
+                                <Button Style="{StaticResource ButtonDanger.Small}"
+                                        Content="解散门派" />
+                            </UniformGrid>
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+    </Grid>
+</VWin:MainWindowBase>
