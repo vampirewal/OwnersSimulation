@@ -14,11 +14,13 @@
 using OwnersSimulation.Model;
 using OwnersSimulation.Model.Component;
 using OwnersSimulation.Model.Self;
+using OwnersSimulation.ViewModel.Extension;
 using SqlSugar;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using Vampirewal.Core;
@@ -37,12 +39,16 @@ namespace OwnersSimulation.ViewModel
 
     public class LoginViewModel:BillListBaseVM<United, United_Search>
     {
-        private IOwnerSimulationDataContext OSDC { get; set; }
+        private IOwnerSimulationDataContext _osdc;
+        public IOwnerSimulationDataContext OSDC { get=> _osdc; set { _osdc = value;DoNotify(); } }
+        private IMapService MapService { get; set; }
 
-        public LoginViewModel(IDataContext dc,IAppConfig config,IDialogMessage dialog, IOwnerSimulationDataContext osdc) :base(dc,config, dialog)
+        public LoginViewModel(IDataContext dc,IAppConfig config,IDialogMessage dialog, IOwnerSimulationDataContext osdc
+            //,IMapService mapService
+            ) :base(dc,config, dialog)
         {
             OSDC = osdc;
-
+            //MapService=mapService;
             //构造函数
             Title = config.AppChineseName;
 
@@ -66,8 +72,6 @@ namespace OwnersSimulation.ViewModel
                 ITCode = "admin",
                 Name = "admin",
             };
-
-            
         }
                 
         
@@ -91,7 +95,23 @@ namespace OwnersSimulation.ViewModel
         #endregion
 
         #region 私有方法
+        /// <summary>
+        /// 初始化程序数据
+        /// </summary>
+        private void InitSystemData()
+        {
+            var maps=DC.Client.Queryable<Map>().Where(w=>w.IsActive).ToList();
 
+            OSDC.SetMaps(maps);
+
+            //初始化地图
+
+            //MapService.JudgeMapData(maps);
+
+            //初始化任务
+        }
+
+        
         #endregion
 
         #region 命令
@@ -155,20 +175,41 @@ namespace OwnersSimulation.ViewModel
             GetList();
         });
 
+
+        
         /// <summary>
         /// 选择门派后开始玩耍
         /// </summary>
         public RelayCommand<United> StartUnitedManagementCommand => new RelayCommand<United>((u) => 
         {
-            
+            OSDC.InitGame(u);
+
+            //var IsInitGame = Dialog.OpenDialogWindow(new Vampirewal.Core.WpfTheme.WindowStyle.DialogWindowSetting()
+            //{
+            //    UiView = Messenger.Default.Send<FrameworkElement>("GetView", ViewKeys.SelectDiscipleView),
+            //    WindowHeight = 500,
+            //    WindowWidth = 500,
+            //    IsOpenWindowSize = false,
+            //    IsShowMaxButton = false,
+            //    IsShowMinButton = false,
+            //    PassData = u
+            //});
+
+            //var dd= Dialog.SelectDisciple();
+
+            //if (!IsInitGame)
+            //{
+            //    ((Window)View).Close();
+            //}
+
             ((Window)View).Hide();
             ((Window)View).ShowInTaskbar = false;
 
-            OSDC.SetUnited(u);
+            
 
-            var GetResult = Messenger.Default.Send<object>("OpenDialogWindowGetResultByPassData", ViewKeys.MainView, u);
+            var GetResult = Messenger.Default.Send<bool>("OpenDialogWindowGetResultByPassData", ViewKeys.MainView, u);
 
-            if (GetResult != null && Convert.ToBoolean(GetResult))
+            if (GetResult)
             {
                 ((Window)View).Show();
                 ((Window)View).ShowInTaskbar = true;
@@ -180,5 +221,21 @@ namespace OwnersSimulation.ViewModel
 
         });
         #endregion
+
+        //private void InitOwner(United model,out Owner o)
+        //{
+        //    var owner = DC.Client.Queryable<Owner>().First(f => f.UnitedId == model.BillId);
+            
+        //    //OSDC.SetOwner(owner);
+
+        //    o = owner;
+        //}
+
+        //public void InitDisciples(Owner owner)
+        //{
+        //    var curDisciples = DC.Client.Queryable<Disciple>().Where(w => w.BillId == owner.BillId && w.discipleType != DiscipleType.KickedOut && w.discipleType != DiscipleType.exit).ToList();
+
+        //    OSDC.SetDisciples(curDisciples);
+        //}
     }
 }

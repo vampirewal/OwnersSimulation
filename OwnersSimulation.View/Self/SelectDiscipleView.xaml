@@ -1,0 +1,75 @@
+﻿<VUc:AddOrEditUcViewBase x:Class="OwnersSimulation.View.SelectDiscipleView"
+                         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                         xmlns:VUc="Vampirewal.UcView"
+                         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                         xmlns:local="clr-namespace:OwnersSimulation.View"
+                         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+                         xmlns:VBeh="Vampirewal.Behaviors"
+                         mc:Ignorable="d"
+                         DataContext="{Binding Source={StaticResource Locator},Path=SelectDiscipleViewModel}"
+                         d:DesignHeight="450"
+                         d:DesignWidth="800"
+                         Title="SelectDiscipleView">
+    <VUc:AddOrEditUcViewBase.BottomBtnItems>
+        <Button Style="{StaticResource ButtonDanger}"
+                Content="取消"
+                Margin="5,0"
+                Command="{Binding CancelCommand}" />
+    </VUc:AddOrEditUcViewBase.BottomBtnItems>
+    <ScrollViewer VerticalAlignment="Top"
+                  x:Name="LeftContext">
+        <StackPanel Background="Transparent"
+                    Margin="5,10,5,5">
+            <Expander Margin="5"
+                      BorderBrush="#ddd"
+                      BorderThickness="1" IsExpanded="True"
+                      Header="弟子">
+                <Border Padding="5"
+                        Background="{StaticResource BaseForeground}"
+                        BorderBrush="{StaticResource BaseForeground}"
+                        BorderThickness="1,0,1,1"
+                        CornerRadius="0,0,5,5">
+                    <DataGrid ItemsSource="{Binding OSDC.Disciples}"
+                              Background="Transparent"
+                              Margin="5,0"
+                              AutoGenerateColumns="False"
+                              MaxHeight="1000"
+                              HeadersVisibility="All"
+                              RowHeaderWidth="60"
+                              SelectionMode="Single"
+                              VerticalScrollBarVisibility="Auto">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="弟子"
+                                                Binding="{Binding DName}"
+                                                Width="0.9*"
+                                                IsReadOnly="True" />
+                            <DataGridTextColumn Header="性别"
+                                                Binding="{Binding genderType,Converter={StaticResource Enum2StringConverter}}"
+                                                Width="0.9*"
+                                                IsReadOnly="True" />
+                            <DataGridTextColumn Header="等级"
+                                                Binding="{Binding Level}"
+                                                Width="0.9*"
+                                                IsReadOnly="True" />
+                            <DataGridTemplateColumn Header="操作"
+                                                    Width="0.9*">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button Style="{StaticResource ButtonSuccess}"
+                                                Content="选择"
+                                                Command="{Binding DataContext.SelectDiscipleCommand,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=VUc:AddOrEditUcViewBase}}" CommandParameter="{Binding}"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                        <!--<i:Interaction.Behaviors>
+                            <VBeh:DataGridGroupByBehavior  SetGroupByProrName="GetDiscipleTypeDisplay" />
+                        </i:Interaction.Behaviors>-->
+                    </DataGrid>
+                </Border>
+            </Expander>
+        </StackPanel>
+    </ScrollViewer>
+</VUc:AddOrEditUcViewBase>

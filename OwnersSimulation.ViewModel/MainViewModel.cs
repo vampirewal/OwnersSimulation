@@ -13,7 +13,7 @@
 
 using OwnersSimulation.Model;
 using OwnersSimulation.Model.Component;
-using OwnersSimulation.Model.Map;
+using OwnersSimulation.Model;
 using OwnersSimulation.Model.Self;
 using System;
 using System.Collections.Generic;
@@ -29,7 +29,7 @@ namespace OwnersSimulation.ViewModel
 {
     public class MainViewModel : BillVM<United>
     {
-        private IOwnerSimulationDataContext OSDC { get; set; }
+        public IOwnerSimulationDataContext OSDC { get; set; }
         public MainViewModel(IDataContext dc,IAppConfig config, IOwnerSimulationDataContext osdc
             ) 
             : base(dc, config)
@@ -45,7 +45,7 @@ namespace OwnersSimulation.ViewModel
         {
             //MapBlocks=new ObservableCollection<MapBlock>();
 
-            
+            Disciples = new ObservableCollection<Disciple>();
         }
 
         public override void PassData(object obj)
@@ -57,11 +57,21 @@ namespace OwnersSimulation.ViewModel
                 SetEntity(model);
                 Title = Title + $"-{Entity.UnitedName}";
 
-                owner = DC.Client.Queryable<Owner>().First(f => f.UnitedId == model.BillId);
+                
 
-                OSDC.SetOwner(owner);
+                //owner = DC.Client.Queryable<Owner>().First(f => f.UnitedId == model.BillId);
+
+                //OSDC.SetOwner(owner);
+
+                //var curDisciples= DC.Client.Queryable<Disciple>().Where(w => w.BillId == owner.BillId&&w.discipleType!= DiscipleType.KickedOut&&w.discipleType!= DiscipleType.exit).ToList();
+
+                //OSDC.SetDisciples(curDisciples);
+
+                //curDisciples.ForEach(f => Disciples.Add(f));
 
                 ShowUI = Messenger.Default.Send<FrameworkElement>("GetView", ViewKeys.WildViewModel);
+
+                //CreateData(owner.BillId);
             }
 
             ReturnResult = false;
@@ -83,6 +93,8 @@ namespace OwnersSimulation.ViewModel
         public Owner owner { get; set; }
 
         //public ObservableCollection<MapBlock> MapBlocks { get; set; }
+
+        public ObservableCollection<Disciple> Disciples { get; set; }
         #endregion
 
         #region 公共方法
@@ -90,14 +102,33 @@ namespace OwnersSimulation.ViewModel
         #endregion
 
         #region 私有方法
-        
+        private void CreateData(string OwnerId)
+        {
+            List<Disciple> disciplesss=new List<Disciple>();
+
+            for (int i = 0; i < 50; i++)
+            {
+                Disciple d=new Disciple()
+                {
+                    DName=OSDC.GetSingleName(),
+                    BillId=OwnerId,
+                    discipleType =DiscipleType.Outside1,
+                    Level=1
+                };
+
+                disciplesss.Add(d);
+            }
+
+            DC.AddEntityList(disciplesss);
+        }
         #endregion
 
         #region 命令
-        public RelayCommand testcommand => new RelayCommand(() => { });
 
         public RelayCommand ReturnLoginViewCommand => new RelayCommand(() =>
         {
+            OSDC.SaveGame();
+
             OSDC.ClearData();
 
             ReturnResult = true;
@@ -137,6 +168,11 @@ namespace OwnersSimulation.ViewModel
             }
 
             
+        });
+
+        public RelayCommand AddOneDiscipleCommand => new RelayCommand(() => 
+        {
+            OSDC.CreateRecruitDisciple();
         });
         #endregion
     }

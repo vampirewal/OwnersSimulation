@@ -29,9 +29,16 @@ namespace OwnersSimulation.Model
         public static string LoginView { get => $"{BaseViewKey}LoginView"; }
 
         /// <summary>
+        /// 选择弟子窗体
+        /// </summary>
+        public static string SelectDiscipleView { get => $"{BaseViewKey}SelectDiscipleView"; }
+
+        /// <summary>
         /// 主窗体
         /// </summary>
         public static string MainView { get => $"{BaseViewKey}MainWindow"; }
+
+
 
         #region MyRegion
         /// <summary>

@@ -11,7 +11,7 @@
 //----------------------------------------------------------------*/
 #endregion
 
-using OwnersSimulation.Model.Map;
+using OwnersSimulation.Model;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

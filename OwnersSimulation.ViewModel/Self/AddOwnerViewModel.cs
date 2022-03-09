@@ -11,6 +11,7 @@
 //----------------------------------------------------------------*/
 #endregion
 
+using OwnersSimulation.Model.Component;
 using OwnersSimulation.Model.Self;
 using System;
 using System.Collections.Generic;
@@ -28,8 +29,10 @@ namespace OwnersSimulation.ViewModel.Self
     /// </summary>
     public class AddOwnerViewModel:BillVM<Owner>
     {
-        public AddOwnerViewModel(IDataContext dc):base(dc)
+        private IOwnerSimulationDataContext OSDC { get; set; }
+        public AddOwnerViewModel(IDataContext dc, IOwnerSimulationDataContext osdc) :base(dc)
         {
+            OSDC = osdc;
             //构造函数
         }
 
@@ -94,9 +97,11 @@ namespace OwnersSimulation.ViewModel.Self
 
             }
 
-            
+        });
 
-            
+        public RelayCommand RandomGenerateOwnerNameCommand => new RelayCommand(() => 
+        {
+            Entity.OwnerName=OSDC.GetSingleName();
         });
         #endregion
     }

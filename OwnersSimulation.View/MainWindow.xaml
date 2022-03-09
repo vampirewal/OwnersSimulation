@@ -7,18 +7,23 @@
                      xmlns:map="clr-namespace:OwnersSimulation.View.CustomControls.Map"
                      xmlns:vc="Vampirewal.CustomControl"
                      xmlns:local="clr-namespace:OwnersSimulation.View"
+                     xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+                     xmlns:VBeh="Vampirewal.Behaviors"
                      DataContext="{Binding Source={StaticResource Locator},Path=MainViewModel}"
-                     mc:Ignorable="d"
+                     mc:Ignorable="d" x:Name="MainView"
                      Title="{Binding Title}"
                      Height="768"
                      TitleFontSize="15"
                      Background="{StaticResource BaseBackground}"
                      Foreground="{StaticResource BaseForeground}"
-                     LeftMenuMaxWidth="300"
+                     LeftMenuMaxWidth="500"
                      IsOpenWindowSize="True"
                      MainAreaHeight="50"
                      Width="1366">
     <VWin:MainWindowBase.TopCustomButtons>
+        <Button Style="{StaticResource ButtonSuccess.Small}"
+                Content="新增1个弟子"
+                Command="{Binding AddOneDiscipleCommand}" />
         <Button Style="{StaticResource ButtonSuccess.Small}"
                 Content="返回主菜单"
                 Command="{Binding ReturnLoginViewCommand}" />
@@ -37,9 +42,9 @@
                 Margin="5,0" />
     </VWin:MainWindowBase.MainAreas>
     <VWin:MainWindowBase.LeftContent>
-        <Grid Width="290">
+        <Grid Width="490">
             <Border Margin="0,5,0,0"
-                    Width="280"
+                    Width="490"
                     VerticalAlignment="Top"
                     Height="{Binding ElementName=LeftContext,Path=ActualHeight}"
                     Background="{StaticResource BaseBackground3}">
@@ -51,9 +56,10 @@
                                       Color="#3a3952" />
                 </Border.Effect>-->
             </Border>
-            <ScrollViewer VerticalAlignment="Top">
+            <ScrollViewer VerticalAlignment="Top"
+                          x:Name="LeftContext">
                 <StackPanel Background="Transparent"
-                            x:Name="LeftContext"
+                            
                             Margin="5,10,5,5">
                     <TextBlock Text="内部人员"
                                HorizontalAlignment="Center"
@@ -72,7 +78,7 @@
                                 <vc:TitleContent Title="掌门姓名"
                                                  TitleForeground="{StaticResource BaseForeground}"
                                                  TitleWidth="80">
-                                    <TextBlock Text="{Binding owner.OwnerName}"
+                                    <TextBlock Text="{Binding OSDC.owner.OwnerName}"
                                                Foreground="{StaticResource BaseForeground}" />
                                 </vc:TitleContent>
                             </StackPanel>
@@ -81,18 +87,30 @@
                     <Expander Margin="5"
                               BorderBrush="#ddd"
                               BorderThickness="1"
-                              Header="掌门">
+                              Header="弟子">
                         <Border Padding="5"
-                                Background="{StaticResource BaseBackground3}"
+                                Background="{StaticResource BaseForeground}"
                                 BorderBrush="{StaticResource BaseForeground}"
                                 BorderThickness="1,0,1,1"
                                 CornerRadius="0,0,5,5">
-                            <StackPanel>
-                                <Button Style="{StaticResource ButtonSuccess}"
-                                        Content="备忘录"
-                                        HorizontalAlignment="Stretch"
-                                        Margin="5" />
-                            </StackPanel>
+                            <DataGrid ItemsSource="{Binding OSDC.Disciples}"
+                                      Background="Transparent"
+                                      Margin="5,0"
+                                      AutoGenerateColumns="False" MaxHeight="1000"
+                                      HeadersVisibility="All"
+                                      RowHeaderWidth="60"
+                                      SelectionMode="Single"
+                                      VerticalScrollBarVisibility="Auto">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="弟子"
+                                                        Binding="{Binding DName}"
+                                                        Width="0.9*"
+                                                        IsReadOnly="True" />
+                                </DataGrid.Columns>
+                                <i:Interaction.Behaviors>
+                                    <VBeh:DataGridGroupByBehavior  SetGroupByProrName="GetDiscipleTypeDisplay" />
+                                </i:Interaction.Behaviors>
+                            </DataGrid>
                         </Border>
                     </Expander>
                 </StackPanel>
@@ -109,7 +127,7 @@
                              TitleVerticalAlignment="Center"
                              TitleWidth="50">
                 <TextBox IsReadOnly="True"
-                         Text="100"
+                         Text="{Binding OSDC.united.Money}"
                          FontSize="12"
                          Width="100" />
             </vc:TitleContent>

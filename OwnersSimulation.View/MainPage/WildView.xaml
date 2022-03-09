@@ -13,11 +13,10 @@
                          Title="WildView">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition MaxWidth="250"/>
+            <ColumnDefinition MaxWidth="250" />
             <ColumnDefinition />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
-        
         <!--#region 地图列表 -->
         <Grid>
             <Grid.RowDefinitions>
@@ -32,7 +31,7 @@
                        FontWeight="DemiBold"
                        Grid.Row="0"
                        Grid.Column="0" />
-            <ItemsControl ItemsSource="{Binding Maps}"
+            <ItemsControl ItemsSource="{Binding OSDC.Maps}"
                           Style="{StaticResource ItemsControlStyle}"
                           Grid.Row="1"
                           Grid.Column="0">
@@ -68,7 +67,7 @@
                                         Style="{StaticResource ButtonSuccess.Small}"
                                         Content="进入"
                                         Command="{Binding DataContext.GetTaskByMapCommand,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=VUc:AddOrEditUcViewBase}}"
-                                        CommandParameter="{Binding}"/>
+                                        CommandParameter="{Binding}" />
                             </Grid>
                         </Border>
                         <DataTemplate.Triggers>
@@ -90,12 +89,11 @@
             </ItemsControl>
         </Grid>
         <!--#endregion-->
-        
         <Grid Grid.Column="1">
             <Grid.RowDefinitions>
-                <RowDefinition Height="30"/>
+                <RowDefinition Height="30" />
                 <RowDefinition />
-                <RowDefinition Height="30"/>
+                <RowDefinition Height="30" />
                 <RowDefinition />
             </Grid.RowDefinitions>
             <TextBlock Text="任务列表"
@@ -105,9 +103,101 @@
                        FontSize="18"
                        FontWeight="DemiBold"
                        Grid.Row="0"
-                       Grid.Column="0" />
+                       />
+            <Border  Grid.Row="1"
+                    Background="{StaticResource BaseForeground}"
+                    CornerRadius="5">
+                <DataGrid ItemsSource="{Binding OSDC.AllTasks}"
+                          Background="Transparent"
+                          Margin="5,0"
+                          AutoGenerateColumns="False"
+                          MaxHeight="1000"
+                          HeadersVisibility="All"
+                          RowHeaderWidth="60"
+                          HorizontalScrollBarVisibility="Auto"
+                          SelectionMode="Single"
+                          VerticalScrollBarVisibility="Auto">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="任务名称"
+                                            Binding="{Binding TaskName}"
+                                            Width="120"
+                                            IsReadOnly="True" />
+                        <DataGridTextColumn Header="任务描述"
+                                            Binding="{Binding TaskDes}"
+                                            Width="120"
+                                            IsReadOnly="True" />
+                        <DataGridTextColumn Header="最低弟子等级"
+                                            Binding="{Binding TaskCompleteDifficulty}"
+                                            Width="100"
+                                            IsReadOnly="True" />
+                        <DataGridTemplateColumn Header="操作"
+                                                Width="120">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Style="{StaticResource ButtonSuccess.Small}"
+                                            Content="选择弟子"
+                                            CommandParameter="{Binding}"
+                                            Command="{Binding DataContext.SelectTaskToDoCommand,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=VUc:AddOrEditUcViewBase}}"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Border>
+            <TextBlock Text="正在执行中的任务"
+                       Foreground="{StaticResource BaseForeground}"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Top"
+                       FontSize="18"
+                       FontWeight="DemiBold"
+                       Grid.Row="2" />
+            <Border  Grid.Row="3"
+                     Background="{StaticResource BaseForeground}"
+                     CornerRadius="5">
+                <DataGrid ItemsSource="{Binding OSDC.DoingTasks}"
+                          Background="Transparent"
+                          Margin="5,0"
+                          AutoGenerateColumns="False"
+                          MaxHeight="1000"
+                          HeadersVisibility="All"
+                          RowHeaderWidth="60"
+                          HorizontalScrollBarVisibility="Auto"
+                          SelectionMode="Single"
+                          VerticalScrollBarVisibility="Auto">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="任务名称"
+                                            Binding="{Binding TaskName}"
+                                            Width="120"
+                                            IsReadOnly="True" />
+                        <DataGridTextColumn Header="任务描述"
+                                            Binding="{Binding TaskDes}"
+                                            Width="120"
+                                            IsReadOnly="True" />
+                        <DataGridTextColumn Header="任务结束时间"
+                                            Binding="{Binding TaskFinishedTime,StringFormat={}{0:yyyy-MM-dd HH:mm:ss}}"
+                                            Width="150"
+                                            IsReadOnly="True" />
+                        <DataGridTemplateColumn Header="操作"
+                                                Width="150">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Button Style="{StaticResource ButtonSuccess.Small}"
+                                                Content="完成任务"
+                                                CommandParameter="{Binding}"
+                                                Command="{Binding DataContext.CompletedTaskCommand,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=VUc:AddOrEditUcViewBase}}" />
+                                        <Button Style="{StaticResource ButtonDanger.Small}"
+                                                Content="放弃任务" Margin="5,0"
+                                                CommandParameter="{Binding}"
+                                                Command="{Binding DataContext.GiveUpaskCommand,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=VUc:AddOrEditUcViewBase}}" />
+                                    </StackPanel>
+                                    
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Border>
         </Grid>
-        
-        
     </Grid>
 </VUc:AddOrEditUcViewBase>

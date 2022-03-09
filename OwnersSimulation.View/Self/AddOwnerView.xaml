@@ -22,9 +22,13 @@
         <Vc:TitleContent Title="掌门名称"
                          TitleForeground="{StaticResource BaseForeground}"
                          TitleWidth="80">
-            <TextBox Text="{Binding Entity.OwnerName,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
-                     Width="120"
-                     />
+            <StackPanel Orientation="Horizontal">
+                <TextBox Text="{Binding Entity.OwnerName,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                         Width="120" />
+                <Button Style="{StaticResource ButtonSuccess.Small}"
+                        Content="随机"  Margin="5,0" Command="{Binding RandomGenerateOwnerNameCommand}"/>
+            </StackPanel>
+            
         </Vc:TitleContent>
         <!--<Vc:TitleContent Title="门派名称"
                          TitleForeground="{StaticResource BaseForeground}"

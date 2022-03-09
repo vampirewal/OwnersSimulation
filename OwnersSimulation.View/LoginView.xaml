@@ -79,4 +79,5 @@
             </ItemsControl.ItemTemplate>
         </ItemsControl>
     </Grid>
+    
 </VWin:MainWindowBase>

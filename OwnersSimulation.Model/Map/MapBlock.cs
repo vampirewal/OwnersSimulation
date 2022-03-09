@@ -17,7 +17,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OwnersSimulation.Model.Map
+namespace OwnersSimulation.Model
 {
     /// <summary>
     /// 地图块

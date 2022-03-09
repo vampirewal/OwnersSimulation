@@ -56,7 +56,25 @@ namespace OwnersSimulation.Model.Self
             set { _unitedType = value; DoNotify(); }
         }
 
+        private int _Money;
+        /// <summary>
+        /// 灵石数
+        /// </summary>
+        public int Money
+        {
+            get { return _Money; }
+            set { _Money = value; DoNotify(); }
+        }
 
+        public void AddMoney(int add)
+        {
+            Money += add;
+        }
+
+        public void ReduceMoney(int reduce)
+        {
+            Money -= reduce;
+        }
     }
 
     /// <summary>

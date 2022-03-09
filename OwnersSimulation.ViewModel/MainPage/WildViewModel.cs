@@ -13,6 +13,7 @@
 
 using OwnersSimulation.Model.Component;
 using OwnersSimulation.Model.Self;
+using OwnersSimulation.ViewModel.Extension;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -27,25 +28,26 @@ namespace OwnersSimulation.ViewModel.MainPage
     /// <summary>
     /// 野外页面VM
     /// </summary>
-    public class WildViewModel:ViewModelBase
+    public class WildViewModel : ViewModelBase
     {
-        private IOwnerSimulationDataContext OSDC { get; set; }  
-        public WildViewModel(IDataContext dc, IOwnerSimulationDataContext osdc) :base(dc)
+        public IOwnerSimulationDataContext OSDC { get; set; }
+
+        private IDialogMessage Dialog { get; set; }
+        public WildViewModel(IDataContext dc, IOwnerSimulationDataContext osdc, IDialogMessage dialog) : base(dc)
         {
             OSDC = osdc;
+            Dialog = dialog;
             //构造函数
-            GetMapsData();
+            
         }
 
         public override void InitData()
         {
-            OsTasks = new ObservableCollection<OsTask>();
+
         }
 
         #region 属性
-        public ObservableCollection<Map> Maps { get; set; }
-
-        public ObservableCollection<OsTask> OsTasks { get; set; }
+        
         #endregion
 
         #region 公共方法
@@ -53,33 +55,41 @@ namespace OwnersSimulation.ViewModel.MainPage
         #endregion
 
         #region 私有方法
-        /// <summary>
-        /// 获取地图数据
-        /// </summary>
-        private void GetMapsData()
-        {
-            if (Maps == null)
-            {
-                Maps = new ObservableCollection<Map>();
-            }
-            else
-            {
-                Maps.Clear();
-            }
-
-            DC.Client.Queryable<Map>().Where(w => OSDC.owner.Level >= w.ActiveMinLevel).ToList().ForEach(f => Maps.Add(f));
-        }
+        
         #endregion
 
         #region 命令
         /// <summary>
         /// 获取对应地图的任务列表
         /// </summary>
-        public RelayCommand<Map> GetTaskByMapCommand => new RelayCommand<Map>((m) => 
+        public RelayCommand<Map> GetTaskByMapCommand => new RelayCommand<Map>((m) =>
         {
-            OsTasks.Clear();
+            OSDC.LoadTaskByMap(m.BillId);
+        });
 
-            DC.Client.Queryable<OsTask>().Where(w=>w.BillId==m.BillId).ToList().ForEach(f=>OsTasks.Add(f));
+        public RelayCommand<OsTask> SelectTaskToDoCommand => new RelayCommand<OsTask>((s) =>
+        {
+            var target = Dialog.SelectDisciple();
+
+            if (target!=null)
+            {
+                OSDC.ToDoTask(s, target);
+            }
+            
+        });
+
+        public RelayCommand<OsTask> GiveUpaskCommand => new RelayCommand<OsTask>((c) =>
+        {
+            OSDC.GiveUpTask(c);
+        });
+
+        public RelayCommand<OsTask> CompletedTaskCommand => new RelayCommand<OsTask>((c) =>
+        {
+            if (c.TaskFinishedTime.HasValue&&c.TaskFinishedTime<DateTime.Now)
+            {
+                OSDC.CompletedTask(c);
+            }
+            
         });
         #endregion
     }
