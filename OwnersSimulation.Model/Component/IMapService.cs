@@ -40,20 +40,19 @@ namespace OwnersSimulation.Model.Component
 
     }
 
+    [Obsolete("暂时弃用",true)]
     public class MapService : IMapService
     {
         private IOwnerSimulationDataContext OSDC { get; set; }
 
-        public MapService(IOwnerSimulationDataContext osdc)
+        public MapService(IOwnerSimulationDataContext osdc, IDataContext dc)
         {
             OSDC = osdc;
+            DC = dc;
         }
 
         private IDataContext DC { get; set; }
-        public MapService(IDataContext dc)
-        {
-            DC=dc;
-        }
+        
 
         public bool HasMapData { get; private set; } = false;
 

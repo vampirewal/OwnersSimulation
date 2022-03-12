@@ -54,8 +54,10 @@ namespace OwnersSimulation.View
             CustomIoC.Instance.Register<AddUnitedViewModel>(); 
             CustomIoC.Instance.Register<AddOwnerViewModel>();
             CustomIoC.Instance.Register<SelectDiscipleViewModel>();
+            CustomIoC.Instance.Register<AskQuestionsViewModel>();
 
             CustomIoC.Instance.Register<WildViewModel>();
+            CustomIoC.Instance.Register<UnitedViewModel>();
 
         }
 
@@ -68,9 +70,11 @@ namespace OwnersSimulation.View
         public AddUnitedViewModel AddUnitedViewModel => CustomIoC.Instance.GetInstanceWithoutCaching<AddUnitedViewModel>();
         public AddOwnerViewModel AddOwnerViewModel => CustomIoC.Instance.GetInstanceWithoutCaching<AddOwnerViewModel>();
         public SelectDiscipleViewModel SelectDiscipleViewModel => CustomIoC.Instance.GetInstance<SelectDiscipleViewModel>();
+        public AskQuestionsViewModel AskQuestionsViewModel => CustomIoC.Instance.GetInstance<AskQuestionsViewModel>();
 
 
-        public WildViewModel WildViewModel => CustomIoC.Instance.GetInstanceWithoutCaching<WildViewModel>();
+        public WildViewModel WildViewModel => CustomIoC.Instance.GetInstance<WildViewModel>();
+        public UnitedViewModel UnitedViewModel => CustomIoC.Instance.GetInstance<UnitedViewModel>();
 
         #endregion
     }

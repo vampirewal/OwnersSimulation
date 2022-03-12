@@ -48,5 +48,20 @@ namespace OwnersSimulation.ViewModel.Extension
 
             return result;
         }
+
+        
+        public static bool GetAskQuestions(this IDialogMessage dialog,string QuestionStr)
+        {
+            return Convert.ToBoolean( dialog.OpenDialogWindow(new DialogWindowSetting()
+            {
+                UiView = Messenger.Default.Send<FrameworkElement>("GetView", ViewKeys.AskQuestionsView),
+                WindowHeight = 200,
+                WindowWidth = 350,
+                IsOpenWindowSize = false,
+                IsShowMaxButton = false,
+                IsShowMinButton = false,
+                PassData=QuestionStr
+            }));
+        }
     }
 }

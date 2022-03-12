@@ -11,6 +11,7 @@
 //----------------------------------------------------------------*/
 #endregion
 
+using OwnersSimulation.Model.Component;
 using SqlSugar;
 using System;
 using System.Collections.Generic;
@@ -28,8 +29,13 @@ namespace OwnersSimulation.Model.Self
     /// 徒弟
     /// <para>其中<paramref name="BillId"/>是<paramref name="师傅的BillId"/></para>
     /// </summary>
-    public class Disciple:DetailBaseModel
+    public class Disciple : DetailBaseModel
     {
+        public Disciple()
+        {
+
+        }
+
         private string _DName;
         /// <summary>
         /// 徒弟名称
@@ -40,14 +46,45 @@ namespace OwnersSimulation.Model.Self
             set { _DName = value; DoNotify(); }
         }
 
+        #region 升级相关
+        private int _CurrentLevelMaxExp;
+        /// <summary>
+        /// 当前等级下升级需要的经验值
+        /// </summary>
+        public int CurrentLevelMaxExp
+        {
+            get { return _CurrentLevelMaxExp; }
+            set { _CurrentLevelMaxExp = value; DoNotify(); }
+        }
+
         private int _Exp;
         /// <summary>
-        /// 徒弟经验值
+        /// 当前经验值
         /// </summary>
         public int Exp
         {
             get { return _Exp; }
-            set { _Exp = value; DoNotify(); }
+            set
+            {
+                ActionSet<int>(ref _Exp, value, (NewValue) =>
+                {
+                    if (NewValue >= CurrentLevelMaxExp)
+                    {
+                        LevelUp();
+                    }
+                });
+            }
+        }
+
+        /// <summary>
+        /// 涨经验
+        /// </summary>
+        /// <param name="exp">增加的经验值</param>
+        public void AddExp(int exp)
+        {
+            int curexp = exp * (Genius / 100);
+
+            Exp += curexp;
         }
 
 
@@ -58,8 +95,65 @@ namespace OwnersSimulation.Model.Self
         public int Level
         {
             get { return _Level; }
-            set { _Level = value; DoNotify(); }
+            set
+            {
+
+                //Set<int>(ref _Level, value, (NewValue) => 
+                //{
+                //    int cur=LevelUpHelper.GetInstance().GetCurrentLevelMaxExp(NewValue);
+                //    if (Exp>=CurrentLevelMaxExp)
+                //    {
+                //        Exp = 0;
+                //    }
+                //    CurrentLevelMaxExp = cur;
+                //});
+
+                _Level = value;
+                DoNotify();
+            }
         }
+
+        private void LevelUp()
+        {
+            Level++;
+            CurrentLevelMaxExp = LevelUpHelper.GetInstance().GetCurrentLevelMaxExp(Level);
+            Exp = 0;
+        }
+        #endregion
+
+        #region 资质信息
+        private int _Genius;
+        /// <summary>
+        /// 天赋指数（10-200）
+        /// <para>经验获得的比例</para>
+        /// </summary>
+        public int Genius
+        {
+            get { return _Genius; }
+            set
+            {
+                if (value < 10)
+                    value = 10;
+                if (value > 200)
+                    value = 200;
+
+                _Genius = value;
+                DoNotify();
+            }
+        }
+
+        private int _Power;
+        /// <summary>
+        /// 力量值
+        /// <para>初始值在10-100之间</para>
+        /// </summary>
+        public int Power
+        {
+            get { return _Power; }
+            set { _Power = value; DoNotify(); }
+        }
+
+        #endregion
 
         #region 徒弟类型
         [SugarColumn(IsIgnore = true, IsJson = false, NoSerialize = true)]
@@ -97,79 +191,9 @@ namespace OwnersSimulation.Model.Self
         /// <summary>
         /// 徒弟性别
         /// </summary>
-        public GenderType genderType { get => _genderType; set { _genderType = value; DoNotify(); } } 
+        public GenderType genderType { get => _genderType; set { _genderType = value; DoNotify(); } }
         #endregion
     }
 
-    /// <summary>
-    /// 徒弟类型
-    /// </summary>
-    public enum DiscipleType
-    {
-        /// <summary>
-        /// 踢出
-        /// </summary>
-        [Display(Name ="踢出")]
-        KickedOut=-2,
-        /// <summary>
-        /// 退出
-        /// </summary>
-        [Display(Name = "退出")]
-        exit =-1,
-        /// <summary>
-        /// 无归属
-        /// </summary>
-        [Display(Name = "无归属")]
-        NoAttribution=0,
-        [Display(Name = "外门弟子一级")]
-        Outside1 =1,
-        [Display(Name = "外门弟子二级")]
-        Outside2 =2,
-        [Display(Name = "外门弟子三级")]
-        Outside3 = 3,
-        [Display(Name = "外门弟子四级")]
-        Outside4 = 4,
-        [Display(Name = "外门弟子五级")]
-        Outside5 = 5,
-        [Display(Name = "外门弟子六级")]
-        Outside6 = 6,
-        [Display(Name = "外门弟子七级")]
-        Outside7 = 7,
-        [Display(Name = "外门弟子八级")]
-        Outside8 = 8,
-        [Display(Name = "外门弟子九级")]
-        Outside9 = 9,
-        [Display(Name = "外门弟子十级")]
-        Outside10 = 10,
-        [Display(Name = "内门弟子一级")]
-        Inner1 =11,
-        Inner2 = 12,
-        Inner3 = 13,
-        Inner4 = 14,
-        Inner5 = 15,
-        Inner6 = 16,
-        Inner7 = 17,
-        Inner8 = 18,
-        Inner9 = 19,
-        Inner10 = 20,
-        [Display(Name = "精英弟子")]
-        Elite =21,
-    }
 
-    /// <summary>
-    /// 性别类型
-    /// </summary>
-    public enum GenderType
-    {
-        /// <summary>
-        /// 男性
-        /// </summary>
-        [Display(Name = "男性")]
-        Man =1,
-        /// <summary>
-        /// 女性
-        /// </summary>
-        [Display(Name = "女性")]
-        Woman =2
-    }
 }

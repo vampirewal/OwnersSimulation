@@ -63,6 +63,8 @@ namespace OwnersSimulation.ViewModel
             //};
 
             //DC.AddEntity(map);
+
+            
         }
 
         protected override void InitVM()
@@ -160,9 +162,6 @@ namespace OwnersSimulation.ViewModel
                 }
             }
 
-
-            
-
         });
 
         /// <summary>
@@ -222,20 +221,6 @@ namespace OwnersSimulation.ViewModel
         });
         #endregion
 
-        //private void InitOwner(United model,out Owner o)
-        //{
-        //    var owner = DC.Client.Queryable<Owner>().First(f => f.UnitedId == model.BillId);
-            
-        //    //OSDC.SetOwner(owner);
-
-        //    o = owner;
-        //}
-
-        //public void InitDisciples(Owner owner)
-        //{
-        //    var curDisciples = DC.Client.Queryable<Disciple>().Where(w => w.BillId == owner.BillId && w.discipleType != DiscipleType.KickedOut && w.discipleType != DiscipleType.exit).ToList();
-
-        //    OSDC.SetDisciples(curDisciples);
-        //}
+        
     }
 }

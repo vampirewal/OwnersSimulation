@@ -24,18 +24,22 @@ using System.Threading.Tasks;
 using System.Windows;
 using Vampirewal.Core.Interface;
 using Vampirewal.Core.SimpleMVVM;
+using OwnersSimulation.ViewModel.Extension;
 
 namespace OwnersSimulation.ViewModel
 {
     public class MainViewModel : BillVM<United>
     {
         public IOwnerSimulationDataContext OSDC { get; set; }
-        public MainViewModel(IDataContext dc,IAppConfig config, IOwnerSimulationDataContext osdc
+
+        private IDialogMessage Dialog { get; set; }
+        public MainViewModel(IDataContext dc,IAppConfig config, IOwnerSimulationDataContext osdc,IDialogMessage dialog
             ) 
             : base(dc, config)
         {
 
             OSDC = osdc;
+            Dialog = dialog;
             //构造函数
 
             Title = config.AppChineseName;
@@ -69,7 +73,7 @@ namespace OwnersSimulation.ViewModel
 
                 //curDisciples.ForEach(f => Disciples.Add(f));
 
-                ShowUI = Messenger.Default.Send<FrameworkElement>("GetView", ViewKeys.WildViewModel);
+                ShowUI = Messenger.Default.Send<FrameworkElement>("GetView", ViewKeys.WildView);
 
                 //CreateData(owner.BillId);
             }
@@ -125,6 +129,13 @@ namespace OwnersSimulation.ViewModel
 
         #region 命令
 
+        public RelayCommand CloseWindowCommand => new RelayCommand(() => 
+        {
+            Dialog.GetAskQuestions("");
+
+            OSDC.SaveGame();
+        });
+
         public RelayCommand ReturnLoginViewCommand => new RelayCommand(() =>
         {
             OSDC.SaveGame();
@@ -163,7 +174,10 @@ namespace OwnersSimulation.ViewModel
             switch (s)
             {
                 case "wild":
-                    ShowUI=Messenger.Default.Send<FrameworkElement>("GetView",ViewKeys.WildViewModel);
+                    ShowUI=Messenger.Default.Send<FrameworkElement>("GetView",ViewKeys.WildView);
+                    break;
+                case "United":
+                    ShowUI = Messenger.Default.Send<FrameworkElement>("GetView", ViewKeys.UnitedView);
                     break;
             }
 
@@ -174,6 +188,8 @@ namespace OwnersSimulation.ViewModel
         {
             OSDC.CreateRecruitDisciple();
         });
+
+        
         #endregion
     }
 }

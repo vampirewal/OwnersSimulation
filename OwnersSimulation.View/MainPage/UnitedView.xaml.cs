@@ -12,20 +12,18 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using Vampirewal.Core.WpfTheme.WindowStyle;
+using Vampirewal.Core.WpfTheme.UcView;
 
 namespace OwnersSimulation.View
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// UnitedView.xaml 的交互逻辑
     /// </summary>
-    public partial class MainWindow : MainWindowBase
+    public partial class UnitedView : AddOrEditUcViewBase
     {
-        public MainWindow()
+        public UnitedView()
         {
             InitializeComponent();
         }
-
-
     }
 }

@@ -1,0 +1,28 @@
+﻿<VUc:AddOrEditUcViewBase x:Class="OwnersSimulation.View.AskQuestionsView"
+                         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                         xmlns:VUc="Vampirewal.UcView"
+                         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                         DataContext="{Binding Source={StaticResource Locator},Path=AskQuestionsViewModel}"
+                         xmlns:local="clr-namespace:OwnersSimulation.View"
+                         mc:Ignorable="d"
+                         d:DesignHeight="250"
+                         d:DesignWidth="350"
+                         Title="AskQuestionsView">
+    <VUc:AddOrEditUcViewBase.BottomBtnItems>
+        <Button Style="{StaticResource ButtonSuccess}"
+                Command="{Binding }" Margin="5,0" Width="50"
+                Content="是" />
+        <Button Style="{StaticResource ButtonSuccess}"
+                Margin="5,0"
+                Width="50"
+                Content="否" />
+    </VUc:AddOrEditUcViewBase.BottomBtnItems>
+    <ScrollViewer>
+        <TextBox VerticalContentAlignment="Top"
+                 HorizontalContentAlignment="Left"
+                 TextWrapping="Wrap"
+                 Text="aaaaaaaaaaaaaaaaabbbbbbbbbbbbbbaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabbbbbbbbbbbbbbbbaaaaaaaaaaaccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccaaaaaaaaaaaaaaaaaaa" />
+    </ScrollViewer>
+</VUc:AddOrEditUcViewBase>

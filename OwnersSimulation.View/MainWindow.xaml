@@ -10,10 +10,12 @@
                      xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
                      xmlns:VBeh="Vampirewal.Behaviors"
                      DataContext="{Binding Source={StaticResource Locator},Path=MainViewModel}"
-                     mc:Ignorable="d" x:Name="MainView"
+                     mc:Ignorable="d"
+                     x:Name="MainView"
                      Title="{Binding Title}"
                      Height="768"
                      TitleFontSize="15"
+                     CloseWindowCommand="{Binding CloseWindowCommand}"
                      Background="{StaticResource BaseBackground}"
                      Foreground="{StaticResource BaseForeground}"
                      LeftMenuMaxWidth="500"
@@ -36,7 +38,9 @@
                 CommandParameter="wild" />
         <Button Content="宗门"
                 Height="50"
-                Margin="5,0" />
+                Margin="5,0"
+                Command="{Binding TopAreaButtonCommand}"
+                CommandParameter="United" />
         <Button Content="Door"
                 Height="50"
                 Margin="5,0" />
@@ -59,7 +63,6 @@
             <ScrollViewer VerticalAlignment="Top"
                           x:Name="LeftContext">
                 <StackPanel Background="Transparent"
-                            
                             Margin="5,10,5,5">
                     <TextBlock Text="内部人员"
                                HorizontalAlignment="Center"
@@ -96,7 +99,8 @@
                             <DataGrid ItemsSource="{Binding OSDC.Disciples}"
                                       Background="Transparent"
                                       Margin="5,0"
-                                      AutoGenerateColumns="False" MaxHeight="1000"
+                                      AutoGenerateColumns="False"
+                                      MaxHeight="1000"
                                       HeadersVisibility="All"
                                       RowHeaderWidth="60"
                                       SelectionMode="Single"

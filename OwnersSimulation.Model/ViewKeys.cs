@@ -34,6 +34,11 @@ namespace OwnersSimulation.Model
         public static string SelectDiscipleView { get => $"{BaseViewKey}SelectDiscipleView"; }
 
         /// <summary>
+        /// 提问返回bool窗体
+        /// </summary>
+        public static string AskQuestionsView { get => $"{BaseViewKey}AskQuestionsView"; }
+
+        /// <summary>
         /// 主窗体
         /// </summary>
         public static string MainView { get => $"{BaseViewKey}MainWindow"; }
@@ -54,6 +59,11 @@ namespace OwnersSimulation.Model
         /// <summary>
         /// 野外View
         /// </summary>
-        public static string WildViewModel { get => $"{BaseViewKey}WildView"; }
+        public static string WildView { get => $"{BaseViewKey}WildView"; }
+
+        /// <summary>
+        /// 宗门View
+        /// </summary>
+        public static string UnitedView { get => $"{BaseViewKey}UnitedView"; }
     }
 }

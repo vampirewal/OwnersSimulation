@@ -19,6 +19,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Vampirewal.Core;
 using Vampirewal.Core.Interface;
 using Vampirewal.Core.SimpleMVVM;
 
@@ -55,7 +56,7 @@ namespace OwnersSimulation.Model.Component
         /// <summary>
         /// 招募弟子列表
         /// </summary>
-        ObservableCollection<Disciple> RecruitDisciples { get;  }
+        ObservableCollection<Disciple> RecruitDisciples { get; }
 
         /// <summary>
         /// 创建弟子到招募列表
@@ -76,7 +77,7 @@ namespace OwnersSimulation.Model.Component
         /// <param name="disciples"></param>
         void SetDisciples(List<Disciple> disciples);
 
-        
+
 
         /// <summary>
         /// 获取单独姓名
@@ -127,12 +128,12 @@ namespace OwnersSimulation.Model.Component
         /// <summary>
         /// 任务
         /// </summary>
-        ObservableCollection<OsTask> AllTasks { get;}
+        ObservableCollection<OsTask> AllTasks { get; }
 
         /// <summary>
         /// 执行中的任务
         /// </summary>
-        ObservableCollection<OsTask> DoingTasks { get;  }
+        ObservableCollection<OsTask> DoingTasks { get; }
 
         /// <summary>
         /// 通过<paramref name="MapId"/>读取任务
@@ -166,11 +167,13 @@ namespace OwnersSimulation.Model.Component
     /// </summary>
     public class OwnerSimulationDataContext : IOwnerSimulationDataContext
     {
+        #region Service
         private IDataContext DC { get; set; }
         private IOperationExcelService OperationExcelService { get; set; }
         private IDialogMessage Dialog { get; set; }
+        #endregion
 
-        public OwnerSimulationDataContext(IDataContext dc,IOperationExcelService operationExcelService,IDialogMessage dialog)
+        public OwnerSimulationDataContext(IDataContext dc, IOperationExcelService operationExcelService, IDialogMessage dialog)
         {
             DC = dc;
             OperationExcelService = operationExcelService;
@@ -213,8 +216,8 @@ namespace OwnersSimulation.Model.Component
             {
                 var DiscipleList = Disciples.ToList();
 
-                var InsertDiscipleList =new List<Disciple>();
-                var UpdateDiscipleList =new List<Disciple>();
+                var InsertDiscipleList = new List<Disciple>();
+                var UpdateDiscipleList = new List<Disciple>();
 
 
                 foreach (var item in DiscipleList)
@@ -290,15 +293,14 @@ namespace OwnersSimulation.Model.Component
             {
                 Random random = new Random();
 
-                int r = random.Next(1, 3);
-
                 Disciple disciple = new Disciple()
                 {
                     discipleType = DiscipleType.NoAttribution,
                     DName = GetSingleName(),
                     Level = 1,
                     BillId = owner.BillId,
-                    genderType = (GenderType)r
+                    genderType = (GenderType)random.Next(1, 3),
+                    Genius = random.Next(10, 201)
                 };
 
                 RecruitDisciples.Add(disciple);
@@ -351,7 +353,7 @@ namespace OwnersSimulation.Model.Component
         {
             var CurMap = DC.Client.Queryable<Map>().ToList();
 
-            if (CurMap.Count>0)
+            if (CurMap.Count > 0)
             {
                 Maps = CurMap;
             }
@@ -365,7 +367,7 @@ namespace OwnersSimulation.Model.Component
         #endregion
 
         #region 任务
-        public ObservableCollection<OsTask> AllTasks { get;private set; }
+        public ObservableCollection<OsTask> AllTasks { get; private set; }
 
 
         public ObservableCollection<OsTask> DoingTasks { get; private set; }
@@ -374,21 +376,26 @@ namespace OwnersSimulation.Model.Component
         {
             AllTasks.Clear();
 
-            DC.Client.Queryable<OsTask>().Where(w => w.BillId == MapId).ToList().ForEach(f => { AllTasks.Add(f); });
-
+            DC.Client.Queryable<OsTask>().Where(w => w.BillId == MapId).ToList().ForEach(f =>
+            {
+                if (!DoingTasks.Any(a => a.DtlId == f.DtlId))
+                {
+                    AllTasks.Add(f);
+                }
+            });
 
         }
 
         public bool IsCanDoTask(string TaskId)
         {
-            return !DoingTasks.Any(a => a.DtlId == TaskId)&&DoingTasks.Count<10;
+            return !DoingTasks.Any(a => a.DtlId == TaskId) && DoingTasks.Count < 10;
         }
 
-        public void ToDoTask(OsTask task,Disciple target)
+        public void ToDoTask(OsTask task, Disciple target)
         {
             if (IsCanDoTask(task.DtlId))
             {
-                if (task.TaskCompleteDifficulty<=target.Level)
+                if (task.TaskCompleteDifficulty <= target.Level)
                 {
                     task.taskState = TaskState.Doing;
                     task.TaskCompletedPersonId = target.DtlId;
@@ -422,7 +429,7 @@ namespace OwnersSimulation.Model.Component
 
             united.AddMoney(task.RewardDiamond);
 
-            Disciples.First(f => f.DtlId == task.TaskCompletedPersonId).Exp += task.RewardExp;
+            Disciples.First(f => f.DtlId == task.TaskCompletedPersonId).AddExp(task.RewardExp);
 
             DoingTasks.Remove(task);
         }
@@ -579,4 +586,7 @@ namespace OwnersSimulation.Model.Component
                                                                  "颛孙", "端木", "巫马", "公西", "漆雕", "乐正", "壤驷", "公良", "拓拔", "夹谷", "宰父", "谷梁",
                                                                  "段干", "百里", "东郭", "南门", "呼延", "羊舌", "梁丘", "左丘", "东门", "西门", "南宫"};
     }
+
+
+
 }

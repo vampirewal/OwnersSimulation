@@ -89,6 +89,12 @@ namespace OwnersSimulation.ViewModel.MainPage
             {
                 OSDC.CompletedTask(c);
             }
+            else if(c.TaskFinishedTime.HasValue)
+            {
+                TimeSpan ts= (TimeSpan)(c.TaskFinishedTime-DateTime.Now);
+
+                Dialog.ShowPopupWindow($"任务完成还需要{ts.TotalSeconds.ToString("0.00")}秒", WindowsManager.Windows["MainView"], Vampirewal.Core.WpfTheme.WindowStyle.MessageType.Error);
+            }
             
         });
         #endregion

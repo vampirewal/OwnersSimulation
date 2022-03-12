@@ -24,5 +24,7 @@ namespace OwnersSimulation.View
         {
             InitializeComponent();
         }
+
+
     }
 }
