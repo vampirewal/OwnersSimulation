@@ -279,7 +279,6 @@ namespace OwnersSimulation.Model.Component
 
         public ObservableCollection<Disciple> Disciples { get; private set; }
 
-
         public ObservableCollection<Disciple> RecruitDisciples { get; private set; }
         /// <summary>
         /// 创建弟子到招募列表

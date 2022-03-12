@@ -91,4 +91,26 @@ namespace OwnersSimulation.Model
         [Display(Name = "女性")]
         Woman = 2
     }
+
+    /// <summary>
+    /// 职业类型
+    /// </summary>
+    public enum ProfessionalType
+    {
+        /// <summary>
+        /// 体修
+        /// </summary>
+        [Display(Name ="体修")]
+        BodyPractitioner=1,
+        /// <summary>
+        /// 道修
+        /// </summary>
+        [Display(Name = "道修")]
+        TaoistPractitioner =2,
+        /// <summary>
+        /// 法修
+        /// </summary>
+        [Display(Name = "法修")]
+        MagicPractitioner1 = 3,
+    }
 }

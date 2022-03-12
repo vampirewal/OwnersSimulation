@@ -59,6 +59,8 @@ namespace OwnersSimulation.View
             CustomIoC.Instance.Register<WildViewModel>();
             CustomIoC.Instance.Register<UnitedViewModel>();
 
+            CustomIoC.Instance.Register<DiscipleInfoViewModel>();
+
         }
 
         #region 实现
@@ -70,11 +72,14 @@ namespace OwnersSimulation.View
         public AddUnitedViewModel AddUnitedViewModel => CustomIoC.Instance.GetInstanceWithoutCaching<AddUnitedViewModel>();
         public AddOwnerViewModel AddOwnerViewModel => CustomIoC.Instance.GetInstanceWithoutCaching<AddOwnerViewModel>();
         public SelectDiscipleViewModel SelectDiscipleViewModel => CustomIoC.Instance.GetInstance<SelectDiscipleViewModel>();
-        public AskQuestionsViewModel AskQuestionsViewModel => CustomIoC.Instance.GetInstance<AskQuestionsViewModel>();
+        public AskQuestionsViewModel AskQuestionsViewModel => CustomIoC.Instance.GetInstanceWithoutCaching<AskQuestionsViewModel>();
 
 
         public WildViewModel WildViewModel => CustomIoC.Instance.GetInstance<WildViewModel>();
         public UnitedViewModel UnitedViewModel => CustomIoC.Instance.GetInstance<UnitedViewModel>();
+
+
+        public DiscipleInfoViewModel DiscipleInfoViewModel => CustomIoC.Instance.GetInstanceWithoutCaching<DiscipleInfoViewModel>();
 
         #endregion
     }

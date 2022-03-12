@@ -12,17 +12,18 @@
                          Title="AskQuestionsView">
     <VUc:AddOrEditUcViewBase.BottomBtnItems>
         <Button Style="{StaticResource ButtonSuccess}"
-                Command="{Binding }" Margin="5,0" Width="50"
+                Command="{Binding OkCommand}" Margin="5,0" Width="50"
                 Content="是" />
-        <Button Style="{StaticResource ButtonSuccess}"
+        <Button Style="{StaticResource ButtonDanger}"
                 Margin="5,0"
+                Command="{Binding CancelCommand}"
                 Width="50"
                 Content="否" />
     </VUc:AddOrEditUcViewBase.BottomBtnItems>
     <ScrollViewer>
         <TextBox VerticalContentAlignment="Top"
-                 HorizontalContentAlignment="Left"
+                 HorizontalContentAlignment="Left" Foreground="{StaticResource BaseForeground}" Background="Transparent" BorderThickness="0"
                  TextWrapping="Wrap"
-                 Text="aaaaaaaaaaaaaaaaabbbbbbbbbbbbbbaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabbbbbbbbbbbbbbbbaaaaaaaaaaaccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccaaaaaaaaaaaaaaaaaaa" />
+                 Text="{Binding QuestionContext}" IsReadOnly="True"/>
     </ScrollViewer>
 </VUc:AddOrEditUcViewBase>

@@ -49,7 +49,12 @@ namespace OwnersSimulation.ViewModel.Extension
             return result;
         }
 
-        
+        /// <summary>
+        /// 弹出通用提问窗体
+        /// </summary>
+        /// <param name="dialog"></param>
+        /// <param name="QuestionStr"></param>
+        /// <returns></returns>
         public static bool GetAskQuestions(this IDialogMessage dialog,string QuestionStr)
         {
             return Convert.ToBoolean( dialog.OpenDialogWindow(new DialogWindowSetting()

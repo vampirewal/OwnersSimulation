@@ -25,11 +25,11 @@ namespace OwnersSimulation.Model.Component
     /// </summary>
     public class LevelUpHelper : BaseSingleton<LevelUpHelper>
     {
-        private int MinExp = 100;
+        private decimal MinExp = 100;
 
         private int MaxLevel = 100;
 
-        private Dictionary<int, int> LevelExp { get; set; } = new Dictionary<int, int>();
+        private Dictionary<int, decimal> LevelExp { get; set; } = new Dictionary<int, decimal>();
 
 
         /// <summary>
@@ -42,48 +42,48 @@ namespace OwnersSimulation.Model.Component
             for (int i = 1; i <= MaxLevel; i++)
             {
                 //系数
-                double Coefficient = 1;
+                decimal Coefficient = 1;
 
                 #region 等级判断
                 if (i > 1 && i <= 10)
                 {
-                    Coefficient = 1.5d;
+                    Coefficient = 1.5m;
                 }
                 if (i > 10 && i <= 20)
                 {
-                    Coefficient = 2d;
+                    Coefficient = 2m;
                 }
                 if (i > 20 && i <= 30)
                 {
-                    Coefficient = 2.5d;
+                    Coefficient = 2.5m;
                 }
                 if (i > 30 && i <= 40)
                 {
-                    Coefficient = 3d;
+                    Coefficient = 3m;
                 }
                 if (i > 40 && i <= 50)
                 {
-                    Coefficient = 3.5d;
+                    Coefficient = 3.5m;
                 }
                 if (i > 50 && i <= 60)
                 {
-                    Coefficient = 4d;
+                    Coefficient = 4m;
                 }
                 if (i > 60 && i <= 70)
                 {
-                    Coefficient = 4.5d;
+                    Coefficient = 4.5m;
                 }
                 if (i > 70 && i <= 80)
                 {
-                    Coefficient = 5d;
+                    Coefficient = 5m;
                 }
                 if (i > 80 && i <= 90)
                 {
-                    Coefficient = 5.5d;
+                    Coefficient = 5.5m;
                 }
                 if (i > 90 && i <= 100)
                 {
-                    Coefficient = 6d;
+                    Coefficient = 6m;
                 }
                 #endregion
 
@@ -92,7 +92,7 @@ namespace OwnersSimulation.Model.Component
                     Coefficient = 9999;
                 }
 
-                int curLevel = (int)(i * MinExp * Coefficient);
+                decimal curLevel = Decimal.Floor(i * MinExp * Coefficient);
                 LevelExp.Add(i, curLevel);
 
             }
@@ -103,7 +103,7 @@ namespace OwnersSimulation.Model.Component
         /// </summary>
         /// <param name="CurrentLevel"></param>
         /// <returns></returns>
-        public int GetCurrentLevelMaxExp(int CurrentLevel)
+        public decimal GetCurrentLevelMaxExp(int CurrentLevel)
         {
             if (LevelExp.Count < this.MaxLevel)
                 InitLevelExp();

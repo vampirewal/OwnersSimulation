@@ -47,26 +47,26 @@ namespace OwnersSimulation.Model.Self
         }
 
         #region 升级相关
-        private int _CurrentLevelMaxExp;
+        private decimal _CurrentLevelMaxExp;
         /// <summary>
         /// 当前等级下升级需要的经验值
         /// </summary>
-        public int CurrentLevelMaxExp
+        public decimal CurrentLevelMaxExp
         {
             get { return _CurrentLevelMaxExp; }
             set { _CurrentLevelMaxExp = value; DoNotify(); }
         }
 
-        private int _Exp;
+        private decimal _Exp;
         /// <summary>
         /// 当前经验值
         /// </summary>
-        public int Exp
+        public decimal Exp
         {
             get { return _Exp; }
             set
             {
-                ActionSet<int>(ref _Exp, value, (NewValue) =>
+                ActionSet<decimal>(ref _Exp, value, (NewValue) =>
                 {
                     if (NewValue >= CurrentLevelMaxExp)
                     {
@@ -80,9 +80,9 @@ namespace OwnersSimulation.Model.Self
         /// 涨经验
         /// </summary>
         /// <param name="exp">增加的经验值</param>
-        public void AddExp(int exp)
+        public void AddExp(decimal exp)
         {
-            int curexp = exp * (Genius / 100);
+            decimal curexp = Decimal.Floor(exp * (Genius / 100));
 
             Exp += curexp;
         }
@@ -192,6 +192,28 @@ namespace OwnersSimulation.Model.Self
         /// 徒弟性别
         /// </summary>
         public GenderType genderType { get => _genderType; set { _genderType = value; DoNotify(); } }
+        #endregion
+
+        #region 徒弟职业类型
+        [SugarColumn(IsIgnore = true, IsJson = false, NoSerialize = true)]
+        public string GetProfessionalTypeDisplay
+        {
+            get
+            {
+                return professionalType.GetDisplay();
+            }
+        }
+
+
+        private ProfessionalType _professionalType;
+        /// <summary>
+        /// 徒弟职业类型
+        /// </summary>
+        public ProfessionalType professionalType
+        {
+            get { return _professionalType; }
+            set { _professionalType = value; DoNotify(); }
+        }
         #endregion
     }
 

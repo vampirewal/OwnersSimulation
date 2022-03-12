@@ -1,0 +1,54 @@
+﻿<VUc:AddOrEditUcViewBase x:Class="OwnersSimulation.View.DiscipleInfoView"
+                         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                         xmlns:local="clr-namespace:OwnersSimulation.View"
+                         xmlns:VUc="Vampirewal.UcView"
+                         mc:Ignorable="d"
+                         DataContext="{Binding Source={StaticResource Locator},Path=DiscipleInfoViewModel}"
+                         d:DesignHeight="450"
+                         d:DesignWidth="800"
+                         Title="DiscipleInfoView">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40"/>
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <TextBlock Text="属性和装备"  Foreground="{StaticResource BaseForeground}" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18"/>
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <StackPanel Margin="5" >
+                    <TextBlock Text="{Binding DtlEntity.DName}" FontSize="20" Foreground="{StaticResource BaseForeground}" Margin="5"/>
+                    <TextBlock Margin="5"
+                               Foreground="{StaticResource BaseForeground}"
+                               FontSize="15">
+                        <Run Text="职业  " />
+                        <Run Text="{Binding DtlEntity.GetProfessionalTypeDisplay}" />
+                    </TextBlock>
+                    <TextBlock Margin="5"
+                               Foreground="{StaticResource BaseForeground}"
+                               FontSize="15">
+                        <Run Text="等级  " />
+                        <Run Text="{Binding DtlEntity.Level}" /><Run Text="/100" /></TextBlock>
+                    <StackPanel Orientation="Horizontal"
+                                Margin="5">
+                        <TextBlock Text="经验  "
+                                   Foreground="{StaticResource BaseForeground}"
+                                   FontSize="15" />
+                        <Slider Width="100" />
+                    </StackPanel>
+                </StackPanel>
+            </Grid>
+        </Grid>
+        
+    </Grid>
+</VUc:AddOrEditUcViewBase>

@@ -131,9 +131,11 @@ namespace OwnersSimulation.ViewModel
 
         public RelayCommand CloseWindowCommand => new RelayCommand(() => 
         {
-            Dialog.GetAskQuestions("");
+            if (Dialog.GetAskQuestions("关闭游戏前是否需要保存？"))
+            {
+                OSDC.SaveGame();
+            }
 
-            OSDC.SaveGame();
         });
 
         public RelayCommand ReturnLoginViewCommand => new RelayCommand(() =>
@@ -143,23 +145,9 @@ namespace OwnersSimulation.ViewModel
             OSDC.ClearData();
 
             ReturnResult = true;
+
             ((Window)View).Close();
 
-
-            //for (int i = 0; i < 50; i++)
-            //{
-            //    for (int j = 0; j < 50; j++)
-            //    {
-            //        MapBlock block = new MapBlock()
-            //        {
-            //            PosX = i * 20,
-            //            PosY = j * 20,
-            //            IsSelected = false,
-            //        };
-
-            //        MapBlocks.Add(block);
-            //    }
-            //}
         });
 
         /// <summary>
