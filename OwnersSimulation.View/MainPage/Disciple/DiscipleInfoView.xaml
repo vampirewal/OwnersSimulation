@@ -4,36 +4,44 @@
                          xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                          xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                          xmlns:local="clr-namespace:OwnersSimulation.View"
-                         xmlns:VUc="Vampirewal.UcView"
+                         xmlns:hc="https://handyorg.github.io/handycontrol"
+                         xmlns:VUc="Vampirewal.UcView" xmlns:vc="Vampirewal.CustomControl" xmlns:cc="clr-namespace:OwnersSimulation.View.CustomControls"
                          mc:Ignorable="d"
                          DataContext="{Binding Source={StaticResource Locator},Path=DiscipleInfoViewModel}"
                          d:DesignHeight="450"
                          d:DesignWidth="800"
                          Title="DiscipleInfoView">
-    <Grid>
+    <Grid >
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="40"/>
+                <RowDefinition Height="40" />
                 <RowDefinition />
             </Grid.RowDefinitions>
-            <TextBlock Text="属性和装备"  Foreground="{StaticResource BaseForeground}" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18"/>
+            <TextBlock Text="属性和装备"
+                       Foreground="{StaticResource BaseForeground}"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"
+                       FontSize="18" />
             <Grid Grid.Row="1">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
+                    <ColumnDefinition Width="1"/>
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
-                <StackPanel Margin="5" >
-                    <TextBlock Text="{Binding DtlEntity.DName}" FontSize="20" Foreground="{StaticResource BaseForeground}" Margin="5"/>
+                <StackPanel Margin="5">
+                    <TextBlock Text="{Binding DtlEntity.DName}"
+                               FontSize="20"
+                               Foreground="{StaticResource BaseForeground}"
+                               Margin="5" />
                     <TextBlock Margin="5"
                                Foreground="{StaticResource BaseForeground}"
                                FontSize="15">
                         <Run Text="职业  " />
-                        <Run Text="{Binding DtlEntity.GetProfessionalTypeDisplay}" />
-                    </TextBlock>
+                        <Run Text="{Binding DtlEntity.professionalType,Converter={StaticResource Enum2StringConverter}}" /></TextBlock>
                     <TextBlock Margin="5"
                                Foreground="{StaticResource BaseForeground}"
                                FontSize="15">
@@ -44,11 +52,133 @@
                         <TextBlock Text="经验  "
                                    Foreground="{StaticResource BaseForeground}"
                                    FontSize="15" />
-                        <Slider Width="100" />
+                        <!--<sliderstyle:OsSlider Width="135" NumFontSize="9" LeftData="{Binding DtlEntity.Exp}" RightData="{Binding DtlEntity.CurrentLevelMaxExp}"/>-->
+                        <ProgressBar Width="135"
+                                     Value="50"
+                                     hc:VisualElement.Text="{Binding CurExpStr,Mode=OneWay}"
+                                     Maximum="{Binding DtlEntity.CurrentLevelMaxExp}"
+                                     Minimum="0"
+                                     ToolTip="{Binding CurExpStr,Mode=OneWay}"
+                                     Style="{StaticResource ProgressBarInfo}" />
                     </StackPanel>
+                    <Border Background="#ddd" Height="1" Margin="0,3"/>
+                    <!--#region 属性 -->
+                    <UniformGrid Columns="2" >
+                        <vc:TitleContent Title="力量"
+                                         TitleWidth="30" Margin="0,2"
+                                         TitleForeground="{StaticResource BaseForeground}">
+                            <TextBox Width="50"
+                                     Text="{Binding DtlEntity.Power}"
+                                     IsReadOnly="True" />
+                        </vc:TitleContent>
+                        <vc:TitleContent Title="体力"
+                                         Margin="0,2"
+                                         TitleWidth="30"
+                                         TitleForeground="{StaticResource BaseForeground}">
+                            <TextBox Width="50"
+                                     Text="{Binding DtlEntity.Physical}"
+                                     IsReadOnly="True" />
+                        </vc:TitleContent>
+                        <vc:TitleContent Title="智力"
+                                         Margin="0,2"
+                                         TitleWidth="30"
+                                         TitleForeground="{StaticResource BaseForeground}">
+                            <TextBox Width="50"
+                                     Text="{Binding DtlEntity.Wisdom}"
+                                     IsReadOnly="True" />
+                        </vc:TitleContent>
+                        <vc:TitleContent Title="敏捷"
+                                         Margin="0,2"
+                                         TitleWidth="30"
+                                         TitleForeground="{StaticResource BaseForeground}">
+                            <TextBox Width="50"
+                                     Text="{Binding DtlEntity.Agile}"
+                                     IsReadOnly="True" />
+                        </vc:TitleContent>
+                    </UniformGrid>
+                    <!--#endregion-->
+                    <Border Background="#ddd"
+                            Height="1"
+                            Margin="0,3" />
+                    <StackPanel Orientation="Horizontal"
+                                Margin="5">
+                        <TextBlock Text="生命  "
+                                   Foreground="{StaticResource BaseForeground}"
+                                   FontSize="15" />
+                        <!--<sliderstyle:OsSlider Width="135" NumFontSize="9" LeftData="{Binding DtlEntity.Exp}" RightData="{Binding DtlEntity.CurrentLevelMaxExp}"/>-->
+                        <ProgressBar Width="135"
+                                     Value="50"
+                                     hc:VisualElement.Text="{Binding CurExpStr,Mode=OneWay}"
+                                     Maximum="{Binding DtlEntity.CurrentLevelMaxExp}"
+                                     Minimum="0"
+                                     ToolTip="{Binding CurExpStr,Mode=OneWay}"
+                                     Style="{StaticResource ProgressBarSuccess}" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal"
+                                Margin="5">
+                        <TextBlock Text="行动  "
+                                   Foreground="{StaticResource BaseForeground}"
+                                   FontSize="15" />
+                        <!--<sliderstyle:OsSlider Width="135" NumFontSize="9" LeftData="{Binding DtlEntity.Exp}" RightData="{Binding DtlEntity.CurrentLevelMaxExp}"/>-->
+                        <ProgressBar Width="135"
+                                     Value="50"
+                                     hc:VisualElement.Text="{Binding CurExpStr,Mode=OneWay}"
+                                     Maximum="{Binding DtlEntity.CurrentLevelMaxExp}"
+                                     Minimum="0"
+                                     ToolTip="{Binding CurExpStr,Mode=OneWay}"
+                                     Style="{StaticResource ProgressBarWarning}" />
+                    </StackPanel>
+                    <!--#region 战斗力 -->
+                    <UniformGrid Columns="2">
+                        <vc:TitleContent Title="攻击"
+                                         TitleWidth="30"
+                                         TitleForeground="{StaticResource BaseForeground}">
+                            <TextBox Width="50"
+                                     Text="{Binding DtlEntity.Power}"
+                                     IsReadOnly="True" />
+                        </vc:TitleContent>
+                    </UniformGrid>
+                    <!--#endregion-->
                 </StackPanel>
+                <Border Background="#ddd"
+                        Width="1"
+                        Grid.Column="1"
+                        Margin="0,3" />
+                <StackPanel Grid.Column="2" Margin="5">
+                    <Border Width="190" Height="190">
+                        <vc:RadarControl AreaBrush="#ddd"
+                                         RadarNetBrush="#ddd"
+                                         Foreground="White"
+                                         ShowValuesLabel="False"
+                                         AreaPointBrush="Orange"
+                                         BorderBrush="Gray"
+                                         Datas="{Binding DisciplePropertys}" />
+                    </Border>
+                    <Border Background="#ddd"
+                            Height="1"
+                            Margin="0,3" />
+                    <UniformGrid Columns="2">
+                        <vc:TitleContent Title="头部" TitleForeground="{StaticResource BaseForeground}" TitleWidth="35">
+                            <cc:EquipBlock Height="35"
+                                           Width="35" Equip="{Binding DtlEntity.HeadEquipment}" Foreground="{StaticResource BaseBackground}"
+                                           Margin="5" />
+                        </vc:TitleContent>
+                        <vc:TitleContent Title="手部"
+                                         TitleForeground="{StaticResource BaseForeground}"
+                                         TitleWidth="35">
+                            <Border Height="35"
+                                    Width="35"
+                                    Margin="5"
+                                    CornerRadius="5"
+                                    BorderThickness="1"
+                                    BorderBrush="{StaticResource BaseForeground}"
+                                    Background="#ddd" />
+                        </vc:TitleContent>
+                    </UniformGrid>
+                    
+                </StackPanel>
+                
             </Grid>
         </Grid>
-        
     </Grid>
 </VUc:AddOrEditUcViewBase>

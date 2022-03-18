@@ -11,6 +11,7 @@
 //----------------------------------------------------------------*/
 #endregion
 
+using OwnersSimulation.Model.Equip;
 using OwnersSimulation.Model.Self;
 using System;
 using System.Collections.Generic;
@@ -37,6 +38,8 @@ namespace OwnersSimulation.DataContext
 
             CreateTable<Map>();
             CreateTable<OsTask>();
+
+            CreateTable<Equipment>();
         }
     }
 }

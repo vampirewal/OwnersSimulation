@@ -68,5 +68,25 @@ namespace OwnersSimulation.ViewModel.Extension
                 PassData=QuestionStr
             }));
         }
+
+        /// <summary>
+        /// 打开弟子详细页面
+        /// </summary>
+        /// <param name="dialog"></param>
+        /// <param name="disciple"></param>
+        /// <returns></returns>
+        public static bool OpenDiscipleInfoView(this IDialogMessage dialog,Disciple disciple)
+        {
+            return Convert.ToBoolean(dialog.OpenDialogWindow(new DialogWindowSetting()
+            {
+                UiView = Messenger.Default.Send<FrameworkElement>("GetView", ViewKeys.DiscipleInfoView),
+                WindowHeight = 450,
+                WindowWidth = 800,
+                IsOpenWindowSize = false,
+                IsShowMaxButton = false,
+                IsShowMinButton = false,
+                PassData = disciple
+            }));
+        }
     }
 }

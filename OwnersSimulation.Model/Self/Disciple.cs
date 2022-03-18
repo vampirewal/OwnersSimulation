@@ -12,6 +12,7 @@
 #endregion
 
 using OwnersSimulation.Model.Component;
+using OwnersSimulation.Model.Equip;
 using SqlSugar;
 using System;
 using System.Collections.Generic;
@@ -153,6 +154,41 @@ namespace OwnersSimulation.Model.Self
             set { _Power = value; DoNotify(); }
         }
 
+        private int _Physical;
+        /// <summary>
+        /// 体力值
+        /// <para>初始值在10-100之间</para>
+        /// </summary>
+        public int Physical
+        {
+            get { return _Physical; }
+            set { _Physical = value; DoNotify(); }
+        }
+
+        private int _Wisdom;
+        /// <summary>
+        /// 智力值
+        /// <para>初始值在10-100之间</para>
+        /// </summary>
+        public int Wisdom
+        {
+            get { return _Wisdom; }
+            set { _Wisdom = value; DoNotify(); }
+        }
+
+        private int _Agile;
+        /// <summary>
+        /// 敏捷值
+        /// <para>初始值在10-100之间</para>
+        /// </summary>
+        public int Agile
+        {
+            get { return _Agile; }
+            set { _Agile = value; }
+        }
+
+
+
         #endregion
 
         #region 徒弟类型
@@ -165,7 +201,7 @@ namespace OwnersSimulation.Model.Self
             }
         }
 
-        private DiscipleType _discipleType;
+        private DiscipleType _discipleType = DiscipleType.NoAttribution;
         /// <summary>
         /// 徒弟类型
         /// </summary>
@@ -187,7 +223,7 @@ namespace OwnersSimulation.Model.Self
         }
 
 
-        private GenderType _genderType;
+        private GenderType _genderType = GenderType.Man;
         /// <summary>
         /// 徒弟性别
         /// </summary>
@@ -205,7 +241,7 @@ namespace OwnersSimulation.Model.Self
         }
 
 
-        private ProfessionalType _professionalType;
+        private ProfessionalType _professionalType = ProfessionalType.BodyPractitioner;
         /// <summary>
         /// 徒弟职业类型
         /// </summary>
@@ -214,6 +250,46 @@ namespace OwnersSimulation.Model.Self
             get { return _professionalType; }
             set { _professionalType = value; DoNotify(); }
         }
+        #endregion
+
+        #region 装备相关
+
+        private Equipment _HeadEquipment;
+        /// <summary>
+        /// 头部装备格
+        /// </summary>
+        [SugarColumn(IsIgnore =true)]
+        public Equipment HeadEquipment
+        {
+            get { return _HeadEquipment; }
+            private set
+            { 
+                _HeadEquipment = value;
+
+                if (value!=null)
+                {
+
+                }
+
+                DoNotify();
+            }
+        }
+
+
+        /// <summary>
+        /// 穿装备
+        /// </summary>
+        /// <param name="equipment">装备</param>
+        public void WearEquip(Equipment equipment)
+        {
+            switch (equipment.EquipType)
+            {
+                case EquipType.Head:
+                    HeadEquipment = equipment;
+                    break;
+            }
+        }
+
         #endregion
     }
 

@@ -110,6 +110,17 @@
                                                         Binding="{Binding DName}"
                                                         Width="0.9*"
                                                         IsReadOnly="True" />
+                                    <DataGridTemplateColumn Header="查看">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <Button Style="{StaticResource ButtonSuccess.Small}"
+                                                            Content="查看"
+                                                            Command="{Binding DataContext.LookDiscipleInfoViewCommand,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=VWin:MainWindowBase}}" CommandParameter="{Binding}"/>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
                                 </DataGrid.Columns>
                                 <i:Interaction.Behaviors>
                                     <VBeh:DataGridGroupByBehavior  SetGroupByProrName="GetDiscipleTypeDisplay" />

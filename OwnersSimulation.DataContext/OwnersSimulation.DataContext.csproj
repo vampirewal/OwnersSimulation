@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Vampirewal.Core" Version="2.0.0.8" />
+    <PackageReference Include="Vampirewal.Core" Version="2.0.0.10" />
   </ItemGroup>
 
   <ItemGroup>

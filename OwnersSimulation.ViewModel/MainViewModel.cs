@@ -43,6 +43,8 @@ namespace OwnersSimulation.ViewModel
             //构造函数
 
             Title = config.AppChineseName;
+
+            //OSDC.CreateEquip(5);
         }
 
         public override void BillVmInitData()
@@ -76,6 +78,8 @@ namespace OwnersSimulation.ViewModel
                 ShowUI = Messenger.Default.Send<FrameworkElement>("GetView", ViewKeys.WildView);
 
                 //CreateData(owner.BillId);
+
+                
             }
 
             ReturnResult = false;
@@ -177,7 +181,10 @@ namespace OwnersSimulation.ViewModel
             OSDC.CreateRecruitDisciple();
         });
 
-        
+        public RelayCommand<Disciple> LookDiscipleInfoViewCommand => new RelayCommand<Disciple>((l) => 
+        {
+            Dialog.OpenDiscipleInfoView(l);
+        });
         #endregion
     }
 }

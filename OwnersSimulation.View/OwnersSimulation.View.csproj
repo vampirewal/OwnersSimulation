@@ -13,7 +13,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Vampirewal.Core" Version="2.0.0.8" />
+		<PackageReference Include="Vampirewal.Core" Version="2.0.0.10" />
 		<PackageReference Include="HandyControl" Version="3.3.0" />
 	</ItemGroup>
 

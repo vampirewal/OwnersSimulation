@@ -75,6 +75,18 @@ namespace OwnersSimulation.Model.Self
         {
             Money -= reduce;
         }
+
+        private int _EquipWarehouseCount;
+        /// <summary>
+        /// 装备仓库格数
+        /// </summary>
+        public int EquipWarehouseCount
+        {
+            get { return _EquipWarehouseCount; }
+            set { _EquipWarehouseCount = value; DoNotify(); }
+        }
+
+
     }
 
     /// <summary>

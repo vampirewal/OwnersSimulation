@@ -11,6 +11,7 @@
 //----------------------------------------------------------------*/
 #endregion
 
+using OwnersSimulation.Model.Equip;
 using OwnersSimulation.Model.Self;
 using System;
 using System.Collections.Generic;
@@ -160,6 +161,29 @@ namespace OwnersSimulation.Model.Component
         void CompletedTask(OsTask task);
         #endregion
 
+        #region 装备
+        /// <summary>
+        /// 装备列表
+        /// </summary>
+        ObservableCollection<Equipment> Equipments { get; }
+
+        /// <summary>
+        /// 从数据库中获取所有装备
+        /// </summary>
+        void InitEquipments();
+
+        /// <summary>
+        /// 创建装备
+        /// </summary>
+        /// <param name="Count">生成数量</param>
+        void CreateEquip(int Count = 1);
+
+        /// <summary>
+        /// 销毁装备
+        /// </summary>
+        void DeleteEquip();
+        #endregion
+
     }
 
     /// <summary>
@@ -186,6 +210,8 @@ namespace OwnersSimulation.Model.Component
             AllTasks = new ObservableCollection<OsTask>();
 
             DoingTasks = new ObservableCollection<OsTask>();
+
+            Equipments = new ObservableCollection<Equipment>();
         }
 
         #region 功能
@@ -196,12 +222,13 @@ namespace OwnersSimulation.Model.Component
 
             InitOwner(united);
             //Thread.Sleep(3000);
-
-            InitDisciple(owner);
+            InitEquipments();
+            
             //Thread.Sleep(3000);
 
             InitMap();
 
+            InitDisciple(owner);
         }
 
         public void SaveGame()
@@ -236,6 +263,11 @@ namespace OwnersSimulation.Model.Component
 
                 DC.UpdateEntityList(UpdateDiscipleList);
                 DC.AddEntityList(InsertDiscipleList);
+            }
+
+            //4、保存装备信息
+            {
+                DC.UpdateEntityList(Equipments.ToList());
             }
         }
 
@@ -330,6 +362,16 @@ namespace OwnersSimulation.Model.Component
         private void InitDisciple(Owner owner)
         {
             var curDisciples = DC.Client.Queryable<Disciple>().Where(w => w.BillId == owner.BillId && w.discipleType != DiscipleType.KickedOut && w.discipleType != DiscipleType.exit).ToList();
+
+            foreach (var item in curDisciples)
+            {
+                var equips = DC.Client.Queryable<Equipment>().Where(w => w.EquipDiscipleID == item.DtlId).ToList();
+
+                foreach (var equip in equips)
+                {
+                    item.WearEquip(equip);
+                }
+            }
 
             SetDisciples(curDisciples);
         }
@@ -434,15 +476,152 @@ namespace OwnersSimulation.Model.Component
         }
         #endregion
 
+        #region 装备
+
+        public ObservableCollection<Equipment> Equipments { get; private set; }
+
+        public void InitEquipments()
+        {
+            Equipments.Clear();
+
+            DC.Client.Queryable<Equipment>().Where(w => w.BillId == united.BillId).ToList().ForEach(f =>
+            {
+                Equipments.Add(f);
+            });
+        }
+
+        public void CreateEquip(int Count = 1)
+        {
+            if (Count > united.EquipWarehouseCount - Equipments.Count)
+            {
+                Count = united.EquipWarehouseCount - Equipments.Count;
+            }
+
+
+
+            List<Equipment> list = new List<Equipment>();
+
+            for (int i = 0; i < Count; i++)
+            {
+                Equipment equip = new Equipment()
+                {
+                    BillId = united.BillId,
+                    EquipName = $"{i}test",
+                    
+                };
+
+                Random random = new Random();
+
+                int aa = random.Next(1, 1001);
+
+                #region 部位
+                if (aa <= 125)
+                {
+                    equip.EquipType = EquipType.Head;
+                }
+                else if (aa > 125 && aa <= 250)
+                {
+                    equip.EquipType = EquipType.Necklace;
+                }
+                else if (aa > 250 && aa <= 375)
+                {
+                    equip.EquipType = EquipType.Hand;
+                }
+                else if (aa > 375 && aa <= 500)
+                {
+                    equip.EquipType = EquipType.Chest;
+                }
+                else if (aa > 500 && aa <= 625)
+                {
+                    equip.EquipType = EquipType.Leg;
+                }
+                else if (aa > 625 && aa <= 750)
+                {
+                    equip.EquipType = EquipType.Foot;
+                }
+                else if (aa > 750 && aa <= 875)
+                {
+                    equip.EquipType = EquipType.Weapons;
+                }
+                else
+                {
+                    equip.EquipType = EquipType.Ornament;
+                }
+                #endregion
+
+                #region 材质
+                if (aa <= 125)
+                {
+                    equip.equipMaterial = EquipMaterial.Inferior;
+                }
+                else if (aa > 125 && aa <= 250)
+                {
+
+                }
+                else if (aa > 250 && aa <= 375)
+                {
+
+                }
+                else if (aa > 375 && aa <= 500)
+                {
+
+                }
+                else if (aa > 500 && aa <= 625)
+                {
+                    equip.equipMaterial = EquipMaterial.Inferior;
+                }
+                else if (aa > 625 && aa <= 750)
+                {
+
+                }
+                else if (aa > 750 && aa <= 875)
+                {
+
+                }
+                else
+                {
+
+                }
+                #endregion
+                equip.EquipNo = OSDCExtension.CreateEquipNo(equip.EquipType, united, Equipments.ToList());
+
+
+                Equipments.Add(equip);
+
+                list.Add(equip);
+            }
+
+            if (list.Count > 0)
+            {
+                DC.AddEntityList(list);
+            }
+        }
+
+        public void DeleteEquip()
+        {
+            var deletes = Equipments.Where(w => w.Checked).ToList();
+
+            foreach (var equip in deletes)
+            {
+                Equipments.Remove(equip);
+            }
+
+            if (deletes.Count > 0)
+            {
+                DC.DeleteEntityList(deletes);
+            }
+        }
+        #endregion
+
         #region TOOLS
         public string GetSingleName()
         {
-            var xing = CreatePersonInfo.GetSurname();
+            var xing = OSDCExtension.GetSurname();
 
             //获取GB2312编码页（表）
             Encoding gb = Encoding.GetEncoding("gb2312");
             //调用函数产生4个随机中文汉字编码
-            object[] bytes = CreatePersonInfo.CreateRegionCode(2, true);
+            object[] bytes = OSDCExtension.CreateRegionCode(2, true);
             //根据汉字编码的字节数组解码出中文汉字
             string name = string.Empty;
 
@@ -474,7 +653,7 @@ namespace OwnersSimulation.Model.Component
     /// <summary>
     /// 创建人物姓名
     /// </summary>
-    public static class CreatePersonInfo
+    public static class OSDCExtension
     {
         public static object[] CreateRegionCode(int strlength, bool isRandomCount = false)
         {
@@ -584,8 +763,21 @@ namespace OwnersSimulation.Model.Component
                                                                  "锺离", "宇文", "长孙", "慕容", "鲜于", "闾丘", "司徒", "司空", "丌官", "司寇", "子车", "微生",
                                                                  "颛孙", "端木", "巫马", "公西", "漆雕", "乐正", "壤驷", "公良", "拓拔", "夹谷", "宰父", "谷梁",
                                                                  "段干", "百里", "东郭", "南门", "呼延", "羊舌", "梁丘", "左丘", "东门", "西门", "南宫"};
+
+
+        public static string CreateEquipNo(EquipType equipType,United united,List<Equipment> source)
+        {
+            StringBuilder sb = new StringBuilder();
+
+            sb.Append(equipType.ToString());
+            sb.Append((int)equipType);
+            sb.Append((source.Where(w => w.EquipType == equipType).Count()+1).ToString("0000000"));
+
+
+            return sb.ToString();
+        }
     }
 
-
+    
 
 }

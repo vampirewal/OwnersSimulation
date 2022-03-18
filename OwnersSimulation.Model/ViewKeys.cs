@@ -65,5 +65,10 @@ namespace OwnersSimulation.Model
         /// 宗门View
         /// </summary>
         public static string UnitedView { get => $"{BaseViewKey}UnitedView"; }
+
+        /// <summary>
+        /// 查看弟子详细信息View
+        /// </summary>
+        public static string DiscipleInfoView { get => $"{BaseViewKey}DiscipleInfoView"; }
     }
 }
