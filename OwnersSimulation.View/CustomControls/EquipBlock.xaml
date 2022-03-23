@@ -1,35 +1,24 @@
 ﻿<UserControl x:Class="OwnersSimulation.View.CustomControls.EquipBlock"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:OwnersSimulation.View.CustomControls"
-             mc:Ignorable="d"  x:Name="abc"
-             d:DesignHeight="35" d:DesignWidth="35">
-    <Border CornerRadius="5" BorderThickness="1" BorderBrush="{StaticResource BaseForeground}" Background="#ddd" MouseRightButtonDown="Border_MouseRightButtonDown" >
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition />
-                <RowDefinition />
-            </Grid.RowDefinitions>
-            <TextBlock Text="{Binding Equip.EquipType,Converter={StaticResource Enum2StringConverter},RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=local:EquipBlock}}"
-                       TextWrapping="Wrap" Foreground="{Binding ElementName=abc,Path=Foreground}"
-                       Margin="2" />
-            <TextBlock Text="{Binding Equip.EquipDiscipleName,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=local:EquipBlock}}"
-                       TextWrapping="Wrap"
-                       HorizontalAlignment="Right"
-                       VerticalAlignment="Bottom"
-                       Grid.Row="1"
-                       Foreground="{Binding ElementName=abc,Path=Foreground}"
-                       Margin="2" />
-        </Grid>
-        <Border.ToolTip>
-            <Border Width="200" Background="{StaticResource BaseForeground}" >
-                <StackPanel>
-                    <TextBlock Text="{Binding Equip.EquipName,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=local:EquipBlock}}"
-                               Foreground="{Binding ElementName=abc,Path=Foreground}" />
-                </StackPanel>
-            </Border>
-        </Border.ToolTip>
+             MouseRightButtonDown="Border_MouseRightButtonDown"
+             mc:Ignorable="d"
+             x:Name="abc"
+             d:DesignHeight="35"
+             d:DesignWidth="35">
+    <Border CornerRadius="5"
+            BorderThickness="3"
+            x:Name="aaa"
+            BorderBrush="{Binding EquipMetarialColor,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=local:EquipBlock}}"
+            Cursor="Hand"
+            Background="#ddd">
+        <ToggleButton Style="{StaticResource ToggleButtonCustom}"
+                      Background="{StaticResource BaseForeground}"
+                      Content="{Binding Equip.GetEquipTypeDisplay,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=local:EquipBlock}}"
+                      Foreground="Black" />
+        
     </Border>
 </UserControl>

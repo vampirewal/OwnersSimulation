@@ -43,6 +43,7 @@ namespace OwnersSimulation.ViewModel.Extension
                 IsOpenWindowSize = false,
                 IsShowMaxButton = false,
                 IsShowMinButton = false,
+                IconStr = @"pack://application:,,,/OwnersSimulation.View;component/Vampirewal-Logo.png"
             }) as Disciple;
 
 
@@ -65,7 +66,8 @@ namespace OwnersSimulation.ViewModel.Extension
                 IsOpenWindowSize = false,
                 IsShowMaxButton = false,
                 IsShowMinButton = false,
-                PassData=QuestionStr
+                PassData=QuestionStr,
+                IconStr = @"pack://application:,,,/OwnersSimulation.View;component/Vampirewal-Logo.png"
             }));
         }
 
@@ -80,12 +82,13 @@ namespace OwnersSimulation.ViewModel.Extension
             return Convert.ToBoolean(dialog.OpenDialogWindow(new DialogWindowSetting()
             {
                 UiView = Messenger.Default.Send<FrameworkElement>("GetView", ViewKeys.DiscipleInfoView),
-                WindowHeight = 450,
+                WindowHeight = 505,
                 WindowWidth = 800,
                 IsOpenWindowSize = false,
                 IsShowMaxButton = false,
                 IsShowMinButton = false,
-                PassData = disciple
+                PassData = disciple,
+                IconStr = @"pack://application:,,,/OwnersSimulation.View;component/Vampirewal-Logo.png"
             }));
         }
     }

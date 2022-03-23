@@ -11,7 +11,9 @@
 //----------------------------------------------------------------*/
 #endregion
 
+using OwnersSimulation.Model;
 using OwnersSimulation.Model.Component;
+using OwnersSimulation.Model.Equip;
 using OwnersSimulation.Model.Self;
 using System;
 using System.Collections.Generic;
@@ -19,6 +21,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using Vampirewal.Core.Interface;
 using Vampirewal.Core.SimpleMVVM;
 using Vampirewal.Core.WpfTheme.CustomControl;
@@ -28,22 +31,43 @@ namespace OwnersSimulation.ViewModel.MainPage
     /// <summary>
     /// 徒弟信息页
     /// </summary>
-    public class DiscipleInfoViewModel:DetailVM<Disciple>
+    public class DiscipleInfoViewModel : DetailVM<Disciple>
     {
         private IOwnerSimulationDataContext _OSDC;
-        public IOwnerSimulationDataContext OSDC { get=> _OSDC; set { _OSDC = value;DoNotify(); } }
+        public IOwnerSimulationDataContext OSDC { get => _OSDC; set { _OSDC = value; DoNotify(); } }
 
 
         private IDialogMessage Dialog { get; set; }
 
-        public DiscipleInfoViewModel(IOwnerSimulationDataContext osdc,IDialogMessage dialog,IDataContext dc):base(dc)
+        public DiscipleInfoViewModel(IOwnerSimulationDataContext osdc, IDialogMessage dialog, IDataContext dc, DiscipleEquipTableViewModel equipView) : base(dc)
         {
-            OSDC= osdc;
+            OSDC = osdc;
             Dialog = dialog;
             //构造函数
 
+            TableView = Messenger.Default.Send<FrameworkElement>("GetView", ViewKeys.DiscipleEquipTabView);
+
+
+            DiscipleEquipTableVM = equipView;
+            
+
             
         }
+
+        private FrameworkElement _TableView;
+        /// <summary>
+        /// Tab页
+        /// </summary>
+        public FrameworkElement TableView
+        {
+            get { return _TableView; }
+            set { _TableView = value; DoNotify(); }
+        }
+
+        private DiscipleEquipTableViewModel _DiscipleEquipTableVM;
+        public DiscipleEquipTableViewModel DiscipleEquipTableVM { get=> _DiscipleEquipTableVM; set { _DiscipleEquipTableVM = value;DoNotify(); } }
+
+
 
         public override object GetResult()
         {
@@ -59,7 +83,7 @@ namespace OwnersSimulation.ViewModel.MainPage
 
                 Title = $"{entity.DName} 的信息";
 
-                CurExpStr=$"{DtlEntity.Exp}/{DtlEntity.CurrentLevelMaxExp}";
+                CurExpStr = $"{DtlEntity.Exp}/{DtlEntity.CurrentLevelMaxExp}";
 
                 RadarObj radarModel = new RadarObj()
                 {
@@ -89,6 +113,8 @@ namespace OwnersSimulation.ViewModel.MainPage
                     Name = "智力"
                 };
                 DisciplePropertys.Add(radarModel);
+
+                DiscipleEquipTableVM.PassData(DtlEntity);
             }
             else
             {
@@ -124,7 +150,32 @@ namespace OwnersSimulation.ViewModel.MainPage
         #endregion
 
         #region 命令
+        /// <summary>
+        /// 切换Table页命令
+        /// </summary>
+        public RelayCommand<string> TabItemChangedCommand => new RelayCommand<string>((o) =>
+        {
 
+
+            switch (o)
+            {
+                case "装备":
+                    TableView = Messenger.Default.Send<FrameworkElement>("GetView", ViewKeys.DiscipleEquipTabView);
+                    break;
+                case "技能":
+                    break;
+            }
+
+        });
+
+
+
+        public RelayCommand<Equipment> TakeOffTheEquipCommand => new RelayCommand<Equipment>((e) =>
+        {
+            DtlEntity.TakeOffTheEquip(e);
+
+            OSDC.TakeOffEquip(e);
+        });
         #endregion
     }
 }

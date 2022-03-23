@@ -111,6 +111,6 @@ namespace OwnersSimulation.Model
         /// 法修
         /// </summary>
         [Display(Name = "法修")]
-        MagicPractitioner1 = 3,
+        MagicPractitioner = 3,
     }
 }

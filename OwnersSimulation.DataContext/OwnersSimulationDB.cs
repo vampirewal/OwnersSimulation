@@ -40,6 +40,7 @@ namespace OwnersSimulation.DataContext
             CreateTable<OsTask>();
 
             CreateTable<Equipment>();
+            CreateTable<EquipBase>();
         }
     }
 }

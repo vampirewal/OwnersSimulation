@@ -70,5 +70,10 @@ namespace OwnersSimulation.Model
         /// 查看弟子详细信息View
         /// </summary>
         public static string DiscipleInfoView { get => $"{BaseViewKey}DiscipleInfoView"; }
+
+        /// <summary>
+        /// 装备Tab页面
+        /// </summary>
+        public static string DiscipleEquipTabView { get => $"{BaseViewKey}DiscipleEquipTableView"; }
     }
 }

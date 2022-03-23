@@ -119,6 +119,8 @@ namespace OwnersSimulation.Model.Self
             Level++;
             CurrentLevelMaxExp = LevelUpHelper.GetInstance().GetCurrentLevelMaxExp(Level);
             Exp = 0;
+
+            RefreshFightingValue();
         }
         #endregion
 
@@ -184,7 +186,7 @@ namespace OwnersSimulation.Model.Self
         public int Agile
         {
             get { return _Agile; }
-            set { _Agile = value; }
+            set { _Agile = value; DoNotify(); }
         }
 
 
@@ -258,18 +260,125 @@ namespace OwnersSimulation.Model.Self
         /// <summary>
         /// 头部装备格
         /// </summary>
-        [SugarColumn(IsIgnore =true)]
+        [SugarColumn(IsIgnore = true)]
         public Equipment HeadEquipment
         {
             get { return _HeadEquipment; }
             private set
-            { 
+            {
                 _HeadEquipment = value;
 
-                if (value!=null)
-                {
+                DoNotify();
+            }
+        }
 
-                }
+        private Equipment _HandEquipment;
+        /// <summary>
+        /// 手部装备格
+        /// </summary>
+        [SugarColumn(IsIgnore = true)]
+        public Equipment HandEquipment
+        {
+            get { return _HandEquipment; }
+            private set
+            {
+                _HandEquipment = value;
+
+                DoNotify();
+            }
+        }
+
+        private Equipment _NecklaceEquipment;
+        /// <summary>
+        /// 项链装备格
+        /// </summary>
+        [SugarColumn(IsIgnore = true)]
+        public Equipment NecklaceEquipment
+        {
+            get { return _NecklaceEquipment; }
+            private set
+            {
+                _NecklaceEquipment = value;
+
+                DoNotify();
+            }
+        }
+
+        private Equipment _ChestEquipment;
+        /// <summary>
+        /// 胸部装备格
+        /// </summary>
+        [SugarColumn(IsIgnore = true)]
+        public Equipment ChestEquipment
+        {
+            get { return _ChestEquipment; }
+            private set
+            {
+                _ChestEquipment = value;
+
+                DoNotify();
+            }
+        }
+
+        private Equipment _LegEquipment;
+        /// <summary>
+        /// 腿部装备格
+        /// </summary>
+        [SugarColumn(IsIgnore = true)]
+        public Equipment LegEquipment
+        {
+            get { return _LegEquipment; }
+            private set
+            {
+                _LegEquipment = value;
+
+                DoNotify();
+            }
+        }
+
+        private Equipment _FootEquipment;
+        /// <summary>
+        /// 脚部装备格
+        /// </summary>
+        [SugarColumn(IsIgnore = true)]
+        public Equipment FootEquipment
+        {
+            get { return _FootEquipment; }
+            private set
+            {
+                _FootEquipment = value;
+
+                DoNotify();
+            }
+        }
+
+        private Equipment _WeaponsEquipment;
+        /// <summary>
+        /// 武器装备格
+        /// </summary>
+        [SugarColumn(IsIgnore = true)]
+        public Equipment WeaponsEquipment
+        {
+            get { return _WeaponsEquipment; }
+            private set
+            {
+                _WeaponsEquipment = value;
+
+                DoNotify();
+            }
+        }
+
+        private Equipment _OrnamentEquipment;
+        /// <summary>
+        /// 饰品装备格
+        /// </summary>
+        [SugarColumn(IsIgnore = true)]
+        public Equipment OrnamentEquipment
+        {
+            get { return _OrnamentEquipment; }
+            private set
+            {
+                _OrnamentEquipment = value;
 
                 DoNotify();
             }
@@ -285,11 +394,168 @@ namespace OwnersSimulation.Model.Self
             switch (equipment.EquipType)
             {
                 case EquipType.Head:
+
+                    if (HeadEquipment != null)
+                    {
+                        TakeOffTheEquip(HeadEquipment);
+                    }
+
                     HeadEquipment = equipment;
                     break;
+                case EquipType.Hand:
+
+                    if (HandEquipment != null)
+                    {
+                        TakeOffTheEquip(HandEquipment);
+                    }
+                    HandEquipment = equipment;
+                    break;
+                case EquipType.Necklace:
+                    if (NecklaceEquipment != null)
+                    {
+                        TakeOffTheEquip(NecklaceEquipment);
+                    }
+                    NecklaceEquipment = equipment;
+                    break;
+                case EquipType.Chest:
+                    if (ChestEquipment != null)
+                    {
+                        TakeOffTheEquip(ChestEquipment);
+                    }
+                    ChestEquipment = equipment;
+                    break;
+                case EquipType.Leg:
+                    if (LegEquipment != null)
+                    {
+                        TakeOffTheEquip(LegEquipment);
+                    }
+                    LegEquipment = equipment;
+                    break;
+                case EquipType.Foot:
+                    if (FootEquipment != null)
+                    {
+                        TakeOffTheEquip(FootEquipment);
+                    }
+                    FootEquipment = equipment;
+                    break;
+                case EquipType.Weapons:
+                    if (WeaponsEquipment != null)
+                    {
+                        TakeOffTheEquip(WeaponsEquipment);
+                    }
+                    WeaponsEquipment = equipment;
+                    break;
+                case EquipType.Ornament:
+                    if (OrnamentEquipment != null)
+                    {
+                        TakeOffTheEquip(OrnamentEquipment);
+                    }
+                    OrnamentEquipment = equipment;
+                    break;
+            }
+            //equipment.WearEquip(this);
+            ChangeProperty(equipment);
+        }
+
+        /// <summary>
+        /// 脱下装备
+        /// </summary>
+        /// <param name="equipment"></param>
+        public void TakeOffTheEquip(Equipment equipment)
+        {
+            switch (equipment.EquipType)
+            {
+                case EquipType.Head:
+                    HeadEquipment = null;
+                    break;
+                case EquipType.Necklace:
+                    NecklaceEquipment = null;
+                    break;
+                case EquipType.Hand:
+                    HandEquipment = null;
+                    break;
+                case EquipType.Chest:
+                    ChestEquipment = null;
+                    break;
+                case EquipType.Leg:
+                    LegEquipment = null;
+                    break;
+                case EquipType.Foot:
+                    FootEquipment = null;
+                    break;
+                case EquipType.Weapons:
+                    WeaponsEquipment = null;
+                    break;
+                case EquipType.Ornament:
+                    OrnamentEquipment = null;
+                    break;
+            }
+            //equipment.TakeOffTheEquip();
+            ChangeProperty(equipment, false);
+        }
+
+
+        /// <summary>
+        /// 属性变化
+        /// </summary>
+        /// <param name="equipment">装备</param>
+        /// <param name="IsHasEquip">是否穿上</param>
+        private void ChangeProperty(Equipment equipment, bool IsHasEquip = true)
+        {
+            if (IsHasEquip)
+            {
+                this.Power += equipment.Power;
+                this.Physical += equipment.Physical;
+                this.Wisdom += equipment.Wisdom;
+                this.Agile += equipment.Agile;
+            }
+            else
+            {
+                this.Power -= equipment.Power;
+                this.Physical -= equipment.Physical;
+                this.Wisdom -= equipment.Wisdom;
+                this.Agile -= equipment.Agile;
             }
         }
 
+        #endregion
+
+        #region 战斗力相关
+
+        private int _FightingValue;
+        /// <summary>
+        /// 战斗力
+        /// </summary>
+        public int FightingValue
+        {
+            get { return _FightingValue; }
+            set
+            {
+                _FightingValue = value;
+
+                DoNotify();
+            }
+        }
+
+        /// <summary>
+        /// 刷新战斗力
+        /// </summary>
+        public void RefreshFightingValue()
+        {
+
+            switch (professionalType)
+            {
+                case ProfessionalType.BodyPractitioner:
+                    FightingValue = Power * 10;
+                    break;
+                case ProfessionalType.TaoistPractitioner:
+                    FightingValue = Agile * 10;
+                    break;
+                case ProfessionalType.MagicPractitioner:
+                    FightingValue = Wisdom * 10;
+                    break;
+            }
+        }
         #endregion
     }
 

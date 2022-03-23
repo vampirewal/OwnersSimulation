@@ -5,13 +5,16 @@
                          xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                          xmlns:local="clr-namespace:OwnersSimulation.View"
                          xmlns:hc="https://handyorg.github.io/handycontrol"
-                         xmlns:VUc="Vampirewal.UcView" xmlns:vc="Vampirewal.CustomControl" xmlns:cc="clr-namespace:OwnersSimulation.View.CustomControls"
+                         xmlns:VUc="Vampirewal.UcView"
+                         xmlns:vc="Vampirewal.CustomControl"
+                         xmlns:cc="clr-namespace:OwnersSimulation.View.CustomControls"
+                         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
                          mc:Ignorable="d"
                          DataContext="{Binding Source={StaticResource Locator},Path=DiscipleInfoViewModel}"
                          d:DesignHeight="450"
                          d:DesignWidth="800"
                          Title="DiscipleInfoView">
-    <Grid >
+    <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
             <ColumnDefinition />
@@ -26,10 +29,14 @@
                        HorizontalAlignment="Center"
                        VerticalAlignment="Center"
                        FontSize="18" />
+            <Border Background="#ddd"
+                    Height="1"
+                    VerticalAlignment="Bottom"
+                    Margin="3,0" />
             <Grid Grid.Row="1">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
-                    <ColumnDefinition Width="1"/>
+                    <ColumnDefinition Width="1" />
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
                 <StackPanel Margin="5">
@@ -61,11 +68,14 @@
                                      ToolTip="{Binding CurExpStr,Mode=OneWay}"
                                      Style="{StaticResource ProgressBarInfo}" />
                     </StackPanel>
-                    <Border Background="#ddd" Height="1" Margin="0,3"/>
+                    <Border Background="#ddd"
+                            Height="1"
+                            Margin="0,3" />
                     <!--#region 属性 -->
-                    <UniformGrid Columns="2" >
+                    <UniformGrid Columns="2">
                         <vc:TitleContent Title="力量"
-                                         TitleWidth="30" Margin="0,2"
+                                         TitleWidth="30"
+                                         Margin="0,2"
                                          TitleForeground="{StaticResource BaseForeground}">
                             <TextBox Width="50"
                                      Text="{Binding DtlEntity.Power}"
@@ -134,7 +144,7 @@
                                          TitleWidth="30"
                                          TitleForeground="{StaticResource BaseForeground}">
                             <TextBox Width="50"
-                                     Text="{Binding DtlEntity.Power}"
+                                     Text="{Binding DtlEntity.FightingValue}"
                                      IsReadOnly="True" />
                         </vc:TitleContent>
                     </UniformGrid>
@@ -144,8 +154,10 @@
                         Width="1"
                         Grid.Column="1"
                         Margin="0,3" />
-                <StackPanel Grid.Column="2" Margin="5">
-                    <Border Width="190" Height="190">
+                <StackPanel Grid.Column="2"
+                            Margin="5">
+                    <Border Width="190"
+                            Height="190">
                         <vc:RadarControl AreaBrush="#ddd"
                                          RadarNetBrush="#ddd"
                                          Foreground="White"
@@ -157,28 +169,114 @@
                     <Border Background="#ddd"
                             Height="1"
                             Margin="0,3" />
-                    <UniformGrid Columns="2">
-                        <vc:TitleContent Title="头部" TitleForeground="{StaticResource BaseForeground}" TitleWidth="35">
-                            <cc:EquipBlock Height="35"
-                                           Width="35" Equip="{Binding DtlEntity.HeadEquipment}" Foreground="{StaticResource BaseBackground}"
-                                           Margin="5" />
-                        </vc:TitleContent>
-                        <vc:TitleContent Title="手部"
-                                         TitleForeground="{StaticResource BaseForeground}"
-                                         TitleWidth="35">
-                            <Border Height="35"
-                                    Width="35"
-                                    Margin="5"
-                                    CornerRadius="5"
-                                    BorderThickness="1"
-                                    BorderBrush="{StaticResource BaseForeground}"
-                                    Background="#ddd" />
-                        </vc:TitleContent>
-                    </UniformGrid>
+                    <TabControl Style="{StaticResource TabControlInLine}" Background="Transparent" x:Name="tab">
+                        <TabItem Header="装备">
+                            <UniformGrid Columns="2">
+                                <vc:TitleContent Title="头部"
+                                                 TitleForeground="{StaticResource BaseForeground}"
+                                                 TitleWidth="35">
+                                    <cc:EquipBlock Height="35"
+                                                   Width="35"
+                                                   EquipMetarialColor="{Binding DtlEntity.HeadEquipment.equipMaterial,Converter={StaticResource EquipMaterial2ColorConverter}}"
+                                                   MouseRightButtonDownCommand="{Binding TakeOffTheEquipCommand}"
+                                                   Equip="{Binding DtlEntity.HeadEquipment}"
+                                                   Foreground="{StaticResource BaseBackground}"
+                                                   Margin="5" />
+                                </vc:TitleContent>
+                                <vc:TitleContent Title="手部"
+                                                 TitleForeground="{StaticResource BaseForeground}"
+                                                 TitleWidth="35">
+                                    <cc:EquipBlock Height="35"
+                                                   Width="35"
+                                                   EquipMetarialColor="{Binding DtlEntity.HandEquipment.equipMaterial,Converter={StaticResource EquipMaterial2ColorConverter}}"
+                                                   MouseRightButtonDownCommand="{Binding TakeOffTheEquipCommand}"
+                                                   Equip="{Binding DtlEntity.HandEquipment}"
+                                                   Foreground="{StaticResource BaseBackground}"
+                                                   Margin="5" />
+                                </vc:TitleContent>
+                                <vc:TitleContent Title="项链"
+                                                 TitleForeground="{StaticResource BaseForeground}"
+                                                 TitleWidth="35">
+                                    <cc:EquipBlock Height="35"
+                                                   EquipMetarialColor="{Binding DtlEntity.NecklaceEquipment.equipMaterial,Converter={StaticResource EquipMaterial2ColorConverter}}"
+                                                   Width="35"
+                                                   MouseRightButtonDownCommand="{Binding TakeOffTheEquipCommand}"
+                                                   Equip="{Binding DtlEntity.NecklaceEquipment}"
+                                                   Foreground="{StaticResource BaseBackground}"
+                                                   Margin="5" />
+                                </vc:TitleContent>
+                                <vc:TitleContent Title="胸部"
+                                                 TitleForeground="{StaticResource BaseForeground}"
+                                                 TitleWidth="35">
+                                    <cc:EquipBlock Height="35"
+                                                   Width="35"
+                                                   Equip="{Binding DtlEntity.ChestEquipment}"
+                                                   EquipMetarialColor="{Binding DtlEntity.ChestEquipment.equipMaterial,Converter={StaticResource EquipMaterial2ColorConverter}}"
+                                                   MouseRightButtonDownCommand="{Binding TakeOffTheEquipCommand}"
+                                                   Foreground="{StaticResource BaseBackground}"
+                                                   Margin="5" />
+                                </vc:TitleContent>
+                                <vc:TitleContent Title="腿部"
+                                                 TitleForeground="{StaticResource BaseForeground}"
+                                                 TitleWidth="35">
+                                    <cc:EquipBlock Height="35"
+                                                   Width="35"
+                                                   Equip="{Binding DtlEntity.LegEquipment}"
+                                                   EquipMetarialColor="{Binding DtlEntity.LegEquipment.equipMaterial,Converter={StaticResource EquipMaterial2ColorConverter}}"
+                                                   MouseRightButtonDownCommand="{Binding TakeOffTheEquipCommand}"
+                                                   Foreground="{StaticResource BaseBackground}"
+                                                   Margin="5" />
+                                </vc:TitleContent>
+                                <vc:TitleContent Title="脚部"
+                                                 TitleForeground="{StaticResource BaseForeground}"
+                                                 TitleWidth="35">
+                                    <cc:EquipBlock Height="35"
+                                                   Width="35"
+                                                   MouseRightButtonDownCommand="{Binding TakeOffTheEquipCommand}"
+                                                   EquipMetarialColor="{Binding DtlEntity.FootEquipment.equipMaterial,Converter={StaticResource EquipMaterial2ColorConverter}}"
+                                                   Equip="{Binding DtlEntity.FootEquipment}"
+                                                   Foreground="{StaticResource BaseBackground}"
+                                                   Margin="5" />
+                                </vc:TitleContent>
+                                <vc:TitleContent Title="武器"
+                                                 TitleForeground="{StaticResource BaseForeground}"
+                                                 TitleWidth="35">
+                                    <cc:EquipBlock Height="35"
+                                                   Width="35"
+                                                   Equip="{Binding DtlEntity.WeaponsEquipment}"
+                                                   EquipMetarialColor="{Binding DtlEntity.WeaponsEquipment.equipMaterial,Converter={StaticResource EquipMaterial2ColorConverter}}"
+                                                   MouseRightButtonDownCommand="{Binding TakeOffTheEquipCommand}"
+                                                   Foreground="{StaticResource BaseBackground}"
+                                                   Margin="5" />
+                                </vc:TitleContent>
+                                <vc:TitleContent Title="饰品"
+                                                 TitleForeground="{StaticResource BaseForeground}"
+                                                 TitleWidth="35">
+                                    <cc:EquipBlock Height="35"
+                                                   Width="35"
+                                                   EquipMetarialColor="{Binding DtlEntity.OrnamentEquipment.equipMaterial,Converter={StaticResource EquipMaterial2ColorConverter}}"
+                                                   MouseRightButtonDownCommand="{Binding TakeOffTheEquipCommand}"
+                                                   Equip="{Binding DtlEntity.OrnamentEquipment}"
+                                                   Foreground="{StaticResource BaseBackground}"
+                                                   Margin="5" />
+                                </vc:TitleContent>
+                            </UniformGrid>
+                        </TabItem>
+                        <TabItem Header="技能">
+                            
+                        </TabItem>
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="SelectionChanged">
+                                <i:InvokeCommandAction Command="{Binding TabItemChangedCommand}" CommandParameter="{Binding ElementName=tab,Path=SelectedItem.Header}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </TabControl>
                     
                 </StackPanel>
-                
             </Grid>
+        </Grid>
+        <Grid Grid.Column="1">
+            <ContentControl Content="{Binding TableView}" />
         </Grid>
     </Grid>
 </VUc:AddOrEditUcViewBase>

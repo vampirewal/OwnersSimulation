@@ -60,6 +60,7 @@ namespace OwnersSimulation.View
             CustomIoC.Instance.Register<UnitedViewModel>();
 
             CustomIoC.Instance.Register<DiscipleInfoViewModel>();
+            CustomIoC.Instance.Register<DiscipleEquipTableViewModel>();
 
         }
 
@@ -80,6 +81,7 @@ namespace OwnersSimulation.View
 
 
         public DiscipleInfoViewModel DiscipleInfoViewModel => CustomIoC.Instance.GetInstanceWithoutCaching<DiscipleInfoViewModel>();
+        public DiscipleEquipTableViewModel DiscipleEquipTableViewModel => CustomIoC.Instance.GetInstanceWithoutCaching<DiscipleEquipTableViewModel>();
 
         #endregion
     }

@@ -17,6 +17,7 @@
                 </ResourceDictionary>
                 <ResourceDictionary>
                     <converter:Enum2StringConverter x:Key="Enum2StringConverter" />
+                    <converter:EquipMaterial2ColorConverter x:Key="EquipMaterial2ColorConverter" />
                     
                     
                     <SolidColorBrush x:Key="BaseBackground"

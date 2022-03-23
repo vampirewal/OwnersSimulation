@@ -1,0 +1,96 @@
+﻿<VUc:AddOrEditUcViewBase x:Class="OwnersSimulation.View.DiscipleEquipTableView"
+                         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                         xmlns:VUc="Vampirewal.UcView"
+                         xmlns:cc="clr-namespace:OwnersSimulation.View.CustomControls"
+                         DataContext="{Binding Source={StaticResource Locator},Path=DiscipleEquipTableViewModel}"
+                         xmlns:local="clr-namespace:OwnersSimulation.View"
+                         mc:Ignorable="d"
+                         d:DesignHeight="450"
+                         d:DesignWidth="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <TextBlock Foreground="{StaticResource BaseForeground}"
+                   FontSize="18"
+                   FontWeight="ExtraBold"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center">
+            <Run Text="装备" />
+            <Run Text="(" />
+            <Run Text="{Binding OSDC.EquipCount,Mode=OneWay}" />
+            <Run Text="/" />
+            <Run Text="{Binding OSDC.united.EquipWarehouseCount,Mode=OneWay}" />
+            <Run Text=")" /></TextBlock>
+        <Border Grid.Row="1"
+                CornerRadius="0"
+                BorderThickness="1"
+                BorderBrush="{StaticResource BaseForeground}">
+            <ItemsControl ItemsSource="{Binding OSDC.Equipments}"
+                          Margin="5"
+                          Style="{StaticResource ItemsControlStyle}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel Orientation="Horizontal" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Grid x:Name="bg">
+                            <cc:EquipBlock Height="35"
+                                           x:Name="cca"
+                                           EquipMetarialColor="{Binding equipMaterial,Converter={StaticResource EquipMaterial2ColorConverter}}"
+                                           Width="35"
+                                           MouseRightButtonDownCommand="{Binding DataContext.WearEquipCommand,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=UserControl}}"
+                                           Equip="{Binding}"
+                                           Foreground="{StaticResource BaseBackground}"
+                                           Margin="5"></cc:EquipBlock>
+                            <CheckBox HorizontalAlignment="Left"
+                                      VerticalAlignment="Top"
+                                      IsChecked="{Binding Checked}"
+                                      x:Name="check"
+                                      Visibility="Collapsed" />
+                            <Grid.ToolTip>
+                                <ToolTip Background="{StaticResource BaseForeground}"
+                                         BorderThickness="10"
+                                         ToolTipService.HasDropShadow="True">
+                                    <Border Width="150"
+                                            Height="200"
+                                            BorderThickness="1">
+                                        <StackPanel>
+                                            <TextBlock Text="{Binding EquipName}" />
+                                        </StackPanel>
+                                    </Border>
+                                </ToolTip>
+                            </Grid.ToolTip>
+                        </Grid>
+                        <DataTemplate.Triggers>
+                            <DataTrigger Binding="{Binding Checked}"
+                                         Value="True">
+                                <Setter TargetName="check"
+                                        Property="Visibility"
+                                        Value="Visible" />
+                            </DataTrigger>
+                            <Trigger Property="IsMouseOver"
+                                     Value="True">
+                                <Setter TargetName="check"
+                                        Property="Visibility"
+                                        Value="Visible" />
+                            </Trigger>
+                        </DataTemplate.Triggers>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </Border>
+    </Grid>
+    <VUc:AddOrEditUcViewBase.BottomBtnItems>
+        <Button Style="{StaticResource ButtonDanger}"
+                Margin="5,0"
+                Command="{Binding SaleEquipCommand}"
+                Content="卖掉" />
+    </VUc:AddOrEditUcViewBase.BottomBtnItems>
+</VUc:AddOrEditUcViewBase>
