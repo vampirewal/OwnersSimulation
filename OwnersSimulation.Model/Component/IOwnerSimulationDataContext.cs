@@ -481,22 +481,27 @@ namespace OwnersSimulation.Model.Component
                 else if (rand > 250 && rand <= 500)
                 {
                     equip.equipMaterial = EquipMaterial.General;
+                    EquipMaterialChanged(equip, 2);
                 }
                 else if (rand > 500 && rand <= 700)
                 {
                     equip.equipMaterial = EquipMaterial.Good;
+                    EquipMaterialChanged(equip, 3);
                 }
                 else if (rand > 700 && rand <= 850)
                 {
                     equip.equipMaterial = EquipMaterial.Superior;
+                    EquipMaterialChanged(equip, 5);
                 }
                 else if (rand > 850 && rand <= 950)
                 {
                     equip.equipMaterial = EquipMaterial.Legend;
+                    EquipMaterialChanged(equip, 7);
                 }
                 else
                 {
                     equip.equipMaterial = EquipMaterial.Artifact;
+                    EquipMaterialChanged(equip, 10);
                 }
                 #endregion
 
