@@ -1,9 +1,10 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net5.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
+    <EnableDefaultCompileItems>true</EnableDefaultCompileItems>
   </PropertyGroup>
 
   <ItemGroup>
@@ -11,4 +12,28 @@
     <PackageReference Include="Vampirewal.Core" Version="2.0.0.10" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Remove="Component\IOwnerSimulationDataContext.cs" />
+    <Compile Include="Component\IOwnerSimulationDataContext.cs" />
+    <Compile Remove="Component\EquipService.cs"/>
+    <Compile Include="Component\EquipService.cs">
+      <DependentUpon>IOwnerSimulationDataContext.cs</DependentUpon>
+    </Compile>
+    <Compile Remove="Component\UnitedService.cs"/>
+    <Compile Include="Component\UnitedService.cs">
+      <DependentUpon>IOwnerSimulationDataContext.cs</DependentUpon>
+    </Compile>
+    <Compile Remove="Component\OwnerService.cs"/>
+    <Compile Include="Component\OwnerService.cs">
+      <DependentUpon>IOwnerSimulationDataContext.cs</DependentUpon>
+    </Compile>
+    <Compile Remove="Component\DiscipleService.cs"/>
+    <Compile Include="Component\DiscipleService.cs">
+      <DependentUpon>IOwnerSimulationDataContext.cs</DependentUpon>
+    </Compile>
+    <Compile Remove="Component\OsTaskService.cs"/>
+    <Compile Include="Component\OsTaskService.cs">
+      <DependentUpon>IOwnerSimulationDataContext.cs</DependentUpon>
+    </Compile>
+  </ItemGroup>
 </Project>

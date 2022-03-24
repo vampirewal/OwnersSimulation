@@ -18,12 +18,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using OwnersSimulation.Model.Equip;
+using OwnersSimulation.Model.Interface;
 using OwnersSimulation.Model.Self;
 using Vampirewal.Core.SimpleMVVM;
 
 namespace OwnersSimulation.Model.Component
 {
-    public partial class OwnerSimulationDataContext : NotifyBase, IOwnerSimulationDataContext
+    public partial class OwnerSimulationDataContext : NotifyBase, IEqupmentService
     {
         #region 装备
         private int _EquipCount;
