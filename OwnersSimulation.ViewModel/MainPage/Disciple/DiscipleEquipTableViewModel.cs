@@ -76,14 +76,10 @@ namespace OwnersSimulation.ViewModel.MainPage
 
         public RelayCommand<Equipment> WearEquipCommand => new RelayCommand<Equipment>((w) =>
         {
-            //w.EquipDiscipleID = DtlEntity.DtlId;
-            //w.EquipDiscipleName = DtlEntity.DName;
-
-            OSDC.WearEquip(w, DtlEntity);
-
-            //DtlEntity.WearEquip(w);
-
-
+            if(DtlEntity.Level>=w.EquipMinLevel)
+                OSDC.WearEquip(w, DtlEntity);
+            else
+                Dialog.ShowPopupWindow("等级不够无法穿戴该装备！",WindowsManager.Windows["MainView"], Vampirewal.Core.WpfTheme.WindowStyle.MessageType.Error);
         });
 
         public RelayCommand SaleEquipCommand => new RelayCommand(() => 

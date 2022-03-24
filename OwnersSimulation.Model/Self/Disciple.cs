@@ -156,6 +156,15 @@ namespace OwnersSimulation.Model.Self
             set { _Power = value; DoNotify(); }
         }
 
+        private int _PowerView;
+        [SugarColumn(IsIgnore =true)]
+        public int PowerView
+        {
+            get { return _PowerView; }
+            set { _PowerView = value; DoNotify(); }
+        }
+
+
         private int _Physical;
         /// <summary>
         /// 体力值
@@ -165,6 +174,14 @@ namespace OwnersSimulation.Model.Self
         {
             get { return _Physical; }
             set { _Physical = value; DoNotify(); }
+        }
+
+        private int _PhysicalView;
+        [SugarColumn(IsIgnore = true)]
+        public int PhysicalView
+        {
+            get { return _PhysicalView; }
+            set { _PhysicalView = value; DoNotify(); }
         }
 
         private int _Wisdom;
@@ -178,6 +195,14 @@ namespace OwnersSimulation.Model.Self
             set { _Wisdom = value; DoNotify(); }
         }
 
+        private int _WisdomView;
+        [SugarColumn(IsIgnore = true)]
+        public int WisdomView
+        {
+            get { return _WisdomView; }
+            set { _WisdomView = value; DoNotify(); }
+        }
+
         private int _Agile;
         /// <summary>
         /// 敏捷值
@@ -189,6 +214,13 @@ namespace OwnersSimulation.Model.Self
             set { _Agile = value; DoNotify(); }
         }
 
+        private int _AgileView;
+        [SugarColumn(IsIgnore = true)]
+        public int AgileView
+        {
+            get { return _AgileView; }
+            set { _AgileView = value; DoNotify(); }
+        }
 
 
         #endregion
@@ -504,17 +536,17 @@ namespace OwnersSimulation.Model.Self
         {
             if (IsHasEquip)
             {
-                this.Power += equipment.Power;
-                this.Physical += equipment.Physical;
-                this.Wisdom += equipment.Wisdom;
-                this.Agile += equipment.Agile;
+                this.PowerView = equipment.Power+this.Power;
+                this.PhysicalView = equipment.Physical+this.Physical;
+                this.WisdomView = equipment.Wisdom+this.Wisdom;
+                this.AgileView = equipment.Agile+this.Agile;
             }
             else
             {
-                this.Power -= equipment.Power;
-                this.Physical -= equipment.Physical;
-                this.Wisdom -= equipment.Wisdom;
-                this.Agile -= equipment.Agile;
+                this.PowerView =  this.Power;
+                this.PhysicalView = this.Physical;
+                this.WisdomView =  this.Wisdom;
+                this.AgileView =  this.Agile;
             }
         }
 

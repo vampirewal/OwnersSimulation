@@ -39,7 +39,7 @@ namespace OwnersSimulation.Model.Interface
         /// <summary>
         /// 从数据库中获取所有装备
         /// </summary>
-        void InitEquipments();
+        void InitEquipments(bool IsInit=false);
 
         /// <summary>
         /// 创建装备

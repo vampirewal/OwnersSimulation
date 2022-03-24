@@ -73,7 +73,7 @@ namespace OwnersSimulation.Model.Component
     /// <summary>
     /// 掌门模拟上下文
     /// </summary>
-    public class OwnerSimulationDataContext : NotifyBase, IOwnerSimulationDataContext
+    public partial class OwnerSimulationDataContext : NotifyBase, IOwnerSimulationDataContext
     {
         #region Service
         private IDataContext DC { get; set; }
@@ -106,7 +106,7 @@ namespace OwnersSimulation.Model.Component
 
             InitOwner(united);
             //Thread.Sleep(3000);
-            InitEquipments();
+            InitEquipments(true);
 
             //Thread.Sleep(3000);
 
@@ -360,212 +360,15 @@ namespace OwnersSimulation.Model.Component
             Disciples.First(f => f.DtlId == task.TaskCompletedPersonId).AddExp(task.RewardExp);
 
             DoingTasks.Remove(task);
+
+            if (OSDCExtension.GetRandom(1, 101) > 80)
+            {
+                CreateEquip(1,task.TaskCompleteDifficulty);
+            }
         }
         #endregion
 
-        #region 装备
-        private int _EquipCount;
-        public int EquipCount { get => _EquipCount; private set { _EquipCount = value; DoNotify(); } }
-
-        public ObservableCollection<Equipment> Equipments { get; private set; }
-
-        public void InitEquipments()
-        {
-            IsHasEquipBase();
-
-            Equipments.Clear();
-
-            DC.Client.Queryable<Equipment>().Where(w => w.BillId == united.BillId && !w.IsEquip).ToList().ForEach(f =>
-            {
-                Equipments.Add(f);
-            });
-        }
-
-        /// <summary>
-        /// 判断装备基类库中是否有数据
-        /// </summary>
-        private void IsHasEquipBase()
-        {
-            if (!DC.Client.Queryable<EquipBase>().Any())
-            {
-                List<EquipBase> equips = new List<EquipBase>();
-                #region 武器
-                equips.Add(new EquipBase() { EquipName = "木剑", Amount = 5, EquipMinLevel = 1, equipMaterial = EquipMaterial.Inferior, EquipType = EquipType.Weapons, Power = 3, Agile = 2, Physical = 5, Wisdom = 1 });
-                #endregion
-
-
-                DC.AddEntityList(equips);
-            }
-        }
-
-        public void CreateEquip(int Count ,int MinLv)
-        {
-            if (Count > united.EquipWarehouseCount - Equipments.Count)
-            {
-                Count = united.EquipWarehouseCount - Equipments.Count;
-            }
-
-            List<Equipment> list = new List<Equipment>();
-
-            int MaxLv = MinLv + 5;
-
-            Random random = new Random();
-
-            for (int i = 0; i < Count; i++)
-            {
-                Equipment equip = new Equipment()
-                {
-                    BillId = united.BillId,
-                };
-
-
-
-                int rand = random.Next(1, 1001);
-
-                #region 部位
-                if (rand <= 125)
-                {
-                    equip.EquipType = EquipType.Head;
-                }
-                else if (rand > 125 && rand <= 250)
-                {
-                    equip.EquipType = EquipType.Necklace;
-                }
-                else if (rand > 250 && rand <= 375)
-                {
-                    equip.EquipType = EquipType.Hand;
-                }
-                else if (rand > 375 && rand <= 500)
-                {
-                    equip.EquipType = EquipType.Chest;
-                }
-                else if (rand > 500 && rand <= 625)
-                {
-                    equip.EquipType = EquipType.Leg;
-                }
-                else if (rand > 625 && rand <= 750)
-                {
-                    equip.EquipType = EquipType.Foot;
-                }
-                else if (rand > 750 && rand <= 875)
-                {
-                    equip.EquipType = EquipType.Weapons;
-                }
-                else
-                {
-                    equip.EquipType = EquipType.Ornament;
-                }
-
-                var EquipBaseEntity= DC.Client.Queryable<EquipBase>().Where(w => w.EquipType == equip.EquipType && w.EquipMinLevel >= MinLv && w.EquipMinLevel < MaxLv).First();
-                if (EquipBaseEntity != null)
-                {
-                    equip.EquipName = EquipBaseEntity.EquipName;
-                    equip.EquipMinLevel=EquipBaseEntity.EquipMinLevel;
-                    equip.Power = EquipBaseEntity.Power;
-                    equip.Physical=EquipBaseEntity.Physical;
-                    equip.Wisdom=EquipBaseEntity.Wisdom;
-                    equip.Agile=EquipBaseEntity.Agile;
-                }
-                else
-                {
-                    continue;
-                }
-                #endregion
-
-                #region 材质
-                if (rand <= 250)
-                {
-                    equip.equipMaterial = EquipMaterial.Inferior;
-                    EquipMaterialChanged(equip, 1);
-                }
-                else if (rand > 250 && rand <= 500)
-                {
-                    equip.equipMaterial = EquipMaterial.General;
-                    EquipMaterialChanged(equip, 2);
-                }
-                else if (rand > 500 && rand <= 700)
-                {
-                    equip.equipMaterial = EquipMaterial.Good;
-                    EquipMaterialChanged(equip, 3);
-                }
-                else if (rand > 700 && rand <= 850)
-                {
-                    equip.equipMaterial = EquipMaterial.Superior;
-                    EquipMaterialChanged(equip, 5);
-                }
-                else if (rand > 850 && rand <= 950)
-                {
-                    equip.equipMaterial = EquipMaterial.Legend;
-                    EquipMaterialChanged(equip, 7);
-                }
-                else
-                {
-                    equip.equipMaterial = EquipMaterial.Artifact;
-                    EquipMaterialChanged(equip, 10);
-                }
-                #endregion
-
-                equip.EquipNo = OSDCExtension.CreateEquipNo(equip.EquipType, united, Equipments.Where(w => w.EquipType == equip.EquipType).ToList());
-
-
-                Equipments.Add(equip);
-
-                list.Add(equip);
-            }
-
-            if (list.Count > 0)
-            {
-                DC.AddEntityList(list);
-            }
-        }
-
-        private void EquipMaterialChanged(Equipment equip,int num)
-        {
-            equip.Power*=num;
-            equip.Physical*=num;
-            equip.Agile*=num;
-            equip.Wisdom*=num;
-        }
-
-        public void DeleteEquip()
-        {
-            var deletes = Equipments.Where(w => w.Checked).ToList();
-
-            //foreach (var equip in deletes)
-            //{
-            //    Equipments.Remove(equip);
-            //}
-
-            if (deletes.Count > 0)
-            {
-                DC.DeleteEntityList(deletes);
-
-                InitEquipments();
-            }
-        }
-
-        public void WearEquip(Equipment equip, Disciple disciple)
-        {
-            //var equip= Equipments.First(f=>f.DtlId == DtlId);
-            equip.WearEquip(disciple);
-            disciple.WearEquip(equip);
-
-            DC.UpdateEntity(equip);
-
-            InitEquipments();
-        }
-
-        public void TakeOffEquip(Equipment equip)
-        {
-            //var equip=DC.Client.Queryable<Equipment>().First(f=>f.DtlId==DtlId);
-
-            equip?.TakeOffTheEquip();
-
-            DC.UpdateEntity(equip);
-
-            InitEquipments();
-        }
-        #endregion
+        
 
         #region TOOLS
         public string GetSingleName()
@@ -744,6 +547,31 @@ namespace OwnersSimulation.Model.Component
 
 
             return sb.ToString();
+        }
+
+        /// <summary>
+        /// 获取随机数
+        /// </summary>
+        /// <param name="Min"></param>
+        /// <param name="Max"></param>
+        /// <returns></returns>
+        public static int GetRandom(int Min,int Max)
+        {
+            Random random=new Random();
+
+            return random.Next(Min, Max);
+        }
+
+        /// <summary>
+        /// 扩展-获取随机一个装备
+        /// </summary>
+        /// <param name="equips"></param>
+        /// <returns></returns>
+        public static EquipBase GetRandomOne(this List<EquipBase> equips)
+        {
+            int count=equips.Count;
+
+            return equips[GetRandom(0, count)];
         }
     }
 

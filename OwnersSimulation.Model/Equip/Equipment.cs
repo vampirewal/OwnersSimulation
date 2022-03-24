@@ -34,7 +34,7 @@ namespace OwnersSimulation.Model.Equip
         /// <summary>
         /// 装备编号
         /// </summary>
-        [SugarColumn()]
+        [SugarColumn(IsNullable =true)]
         public string EquipNo
         {
             get { return _EquipNo; }
@@ -79,15 +79,7 @@ namespace OwnersSimulation.Model.Equip
         public EquipType EquipType { get => _EquipType; set { _EquipType = value; DoNotify(); } }
 
 
-        private EquipMaterial _equipMaterial = EquipMaterial.Inferior;
-        /// <summary>
-        /// 装备品质
-        /// </summary>
-        public EquipMaterial equipMaterial
-        {
-            get { return _equipMaterial; }
-            set { _equipMaterial = value; DoNotify(); }
-        }
+        
 
         private int _EquipMinLevel;
         /// <summary>
@@ -207,7 +199,16 @@ namespace OwnersSimulation.Model.Equip
             EquipDiscipleName = string.Empty;
         }
 
-        
+        private EquipMaterial _equipMaterial = EquipMaterial.Inferior;
+        /// <summary>
+        /// 装备品质
+        /// </summary>
+        public EquipMaterial equipMaterial
+        {
+            get { return _equipMaterial; }
+            set { _equipMaterial = value; DoNotify(); }
+        }
+
     }
 
     /// <summary>

@@ -61,7 +61,7 @@
                                    FontSize="15" />
                         <!--<sliderstyle:OsSlider Width="135" NumFontSize="9" LeftData="{Binding DtlEntity.Exp}" RightData="{Binding DtlEntity.CurrentLevelMaxExp}"/>-->
                         <ProgressBar Width="135"
-                                     Value="50"
+                                     Value="{Binding DtlEntity.Exp}"
                                      hc:VisualElement.Text="{Binding CurExpStr,Mode=OneWay}"
                                      Maximum="{Binding DtlEntity.CurrentLevelMaxExp}"
                                      Minimum="0"
@@ -78,7 +78,7 @@
                                          Margin="0,2"
                                          TitleForeground="{StaticResource BaseForeground}">
                             <TextBox Width="50"
-                                     Text="{Binding DtlEntity.Power}"
+                                     Text="{Binding DtlEntity.PowerView}"
                                      IsReadOnly="True" />
                         </vc:TitleContent>
                         <vc:TitleContent Title="体力"
@@ -86,7 +86,7 @@
                                          TitleWidth="30"
                                          TitleForeground="{StaticResource BaseForeground}">
                             <TextBox Width="50"
-                                     Text="{Binding DtlEntity.Physical}"
+                                     Text="{Binding DtlEntity.PhysicalView}"
                                      IsReadOnly="True" />
                         </vc:TitleContent>
                         <vc:TitleContent Title="智力"
@@ -94,7 +94,7 @@
                                          TitleWidth="30"
                                          TitleForeground="{StaticResource BaseForeground}">
                             <TextBox Width="50"
-                                     Text="{Binding DtlEntity.Wisdom}"
+                                     Text="{Binding DtlEntity.WisdomView}"
                                      IsReadOnly="True" />
                         </vc:TitleContent>
                         <vc:TitleContent Title="敏捷"
@@ -102,7 +102,7 @@
                                          TitleWidth="30"
                                          TitleForeground="{StaticResource BaseForeground}">
                             <TextBox Width="50"
-                                     Text="{Binding DtlEntity.Agile}"
+                                     Text="{Binding DtlEntity.AgileView}"
                                      IsReadOnly="True" />
                         </vc:TitleContent>
                     </UniformGrid>
@@ -263,7 +263,7 @@
                             </UniformGrid>
                         </TabItem>
                         <TabItem Header="技能">
-                            
+                            <TextBlock Text="开发中……" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" Foreground="{StaticResource BaseForeground}"/>
                         </TabItem>
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="SelectionChanged">
