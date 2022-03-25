@@ -4,11 +4,28 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:OwnersSimulation.View.CustomControls"
+             xmlns:vc="Vampirewal.CustomControl"
              MouseRightButtonDown="Border_MouseRightButtonDown"
              mc:Ignorable="d"
              x:Name="abc"
              d:DesignHeight="35"
              d:DesignWidth="35">
+    <UserControl.Resources>
+        <Style TargetType="ToolTip"
+               x:Key="EquipToolTip">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ToolTip">
+                        <Grid Width="{TemplateBinding Width}"
+                              Height="{TemplateBinding Height}"
+                              Background="Transparent">
+                            <ContentPresenter />
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
     <Border CornerRadius="5"
             BorderThickness="3"
             x:Name="aaa"
@@ -21,4 +38,28 @@
                       Foreground="Black" />
         
     </Border>
+    <UserControl.ToolTip>
+        <ToolTip Style="{StaticResource EquipToolTip}" 
+                 Width="150">
+            <Border CornerRadius="5"
+                    Padding="5"
+                    BorderBrush="{Binding equipMaterial,Converter={StaticResource EquipMaterial2ColorConverter}}"
+                    Background="{StaticResource BaseForeground}"
+                    BorderThickness="3">
+                <StackPanel>
+                    <TextBlock Text="{Binding EquipName}"
+                               FontSize="18"
+                               HorizontalAlignment="Center" />
+                    <Border Background="#ddd"
+                            Height="1"
+                            Margin="0,3" />
+                    <vc:TitleContent Title="品质"
+                                     TitleWidth="30">
+                        <TextBlock Text="{Binding equipMaterial,Converter={StaticResource Enum2StringConverter}}"
+                                   Foreground="{Binding equipMaterial,Converter={StaticResource EquipMaterial2ColorConverter}}" />
+                    </vc:TitleContent>
+                </StackPanel>
+            </Border>
+        </ToolTip>
+    </UserControl.ToolTip>
 </UserControl>

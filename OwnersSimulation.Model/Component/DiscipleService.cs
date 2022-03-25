@@ -16,6 +16,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using OwnersSimulation.Model.Equip;
 using OwnersSimulation.Model.Interface;
@@ -100,6 +101,41 @@ namespace OwnersSimulation.Model.Component
         public void SetDisciples(List<Disciple> disciples)
         {
             Disciples = new ObservableCollection<Disciple>(disciples);
+        }
+        #endregion
+
+        #region TOOLS
+        public string GetSingleName()
+        {
+            var xing = OSDCExtension.GetSurname();
+
+            //获取GB2312编码页（表）
+            Encoding gb = Encoding.GetEncoding("gb2312");
+            //调用函数产生4个随机中文汉字编码
+            object[] bytes = OSDCExtension.CreateRegionCode(2, true);
+            //根据汉字编码的字节数组解码出中文汉字
+            string name = string.Empty;
+
+            for (int i = 0; i < bytes.Length; i++)
+            {
+                name += gb.GetString((byte[])Convert.ChangeType(bytes[i], typeof(byte[])));
+            }
+
+            return $"{xing}{name}";
+        }
+
+        public List<string> GetChineseNameByCount(int count)
+        {
+            List<string> cur = new List<string>();
+
+            for (int i = 0; i < count; i++)
+            {
+                string name = GetSingleName();
+                cur.Add(name);
+                Thread.Sleep(100);
+            }
+
+            return cur;
         }
         #endregion
     }

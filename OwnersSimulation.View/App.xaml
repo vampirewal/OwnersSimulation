@@ -35,6 +35,9 @@
                     <SolidColorBrush x:Key="ToolTipBackground"
                                      Color="#3F4447" />
                 </ResourceDictionary>
+                <ResourceDictionary>
+                    
+                </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </mvvm:VampirewalApplication.Resources>

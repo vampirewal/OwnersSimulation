@@ -189,7 +189,7 @@
                                     <cc:EquipBlock Height="35"
                                                    Width="35"
                                                    EquipMetarialColor="{Binding DtlEntity.HandEquipment.equipMaterial,Converter={StaticResource EquipMaterial2ColorConverter}}"
-                                                   MouseRightButtonDownCommand="{Binding TakeOffTheEquipCommand}"
+                                                   MouseRightButtonDownCommand="{Binding TakeOffTheEquipCommand}" 
                                                    Equip="{Binding DtlEntity.HandEquipment}"
                                                    Foreground="{StaticResource BaseBackground}"
                                                    Margin="5" />

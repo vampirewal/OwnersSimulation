@@ -558,6 +558,7 @@ namespace OwnersSimulation.Model.Self
         /// <summary>
         /// 战斗力
         /// </summary>
+        [SugarColumn(IsIgnore = true)]
         public int FightingValue
         {
             get { return _FightingValue; }

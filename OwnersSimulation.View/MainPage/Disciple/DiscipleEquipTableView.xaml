@@ -4,6 +4,7 @@
                          xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                          xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                          xmlns:VUc="Vampirewal.UcView"
+                         xmlns:vc="Vampirewal.CustomControl"
                          xmlns:cc="clr-namespace:OwnersSimulation.View.CustomControls"
                          DataContext="{Binding Source={StaticResource Locator},Path=DiscipleEquipTableViewModel}"
                          xmlns:local="clr-namespace:OwnersSimulation.View"
@@ -33,6 +34,22 @@
             <ItemsControl ItemsSource="{Binding OSDC.Equipments}"
                           Margin="5"
                           Style="{StaticResource ItemsControlStyle}">
+                <ItemsControl.Resources>
+                    <!--<Style TargetType="ToolTip"
+                           x:Key="EquipToolTip">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="ToolTip">
+                                    <Grid Width="{TemplateBinding Width}"
+                                          Height="{TemplateBinding Height}" Background="Transparent"
+                                          >
+                                        <ContentPresenter />
+                                    </Grid>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>-->
+                </ItemsControl.Resources>
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <WrapPanel Orientation="Horizontal" />
@@ -54,19 +71,39 @@
                                       IsChecked="{Binding Checked}"
                                       x:Name="check"
                                       Visibility="Collapsed" />
-                            <Grid.ToolTip>
-                                <ToolTip Background="{StaticResource BaseForeground}"
-                                         BorderThickness="10"
+                            <!--<Grid.ToolTip>
+                                --><!--<ToolTip Background="Transparent"
+                                         
                                          ToolTipService.HasDropShadow="True">
                                     <Border Width="150"
                                             Height="200"
+                                            BorderBrush="{Binding equipMaterial,Converter={StaticResource EquipMaterial2ColorConverter}}" Background="{StaticResource BaseForeground}"
                                             BorderThickness="1">
                                         <StackPanel>
                                             <TextBlock Text="{Binding EquipName}" />
                                         </StackPanel>
                                     </Border>
-                                </ToolTip>
-                            </Grid.ToolTip>
+                                </ToolTip>-->
+                                <!--<ToolTip Style="{StaticResource EquipToolTip}"
+                                         Width="150">
+                                    <Border CornerRadius="5" Padding="5"
+                                            BorderBrush="{Binding equipMaterial,Converter={StaticResource EquipMaterial2ColorConverter}}"
+                                            Background="{StaticResource BaseForeground}"
+                                            BorderThickness="3">
+                                        <StackPanel>
+                                            <TextBlock Text="{Binding EquipName}" FontSize="18" HorizontalAlignment="Center"/>
+                                            <Border Background="#ddd"
+                                                    Height="1"
+                                                    Margin="0,3" />
+                                            <vc:TitleContent Title="品质"
+                                                             TitleWidth="30">
+                                                <TextBlock Text="{Binding equipMaterial,Converter={StaticResource Enum2StringConverter}}"
+                                                           Foreground="{Binding equipMaterial,Converter={StaticResource EquipMaterial2ColorConverter}}"/>
+                                            </vc:TitleContent>
+                                        </StackPanel>
+                                    </Border>
+                                </ToolTip>--><!--
+                            </Grid.ToolTip>-->
                         </Grid>
                         <DataTemplate.Triggers>
                             <DataTrigger Binding="{Binding Checked}"
