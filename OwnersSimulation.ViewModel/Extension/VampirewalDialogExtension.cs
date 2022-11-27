@@ -37,7 +37,7 @@ namespace OwnersSimulation.ViewModel.Extension
         {
             var result = dialog.OpenDialogWindow(new Vampirewal.Core.WpfTheme.WindowStyle.DialogWindowSetting()
             {
-                UiView = Messenger.Default.Send<FrameworkElement>("GetView", ViewKeys.SelectDiscipleView),
+                UiView = WindowsManager.GetInstance().GetView( ViewKeys.SelectDiscipleView),
                 WindowHeight = 500,
                 WindowWidth = 500,
                 IsOpenWindowSize = false,
@@ -60,7 +60,7 @@ namespace OwnersSimulation.ViewModel.Extension
         {
             return Convert.ToBoolean( dialog.OpenDialogWindow(new DialogWindowSetting()
             {
-                UiView = Messenger.Default.Send<FrameworkElement>("GetView", ViewKeys.AskQuestionsView),
+                UiView = WindowsManager.GetInstance().GetView( ViewKeys.AskQuestionsView),
                 WindowHeight = 200,
                 WindowWidth = 350,
                 IsOpenWindowSize = false,
@@ -81,7 +81,7 @@ namespace OwnersSimulation.ViewModel.Extension
         {
             return Convert.ToBoolean(dialog.OpenDialogWindow(new DialogWindowSetting()
             {
-                UiView = Messenger.Default.Send<FrameworkElement>("GetView", ViewKeys.DiscipleInfoView),
+                UiView = WindowsManager.GetInstance().GetView( ViewKeys.DiscipleInfoView, disciple),
                 WindowHeight = 505,
                 WindowWidth = 800,
                 IsOpenWindowSize = false,

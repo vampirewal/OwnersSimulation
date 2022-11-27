@@ -22,7 +22,9 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Vampirewal.Core;
+using Vampirewal.Core.DBContexts;
 using Vampirewal.Core.Interface;
+using Vampirewal.Core.OperationExcelService;
 using Vampirewal.Core.SimpleMVVM;
 
 namespace OwnersSimulation.Model.Component
@@ -79,9 +81,26 @@ namespace OwnersSimulation.Model.Component
         private IDataContext DC { get; set; }
         private IOperationExcelService OperationExcelService { get; set; }
         private IDialogMessage Dialog { get; set; }
+
+        private SqlSugarRepository<United> repUnited { get; set; }
+        private SqlSugarRepository<Owner> repOwner { get; set; }
+
+        private SqlSugarRepository<Disciple> repDisciple { get; set; }
+
+        private SqlSugarRepository<Map> repMap { get; set; }
+        private SqlSugarRepository<OsTask> repOsTask { get; set; }
         #endregion
 
-        public OwnerSimulationDataContext(IDataContext dc, IOperationExcelService operationExcelService, IDialogMessage dialog)
+        public OwnerSimulationDataContext(IDataContext dc, IOperationExcelService operationExcelService, IDialogMessage dialog,
+            //基础数据服务
+            SqlSugarRepository<United> _repUnited,SqlSugarRepository<Owner> _repOwner,SqlSugarRepository<OsTask> _repOsTask,
+            //装备数据服务
+            SqlSugarRepository<EquipBase> _repEquipBase, SqlSugarRepository<Equipment> _repEquipment,
+            //弟子
+            SqlSugarRepository<Disciple> _repDisciple,
+            //地图
+            SqlSugarRepository<Map> _repMap
+            )
         {
             DC = dc;
             OperationExcelService = operationExcelService;
@@ -96,6 +115,25 @@ namespace OwnersSimulation.Model.Component
             DoingTasks = new ObservableCollection<OsTask>();
 
             Equipments = new ObservableCollection<Equipment>();
+
+            #region 基础
+            repUnited=_repUnited;
+            repOwner = _repOwner;
+            repOsTask=_repOsTask;
+            #endregion
+
+            #region 装备
+            repEquipBase = _repEquipBase;
+            repEquipment = _repEquipment;
+            #endregion
+
+            #region 弟子
+            repDisciple=_repDisciple;
+            #endregion
+
+            #region 地图
+            repMap = _repMap;
+            #endregion
         }
 
         #region 功能
@@ -118,10 +156,10 @@ namespace OwnersSimulation.Model.Component
         public void SaveGame()
         {
             //1、保存门派信息
-            DC.UpdateEntity(united);
+            repUnited.Update(united);
 
             //2、保存掌门信息
-            DC.UpdateEntity(owner);
+            repOwner.Update(owner);
 
             //3、保存弟子信息
             {
@@ -133,7 +171,7 @@ namespace OwnersSimulation.Model.Component
 
                 foreach (var item in DiscipleList)
                 {
-                    var IsDbHave = DC.Client.Queryable<Disciple>().Any(w => w.DtlId == item.DtlId);
+                    var IsDbHave = repDisciple.Any(w => w.DtlId == item.DtlId);
 
                     if (IsDbHave)
                     {
@@ -145,13 +183,23 @@ namespace OwnersSimulation.Model.Component
                     }
                 }
 
-                DC.UpdateEntityList(UpdateDiscipleList);
-                DC.AddEntityList(InsertDiscipleList);
+                if (UpdateDiscipleList!=null&& UpdateDiscipleList.Count>0)
+                {
+                    repDisciple.Update(UpdateDiscipleList);
+                }
+
+                if (InsertDiscipleList.Count>0)
+                {
+                    repDisciple.Insert(InsertDiscipleList);
+                }
+
+                
+                
             }
 
             //4、保存装备信息
             {
-                DC.UpdateEntityList(Equipments.ToList());
+                repEquipment.Update(Equipments.ToList());
             }
         }
 
@@ -178,7 +226,7 @@ namespace OwnersSimulation.Model.Component
 
         private void InitMap()
         {
-            var CurMap = DC.Client.Queryable<Map>().ToList();
+            var CurMap = repMap.ToList();
 
             if (CurMap.Count > 0)
             {
@@ -188,7 +236,7 @@ namespace OwnersSimulation.Model.Component
             {
                 Maps = OperationExcelService.ExcelToList<Map>(true, $"{AppDomain.CurrentDomain.BaseDirectory}Map.xlsx");
 
-                DC.AddEntityList(Maps);
+                repMap.Insert(Maps);
             }
         }
         #endregion

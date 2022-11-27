@@ -11,6 +11,7 @@
 //----------------------------------------------------------------*/
 #endregion
 
+using OwnersSimulation.Model;
 using OwnersSimulation.Model.Component;
 using OwnersSimulation.Model.Self;
 using System;
@@ -20,13 +21,15 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using Vampirewal.Core.Interface;
+using Vampirewal.Core.IoC;
 using Vampirewal.Core.SimpleMVVM;
 
-namespace OwnersSimulation.ViewModel.Self
+namespace OwnersSimulation.ViewModel
 {
     /// <summary>
     /// 新增掌门
     /// </summary>
+    [VampirewalIoCRegister(ViewModelKeys.AddOwnerViewModel, RegisterType.ViewModel)]
     public class AddOwnerViewModel:BillVM<Owner>
     {
         private IOwnerSimulationDataContext OSDC { get; set; }

@@ -72,7 +72,7 @@ namespace OwnersSimulation.Model.Component
 
                 if (Maps.Count>0)
                 {
-                    DC.AddEntityList(Maps);
+                    //DC.AddEntityList(Maps);
 
                     OSDC.Maps.Clear();
                     OSDC.SetMaps(Maps);

@@ -1,29 +1,39 @@
-﻿<VUc:AddOrEditUcViewBase x:Class="OwnersSimulation.View.AskQuestionsView"
-                         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-                         xmlns:VUc="Vampirewal.UcView"
-                         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-                         DataContext="{Binding Source={StaticResource Locator},Path=AskQuestionsViewModel}"
-                         xmlns:local="clr-namespace:OwnersSimulation.View"
-                         mc:Ignorable="d"
-                         d:DesignHeight="250"
-                         d:DesignWidth="350"
-                         Title="AskQuestionsView">
+﻿<VUc:AddOrEditUcViewBase
+    x:Class="OwnersSimulation.View.AskQuestionsView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:VUc="Vampirewal.UcView"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:OwnersSimulation.View"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="AskQuestionsView"
+    d:DesignHeight="250"
+    d:DesignWidth="350"
+    DataContext="{Binding Source={StaticResource Locator}, Path=AskQuestionsViewModel}"
+    mc:Ignorable="d">
     <VUc:AddOrEditUcViewBase.BottomBtnItems>
-        <Button Style="{StaticResource ButtonSuccess}"
-                Command="{Binding OkCommand}" Margin="5,0" Width="50"
-                Content="是" />
-        <Button Style="{StaticResource ButtonDanger}"
-                Margin="5,0"
-                Command="{Binding CancelCommand}"
-                Width="50"
-                Content="否" />
+        <Button
+            Width="50"
+            Margin="5,0"
+            Command="{Binding OkCommand}"
+            Content="是"
+            Style="{StaticResource ButtonSuccess}" />
+        <Button
+            Width="50"
+            Margin="5,0"
+            Command="{Binding CancelCommand}"
+            Content="否"
+            Style="{StaticResource ButtonDanger}" />
     </VUc:AddOrEditUcViewBase.BottomBtnItems>
     <ScrollViewer>
-        <TextBox VerticalContentAlignment="Top"
-                 HorizontalContentAlignment="Left" Foreground="{StaticResource BaseForeground}" Background="Transparent" BorderThickness="0"
-                 TextWrapping="Wrap"
-                 Text="{Binding QuestionContext}" IsReadOnly="True"/>
+        <TextBox
+            HorizontalContentAlignment="Left"
+            VerticalContentAlignment="Top"
+            Background="Transparent"
+            BorderThickness="0"
+            Foreground="{StaticResource BaseForeground}"
+            IsReadOnly="True"
+            Text="{Binding QuestionContext}"
+            TextWrapping="Wrap" />
     </ScrollViewer>
 </VUc:AddOrEditUcViewBase>

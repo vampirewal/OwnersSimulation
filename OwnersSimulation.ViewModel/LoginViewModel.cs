@@ -24,8 +24,11 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using Vampirewal.Core;
+using Vampirewal.Core.DBContexts;
 using Vampirewal.Core.Interface;
+using Vampirewal.Core.IoC;
 using Vampirewal.Core.SimpleMVVM;
+using Vampirewal.Core.WpfTheme.WindowStyle;
 
 namespace OwnersSimulation.ViewModel
 {
@@ -37,22 +40,25 @@ namespace OwnersSimulation.ViewModel
 
     }
 
+    [VampirewalIoCRegister(ViewModelKeys.LoginViewModel, RegisterType.ViewModel)]
     public class LoginViewModel:BillListBaseVM<United, United_Search>
     {
         private IOwnerSimulationDataContext _osdc;
         public IOwnerSimulationDataContext OSDC { get=> _osdc; set { _osdc = value;DoNotify(); } }
         private IMapService MapService { get; set; }
+        private SqlSugarRepository<United> repUnited { get; set; }
 
-        public LoginViewModel(IDataContext dc,IAppConfig config,IDialogMessage dialog, IOwnerSimulationDataContext osdc
+        public LoginViewModel(IDataContext dc,IAppConfig config,IDialogMessage dialog, IOwnerSimulationDataContext osdc,SqlSugarRepository<United> _repUnited
             //,IMapService mapService
             ) :base(dc,config, dialog)
         {
             OSDC = osdc;
+            repUnited = _repUnited;
             //MapService=mapService;
             //构造函数
             Title = config.AppChineseName;
 
-            GetList();
+            GetList(true);
 
             //Map map = new Map()
             //{
@@ -69,10 +75,17 @@ namespace OwnersSimulation.ViewModel
 
         protected override void InitVM()
         {
-            SystemDataContext.GetInstance().loginUserInfo = new Vampirewal.Core.Models.LoginUserInfo()
+            //SystemDataContext.GetInstance().loginUserInfo = new Vampirewal.Core.Models.LoginUserInfo()
+            //{
+            //    ITCode = "admin",
+            //    Name = "admin",
+            //};
+
+            VampireCoreContext.GetInstance().User = new Sys_User()
             {
-                ITCode = "admin",
-                Name = "admin",
+                BillId=Guid.NewGuid().ToString(),
+                LoginId="admin",
+                Name="admin"
             };
         }
                 
@@ -83,10 +96,10 @@ namespace OwnersSimulation.ViewModel
         }
 
 
-        //public override ISugarQueryable<United_Search> GetSearchQuery()
-        //{
-        //    return DC.Client.Queryable<United>().Select<United_Search>();//如果没有特殊的查询需求，基本上框架写好的，和这个是一样的
-        //}
+        public override ISugarQueryable<United_Search> GetSearchQuery()
+        {
+            return repUnited.AsQueryable().Select<United_Search>();//如果没有特殊的查询需求，基本上框架写好的，和这个是一样的
+        }
 
         #region 属性
 
@@ -124,7 +137,7 @@ namespace OwnersSimulation.ViewModel
         {
             var result= Dialog.OpenDialogWindow(new Vampirewal.Core.WpfTheme.WindowStyle.DialogWindowSetting()
             {
-                UiView=Messenger.Default.Send<FrameworkElement>("GetView",ViewKeys.AddUnitedView),
+                UiView=WindowsManager.GetInstance().GetView(ViewKeys.AddUnitedView),
                 WindowHeight=400,
                 WindowWidth=500,
                 IsShowMaxButton=false,
@@ -138,7 +151,7 @@ namespace OwnersSimulation.ViewModel
             {
                 var IsCreateOwner=Convert.ToBoolean( Dialog.OpenDialogWindow(new Vampirewal.Core.WpfTheme.WindowStyle.DialogWindowSetting()
                 {
-                    UiView = Messenger.Default.Send<FrameworkElement>("GetView", ViewKeys.AddOwnerView),
+                    UiView = WindowsManager.GetInstance().GetView(ViewKeys.AddOwnerView),
                     WindowHeight = 400,
                     WindowWidth = 500,
                     IsShowMaxButton = false,
@@ -152,13 +165,13 @@ namespace OwnersSimulation.ViewModel
                 {
                     EntityList.Clear();
 
-                    GetList();
+                    GetList(true);
                 }
                 else
                 {
                     United united= result as United;
 
-                    DC.DeleteEntity(united);
+                    //DC.DeleteEntity(united);
                 }
             }
 
@@ -171,7 +184,7 @@ namespace OwnersSimulation.ViewModel
         {
             EntityList.Clear();
 
-            GetList();
+            GetList(true);
         });
 
 
@@ -204,11 +217,34 @@ namespace OwnersSimulation.ViewModel
             ((Window)View).Hide();
             ((Window)View).ShowInTaskbar = false;
 
-            
+            //var result =(bool) Dialog.OpenDialogWindow(new Vampirewal.Core.WpfTheme.WindowStyle.DialogWindowSetting()
+            //{
+            //    UiView = VampirewalIoC.GetInstance().GetInstance<FrameworkElement>(ViewKeys.MainView),
+            //    WindowHeight = 768,
+            //    WindowWidth = 1366,
+            //    IsShowMaxButton = true,
+            //    IsShowMinButton = true,
+            //    IsOpenWindowSize = true,
+            //    TitleFontSize = 15,
+            //    PassData= u
+            //});
 
-            var GetResult = Messenger.Default.Send<bool>("OpenDialogWindowGetResultByPassData", ViewKeys.MainView, u);
+            //var mainview = VampirewalIoC.GetInstance().GetInstance<MainWindowBase>(ViewKeys.MainView);
 
-            if (GetResult)
+            //mainview.DataSource.PassData(u);
+            //if (mainview.ShowDialog()==true)
+            //{
+            //    ((Window)View).Show();
+            //    ((Window)View).ShowInTaskbar = true;
+            //}
+            //else
+            //{
+            //    ((Window)View).Close();
+            //}
+
+            bool MainResult = (bool)WindowsManager.GetInstance().OpenDialogWindow(ViewKeys.MainView, u);
+
+            if (MainResult)
             {
                 ((Window)View).Show();
                 ((Window)View).ShowInTaskbar = true;
@@ -217,6 +253,7 @@ namespace OwnersSimulation.ViewModel
             {
                 ((Window)View).Close();
             }
+
 
         });
         #endregion

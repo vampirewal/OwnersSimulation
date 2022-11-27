@@ -17,10 +17,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using OwnersSimulation.Model;
+using Vampirewal.Core.IoC;
 using Vampirewal.Core.SimpleMVVM;
 
 namespace OwnersSimulation.ViewModel
 {
+    [VampirewalIoCRegister(ViewModelKeys.AskQuestionsViewModel, RegisterType.ViewModel)]
     public class AskQuestionsViewModel:ViewModelBase
     {
         public AskQuestionsViewModel()
@@ -52,13 +55,18 @@ namespace OwnersSimulation.ViewModel
         public RelayCommand OkCommand => new RelayCommand(() => 
         {
             Result=true;
-            ((Window)View).Close();
+            CloseView();
         });
 
         public RelayCommand CancelCommand => new RelayCommand(() =>
         {
             Result = false;
-            ((Window)View).Close();
+            CloseView();
         });
+
+        protected override void CloseView()
+        {
+            WindowsManager.GetInstance().CloseDialogWindow(ViewId);
+        }
     }
 }

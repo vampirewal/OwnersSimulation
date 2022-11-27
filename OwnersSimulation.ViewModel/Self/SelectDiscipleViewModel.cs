@@ -11,6 +11,7 @@
 //----------------------------------------------------------------*/
 #endregion
 
+using OwnersSimulation.Model;
 using OwnersSimulation.Model.Component;
 using OwnersSimulation.Model.Self;
 using System;
@@ -19,11 +20,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using Vampirewal.Core.IoC;
 using Vampirewal.Core.SimpleMVVM;
 
 namespace OwnersSimulation.ViewModel
 {
-    
+    [VampirewalIoCRegister(ViewModelKeys.SelectDiscipleViewModel, RegisterType.ViewModel)]
     public class SelectDiscipleViewModel : ViewModelBase
     {
         public IOwnerSimulationDataContext OSDC { get; set; }

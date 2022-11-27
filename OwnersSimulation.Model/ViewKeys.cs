@@ -21,27 +21,27 @@ namespace OwnersSimulation.Model
 {
     public class ViewKeys
     {
-        private static string BaseViewKey = "OwnersSimulation.View.";
+        private const string BaseViewKey = "OwnersSimulation.View.";
 
         /// <summary>
         /// 登陆窗体
         /// </summary>
-        public static string LoginView { get => $"{BaseViewKey}LoginView"; }
+        public const string LoginView = BaseViewKey + "LoginView";
 
         /// <summary>
         /// 选择弟子窗体
         /// </summary>
-        public static string SelectDiscipleView { get => $"{BaseViewKey}SelectDiscipleView"; }
+        public const string SelectDiscipleView = BaseViewKey + "SelectDiscipleView";
 
         /// <summary>
         /// 提问返回bool窗体
         /// </summary>
-        public static string AskQuestionsView { get => $"{BaseViewKey}AskQuestionsView"; }
+        public const string AskQuestionsView = BaseViewKey + "AskQuestionsView";
 
         /// <summary>
         /// 主窗体
         /// </summary>
-        public static string MainView { get => $"{BaseViewKey}MainWindow"; }
+        public const string MainView = BaseViewKey + "MainWindow";
 
 
 
@@ -49,31 +49,58 @@ namespace OwnersSimulation.Model
         /// <summary>
         /// 新增门派View
         /// </summary>
-        public static string AddUnitedView { get => $"{BaseViewKey}AddUnitedView"; }
+        public const string AddUnitedView = BaseViewKey + "AddUnitedView";
         /// <summary>
         /// 新增掌门View
         /// </summary>
-        public static string AddOwnerView { get => $"{BaseViewKey}AddOwnerView"; }
+        public const string AddOwnerView = BaseViewKey + "AddOwnerView";
         #endregion
 
         /// <summary>
         /// 野外View
         /// </summary>
-        public static string WildView { get => $"{BaseViewKey}WildView"; }
-
+        public const string WildView = BaseViewKey + "WildView";
         /// <summary>
         /// 宗门View
         /// </summary>
-        public static string UnitedView { get => $"{BaseViewKey}UnitedView"; }
+        public const string UnitedView = BaseViewKey + "UnitedView";
 
         /// <summary>
         /// 查看弟子详细信息View
         /// </summary>
-        public static string DiscipleInfoView { get => $"{BaseViewKey}DiscipleInfoView"; }
+        public const string DiscipleInfoView = BaseViewKey + "DiscipleInfoView";
+
+
 
         /// <summary>
         /// 装备Tab页面
         /// </summary>
-        public static string DiscipleEquipTabView { get => $"{BaseViewKey}DiscipleEquipTableView"; }
+        public const string DiscipleEquipTableView = BaseViewKey + "DiscipleEquipTableView";
+    }
+
+    public class ViewModelKeys
+    {
+        private const string BaseViewModelKey = "OwnersSimulation.ViewModel.";
+        /// <summary>
+        /// 登陆VM
+        /// </summary>
+        public const string LoginViewModel = BaseViewModelKey + "LoginViewModel";
+        public const string MainViewModel = BaseViewModelKey + "MainViewModel";
+
+        #region 野外
+        public const string WildViewModel = BaseViewModelKey + "WildViewModel";
+        #endregion
+
+        public const string UnitedViewModel = BaseViewModelKey + "UnitedViewModel";
+
+        public const string AskQuestionsViewModel = BaseViewModelKey + "AskQuestionsViewModel";
+
+        public const string AddOwnerViewModel = BaseViewModelKey + "AddOwnerViewModel";
+        public const string AddUnitedViewModel = BaseViewModelKey + "AddUnitedViewModel";
+        public const string SelectDiscipleViewModel = BaseViewModelKey + "SelectDiscipleViewModel";
+
+public const string DiscipleInfoViewModel = BaseViewModelKey + "DiscipleInfoViewModel";
+public const string DiscipleEquipTableViewModel = BaseViewModelKey + "DiscipleEquipTableViewModel";
+
     }
 }

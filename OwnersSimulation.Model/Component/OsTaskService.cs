@@ -35,7 +35,7 @@ namespace OwnersSimulation.Model.Component
         {
             AllTasks.Clear();
 
-            DC.Client.Queryable<OsTask>().Where(w => w.BillId == MapId).ToList().ForEach(f =>
+            repOsTask.ToList(w => w.BillId == MapId).ForEach(f =>
             {
                 if (!DoingTasks.Any(a => a.DtlId == f.DtlId))
                 {
@@ -65,7 +65,7 @@ namespace OwnersSimulation.Model.Component
                 }
                 else
                 {
-                    Dialog.ShowPopupWindow("任务等级不能高于弟子等级！", WindowsManager.Windows["MainView"], Vampirewal.Core.WpfTheme.WindowStyle.MessageType.Error);
+                    Dialog.ShowPopupWindow("任务等级不能高于弟子等级！", WindowsManager.GetInstance().Windows["MainView"], Vampirewal.Core.WpfTheme.WindowStyle.MessageType.Error);
                 }
             }
         }

@@ -1,12 +1,18 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:map="clr-namespace:OwnersSimulation.View.CustomControls.Map"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    
-    <Style TargetType="{x:Type map:MapBlockControl}" x:Key="MapBlockControl">
+    <Style TargetType="{x:Type map:MapControl}"
+           x:Key="MapControl"
+           BasedOn="{StaticResource ButtonBaseStyle}">
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type map:MapBlockControl}">
-                    <Border Width="19" Height="19" Margin="1" Background="AliceBlue" BorderThickness="0.2" BorderBrush="Aqua">
-                        
+                <ControlTemplate TargetType="{x:Type map:MapControl}">
+                    <Border Width="{TemplateBinding Width}" Height="{TemplateBinding Height}" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}"  >
+                        <Border.ToolTip>
+                            <Border Width="150">
+                                <TextBlock Text="{Binding Block.MapName,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=  map:MapControl}}" Foreground="{StaticResource BaseBackground}"/>
+                            </Border>
+                                
+                        </Border.ToolTip>
                     </Border>
                 </ControlTemplate>
             </Setter.Value>

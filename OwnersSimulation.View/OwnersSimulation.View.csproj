@@ -14,8 +14,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Vampirewal.Core" Version="2.0.0.10" />
-		<PackageReference Include="HandyControl" Version="3.3.0" />
+		<PackageReference Include="Vampirewal.Core" Version="2.1.2.3" />
+		<PackageReference Include="HandyControl" Version="3.4.0" />
 	</ItemGroup>
 
 	<ItemGroup>

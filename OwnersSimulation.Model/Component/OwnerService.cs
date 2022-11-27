@@ -33,7 +33,7 @@ namespace OwnersSimulation.Model.Component
         /// <param name="united"></param>
         private void InitOwner(United united)
         {
-            var CurOwner = DC.Client.Queryable<Owner>().First(f => f.UnitedId == united.BillId);
+            var CurOwner = repOwner.Single(f => f.UnitedId == united.BillId);
             //SetOwner(owner);
             this.owner = CurOwner;
         }

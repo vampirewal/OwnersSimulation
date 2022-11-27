@@ -12,6 +12,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using OwnersSimulation.Model;
+using Vampirewal.Core.IoC;
+using Vampirewal.Core.SimpleMVVM;
 using Vampirewal.Core.WpfTheme.UcView;
 
 namespace OwnersSimulation.View
@@ -19,11 +22,16 @@ namespace OwnersSimulation.View
     /// <summary>
     /// AskQuestionsView.xaml 的交互逻辑
     /// </summary>
+    [RegisterWindow(ViewKeys.AskQuestionsView, RegisterWindowType.Page)]
+    [VampirewalIoCRegister(ViewKeys.AskQuestionsView, RegisterType.View)]
     public partial class AskQuestionsView : AddOrEditUcViewBase
     {
         public AskQuestionsView()
         {
             InitializeComponent();
         }
+
+        //[VampirewalIoCGetInstance(ViewModelKeys.AskQuestionsViewModel)]
+        //public override ViewModelBase DataSource { get => base.DataSource; set => base.DataSource = value; }
     }
 }

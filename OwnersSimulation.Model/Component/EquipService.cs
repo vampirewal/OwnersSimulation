@@ -20,12 +20,23 @@ using System.Threading.Tasks;
 using OwnersSimulation.Model.Equip;
 using OwnersSimulation.Model.Interface;
 using OwnersSimulation.Model.Self;
+using Vampirewal.Core.DBContexts;
 using Vampirewal.Core.SimpleMVVM;
 
 namespace OwnersSimulation.Model.Component
 {
     public partial class OwnerSimulationDataContext : NotifyBase, IEqupmentService
     {
+
+
+        #region 数据服务
+
+        private SqlSugarRepository<EquipBase> repEquipBase { get; set; }
+
+        private SqlSugarRepository<Equipment> repEquipment { get; set; }
+
+        #endregion
+
         #region 装备
         private int _EquipCount;
         public int EquipCount { get => _EquipCount; private set { _EquipCount = value; DoNotify(); } }
@@ -41,7 +52,7 @@ namespace OwnersSimulation.Model.Component
 
             Equipments.Clear();
 
-            DC.Client.Queryable<Equipment>().Where(w => w.BillId == united.BillId && !w.IsEquip).ToList().ForEach(f =>
+            repEquipment.ToList(w => w.BillId == united.BillId && !w.IsEquip).ForEach(f =>
             {
                 Equipments.Add(f);
             });
@@ -54,7 +65,7 @@ namespace OwnersSimulation.Model.Component
         /// </summary>
         private void IsHasEquipBase()
         {
-            if (!DC.Client.Queryable<EquipBase>().Any())
+            if (!repEquipBase.ToList().Any())
             {
                 List<EquipBase> equips = new List<EquipBase>();
                 #region 头
@@ -92,7 +103,7 @@ namespace OwnersSimulation.Model.Component
 
 
 
-                DC.AddEntityList(equips);
+                repEquipBase.Insert(equips);
             }
         }
 
@@ -216,7 +227,7 @@ namespace OwnersSimulation.Model.Component
 
             if (list.Count > 0)
             {
-                DC.AddEntityList(list);
+                repEquipment.Insert(list);
             }
         }
 
@@ -241,7 +252,7 @@ namespace OwnersSimulation.Model.Component
 
             if (deletes.Count > 0)
             {
-                DC.DeleteEntityList(deletes);
+                repEquipment.Delete(deletes.Select(s=>s.DtlId));
 
                 InitEquipments();
             }
@@ -255,7 +266,7 @@ namespace OwnersSimulation.Model.Component
             equip.WearEquip(disciple);
             disciple.WearEquip(equip);
 
-            DC.UpdateEntity(equip);
+            repEquipment.Update(equip);
 
             InitEquipments();
         }
@@ -266,7 +277,7 @@ namespace OwnersSimulation.Model.Component
 
             equip?.TakeOffTheEquip();
 
-            DC.UpdateEntity(equip);
+            repEquipment.Update(equip);
 
             InitEquipments();
         }

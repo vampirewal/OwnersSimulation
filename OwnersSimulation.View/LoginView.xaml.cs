@@ -11,6 +11,9 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using OwnersSimulation.Model;
+using Vampirewal.Core.IoC;
+using Vampirewal.Core.SimpleMVVM;
 using Vampirewal.Core.WpfTheme.WindowStyle;
 
 namespace OwnersSimulation.View
@@ -18,6 +21,8 @@ namespace OwnersSimulation.View
     /// <summary>
     /// LoginView.xaml 的交互逻辑
     /// </summary>
+    [RegisterWindow(ViewKeys.LoginView, RegisterWindowType.Window)]
+    [VampirewalIoCRegister(ViewKeys.LoginView, RegisterType.View)]
     public partial class LoginView : MainWindowBase
     {
         public LoginView()
@@ -25,6 +30,7 @@ namespace OwnersSimulation.View
             InitializeComponent();
         }
 
-
+        [VampirewalIoCGetInstance(ViewModelKeys.LoginViewModel)]
+        public override ViewModelBase DataSource { get => base.DataSource; set => base.DataSource = value; }
     }
 }

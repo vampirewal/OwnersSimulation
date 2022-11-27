@@ -81,11 +81,11 @@ namespace OwnersSimulation.Model.Component
         /// <param name="owner"></param>
         private void InitDisciple(Owner owner)
         {
-            var curDisciples = DC.Client.Queryable<Disciple>().Where(w => w.BillId == owner.BillId && w.discipleType != DiscipleType.KickedOut && w.discipleType != DiscipleType.exit).ToList();
+            var curDisciples = repDisciple.ToList(w => w.BillId == owner.BillId && w.discipleType != DiscipleType.KickedOut && w.discipleType != DiscipleType.exit);
 
             foreach (var item in curDisciples)
             {
-                var equips = DC.Client.Queryable<Equipment>().Where(w => w.EquipDiscipleID == item.DtlId).ToList();
+                var equips = repEquipment.ToList(w => w.EquipDiscipleID == item.DtlId);
 
                 foreach (var equip in equips)
                 {

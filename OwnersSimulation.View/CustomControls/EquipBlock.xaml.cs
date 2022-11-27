@@ -1,7 +1,6 @@
 ﻿using NPOI.POIFS.Properties;
 using OwnersSimulation.Model.Equip;
 using OwnersSimulation.Model.Self;
-using OwnersSimulation.ViewModel.MainPage;
 using System;
 using System.Collections.Generic;
 using System.Linq;

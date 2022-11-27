@@ -23,14 +23,16 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using Vampirewal.Core.Interface;
+using Vampirewal.Core.IoC;
 using Vampirewal.Core.SimpleMVVM;
 using Vampirewal.Core.WpfTheme.CustomControl;
 
-namespace OwnersSimulation.ViewModel.MainPage
+namespace OwnersSimulation.ViewModel
 {
     /// <summary>
     /// 徒弟信息页
     /// </summary>
+    [VampirewalIoCRegister(ViewModelKeys.DiscipleInfoViewModel, RegisterType.ViewModel)]
     public class DiscipleInfoViewModel : DetailVM<Disciple>
     {
         private IOwnerSimulationDataContext _OSDC;
@@ -45,13 +47,14 @@ namespace OwnersSimulation.ViewModel.MainPage
             Dialog = dialog;
             //构造函数
 
-            TableView = Messenger.Default.Send<FrameworkElement>("GetView", ViewKeys.DiscipleEquipTabView);
+            TableView = WindowsManager.GetInstance().GetView(ViewKeys.DiscipleEquipTableView);
 
 
             DiscipleEquipTableVM = equipView;
             
 
-            
+
+
         }
 
         private FrameworkElement _TableView;
@@ -65,7 +68,7 @@ namespace OwnersSimulation.ViewModel.MainPage
         }
 
         private DiscipleEquipTableViewModel _DiscipleEquipTableVM;
-        public DiscipleEquipTableViewModel DiscipleEquipTableVM { get=> _DiscipleEquipTableVM; set { _DiscipleEquipTableVM = value;DoNotify(); } }
+        public DiscipleEquipTableViewModel DiscipleEquipTableVM { get => _DiscipleEquipTableVM; set { _DiscipleEquipTableVM = value; DoNotify(); } }
 
 
 
@@ -80,6 +83,8 @@ namespace OwnersSimulation.ViewModel.MainPage
             if (entity != null)
             {
                 SetEntity(entity);
+
+                
 
                 Title = $"{entity.DName} 的信息";
 
@@ -115,6 +120,7 @@ namespace OwnersSimulation.ViewModel.MainPage
                 DisciplePropertys.Add(radarModel);
 
                 DiscipleEquipTableVM.PassData(DtlEntity);
+                DiscipleEquipTableVM.ViewId = this.ViewId;
             }
             else
             {
@@ -160,7 +166,7 @@ namespace OwnersSimulation.ViewModel.MainPage
             switch (o)
             {
                 case "装备":
-                    TableView = Messenger.Default.Send<FrameworkElement>("GetView", ViewKeys.DiscipleEquipTabView);
+                    TableView = WindowsManager.GetInstance().GetView(ViewKeys.DiscipleEquipTableView);
                     break;
                 case "技能":
                     break;

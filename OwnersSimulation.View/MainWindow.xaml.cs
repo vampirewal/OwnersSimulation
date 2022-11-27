@@ -12,6 +12,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using OwnersSimulation.Model;
+using Vampirewal.Core.IoC;
+using Vampirewal.Core.SimpleMVVM;
 using Vampirewal.Core.WpfTheme.WindowStyle;
 
 namespace OwnersSimulation.View
@@ -19,6 +22,8 @@ namespace OwnersSimulation.View
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
+    [RegisterWindow(ViewKeys.MainView, RegisterWindowType.Window)]
+    [VampirewalIoCRegister(ViewKeys.MainView, RegisterType.View)]
     public partial class MainWindow : MainWindowBase
     {
         public MainWindow()
@@ -26,6 +31,7 @@ namespace OwnersSimulation.View
             InitializeComponent();
         }
 
-
+        [VampirewalIoCGetInstance(ViewModelKeys.MainViewModel)]
+        public override ViewModelBase DataSource { get => base.DataSource; set => base.DataSource = value; }
     }
 }

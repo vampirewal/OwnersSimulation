@@ -12,6 +12,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using OwnersSimulation.Model;
+using Vampirewal.Core.IoC;
+using Vampirewal.Core.SimpleMVVM;
 using Vampirewal.Core.WpfTheme.UcView;
 
 namespace OwnersSimulation.View
@@ -19,6 +22,8 @@ namespace OwnersSimulation.View
     /// <summary>
     /// WildView.xaml 的交互逻辑
     /// </summary>
+    [RegisterWindow(ViewKeys.WildView, RegisterWindowType.Page)]
+    [VampirewalIoCRegister(ViewKeys.WildView, RegisterType.View)]
     public partial class WildView : AddOrEditUcViewBase
     {
         public WildView()

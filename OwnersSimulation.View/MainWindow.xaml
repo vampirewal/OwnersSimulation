@@ -1,57 +1,64 @@
-﻿<VWin:MainWindowBase x:Class="OwnersSimulation.View.MainWindow"
-                     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-                     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-                     xmlns:VWin="Vampirewal.Windows"
-                     xmlns:map="clr-namespace:OwnersSimulation.View.CustomControls.Map"
-                     xmlns:vc="Vampirewal.CustomControl"
-                     xmlns:local="clr-namespace:OwnersSimulation.View"
-                     xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
-                     xmlns:VBeh="Vampirewal.Behaviors"
-                     DataContext="{Binding Source={StaticResource Locator},Path=MainViewModel}"
-                     mc:Ignorable="d"
-                     x:Name="MainView"
-                     Title="{Binding Title}"
-                     Height="768"
-                     TitleFontSize="15"
-                     CloseWindowCommand="{Binding CloseWindowCommand}"
-                     Background="{StaticResource BaseBackground}"
-                     Foreground="{StaticResource BaseForeground}"
-                     LeftMenuMaxWidth="500"
-                     IsOpenWindowSize="True"
-                     MainAreaHeight="50"
-                     Width="1366">
+﻿<VWin:MainWindowBase
+    x:Class="OwnersSimulation.View.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:VBeh="Vampirewal.Behaviors"
+    xmlns:VWin="Vampirewal.Windows"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:local="clr-namespace:OwnersSimulation.View"
+    xmlns:map="clr-namespace:OwnersSimulation.View.CustomControls.Map"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vc="Vampirewal.CustomControl"
+    x:Name="MainView"
+    Title="{Binding Title}"
+    Width="1366"
+    Height="768"
+    Background="{StaticResource BaseBackground}"
+    CloseWindowCommand="{Binding CloseWindowCommand}"
+    DataContext="{Binding Source={StaticResource Locator}, Path=MainViewModel}"
+    Foreground="{StaticResource BaseForeground}"
+    IsOpenWindowSize="True"
+    LeftMenuMaxWidth="500"
+    MainAreaHeight="50"
+    TitleFontSize="15"
+    mc:Ignorable="d">
     <VWin:MainWindowBase.TopCustomButtons>
-        <Button Style="{StaticResource ButtonSuccess.Small}"
-                Content="新增1个弟子"
-                Command="{Binding AddOneDiscipleCommand}" />
-        <Button Style="{StaticResource ButtonSuccess.Small}"
-                Content="返回主菜单"
-                Command="{Binding ReturnLoginViewCommand}" />
+        <Button
+            Command="{Binding AddOneDiscipleCommand}"
+            Content="新增1个弟子"
+            Style="{StaticResource ButtonSuccess.Small}" />
+        <Button
+            Command="{Binding ReturnLoginViewCommand}"
+            Content="返回主菜单"
+            Style="{StaticResource ButtonSuccess.Small}" />
     </VWin:MainWindowBase.TopCustomButtons>
     <VWin:MainWindowBase.MainAreas>
-        <Button Content="野外"
-                Height="50"
-                Margin="5,0"
-                Command="{Binding TopAreaButtonCommand}"
-                CommandParameter="wild" />
-        <Button Content="宗门"
-                Height="50"
-                Margin="5,0"
-                Command="{Binding TopAreaButtonCommand}"
-                CommandParameter="United" />
-        <Button Content="Door"
-                Height="50"
-                Margin="5,0" />
+        <Button
+            Height="50"
+            Margin="5,0"
+            Command="{Binding TopAreaButtonCommand}"
+            CommandParameter="wild"
+            Content="野外" />
+        <Button
+            Height="50"
+            Margin="5,0"
+            Command="{Binding TopAreaButtonCommand}"
+            CommandParameter="United"
+            Content="宗门" />
+        <Button
+            Height="50"
+            Margin="5,0"
+            Content="Door" />
     </VWin:MainWindowBase.MainAreas>
     <VWin:MainWindowBase.LeftContent>
         <Grid Width="490">
-            <Border Margin="0,5,0,0"
-                    Width="490"
-                    VerticalAlignment="Top"
-                    Height="{Binding ElementName=LeftContext,Path=ActualHeight}"
-                    Background="{StaticResource BaseBackground3}">
+            <Border
+                Width="490"
+                Height="{Binding ElementName=LeftContext, Path=ActualHeight}"
+                Margin="0,5,0,0"
+                VerticalAlignment="Top"
+                Background="{StaticResource BaseBackground3}">
                 <!--<Border.Effect>
                     <DropShadowEffect BlurRadius="5"
                                       Direction="0"
@@ -60,70 +67,77 @@
                                       Color="#3a3952" />
                 </Border.Effect>-->
             </Border>
-            <ScrollViewer VerticalAlignment="Top"
-                          x:Name="LeftContext">
-                <StackPanel Background="Transparent"
-                            Margin="5,10,5,5">
-                    <TextBlock Text="内部人员"
-                               HorizontalAlignment="Center"
-                               FontSize="20"
-                               Height="30" />
-                    <Expander Margin="5"
-                              BorderBrush="#ddd"
-                              BorderThickness="1"
-                              Header="掌门">
-                        <Border Padding="5"
-                                Background="{StaticResource BaseBackground3}"
-                                BorderBrush="{StaticResource BaseForeground}"
-                                BorderThickness="1,0,1,1"
-                                CornerRadius="0,0,5,5">
+            <ScrollViewer x:Name="LeftContext" VerticalAlignment="Top">
+                <StackPanel Margin="5,10,5,5" Background="Transparent">
+                    <TextBlock
+                        Height="30"
+                        HorizontalAlignment="Center"
+                        FontSize="20"
+                        Text="内部人员" />
+                    <Expander
+                        Margin="5"
+                        BorderBrush="#ddd"
+                        BorderThickness="1"
+                        Header="掌门">
+                        <Border
+                            Padding="5"
+                            Background="{StaticResource BaseBackground3}"
+                            BorderBrush="{StaticResource BaseForeground}"
+                            BorderThickness="1,0,1,1"
+                            CornerRadius="0,0,5,5">
                             <StackPanel VerticalAlignment="Top">
-                                <vc:TitleContent Title="掌门姓名"
-                                                 TitleForeground="{StaticResource BaseForeground}"
-                                                 TitleWidth="80">
-                                    <TextBlock Text="{Binding OSDC.owner.OwnerName}"
-                                               Foreground="{StaticResource BaseForeground}" />
+                                <vc:TitleContent
+                                    Title="掌门姓名"
+                                    TitleForeground="{StaticResource BaseForeground}"
+                                    TitleWidth="80">
+                                    <TextBlock Foreground="{StaticResource BaseForeground}" Text="{Binding OSDC.owner.OwnerName}" />
                                 </vc:TitleContent>
                             </StackPanel>
                         </Border>
                     </Expander>
-                    <Expander Margin="5"
-                              BorderBrush="#ddd"
-                              BorderThickness="1"
-                              Header="弟子">
-                        <Border Padding="5"
-                                Background="{StaticResource BaseForeground}"
-                                BorderBrush="{StaticResource BaseForeground}"
-                                BorderThickness="1,0,1,1"
-                                CornerRadius="0,0,5,5">
-                            <DataGrid ItemsSource="{Binding OSDC.Disciples}"
-                                      Background="Transparent"
-                                      Margin="5,0"
-                                      AutoGenerateColumns="False"
-                                      MaxHeight="1000"
-                                      HeadersVisibility="All"
-                                      RowHeaderWidth="60"
-                                      SelectionMode="Single"
-                                      VerticalScrollBarVisibility="Auto">
+                    <Expander
+                        Margin="5"
+                        BorderBrush="#ddd"
+                        BorderThickness="1"
+                        Header="弟子">
+                        <Border
+                            Padding="5"
+                            Background="{StaticResource BaseForeground}"
+                            BorderBrush="{StaticResource BaseForeground}"
+                            BorderThickness="1,0,1,1"
+                            CornerRadius="0,0,5,5">
+                            <DataGrid
+                                MaxHeight="1000"
+                                Margin="5,0"
+                                AutoGenerateColumns="False"
+                                Background="Transparent"
+                                HeadersVisibility="All"
+                                ItemsSource="{Binding OSDC.Disciples}"
+                                RowHeaderWidth="60"
+                                SelectionMode="Single"
+                                VerticalScrollBarVisibility="Auto">
                                 <DataGrid.Columns>
-                                    <DataGridTextColumn Header="弟子"
-                                                        Binding="{Binding DName}"
-                                                        Width="0.9*"
-                                                        IsReadOnly="True" />
+                                    <DataGridTextColumn
+                                        Width="0.9*"
+                                        Binding="{Binding DName}"
+                                        Header="弟子"
+                                        IsReadOnly="True" />
                                     <DataGridTemplateColumn Header="查看">
                                         <DataGridTemplateColumn.CellTemplate>
                                             <DataTemplate>
                                                 <StackPanel Orientation="Horizontal">
-                                                    <Button Style="{StaticResource ButtonSuccess.Small}"
-                                                            Content="查看"
-                                                            Command="{Binding DataContext.LookDiscipleInfoViewCommand,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=VWin:MainWindowBase}}" CommandParameter="{Binding}"/>
+                                                    <Button
+                                                        Command="{Binding DataContext.LookDiscipleInfoViewCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=VWin:MainWindowBase}}"
+                                                        CommandParameter="{Binding}"
+                                                        Content="查看"
+                                                        Style="{StaticResource ButtonSuccess.Small}" />
                                                 </StackPanel>
                                             </DataTemplate>
                                         </DataGridTemplateColumn.CellTemplate>
                                     </DataGridTemplateColumn>
                                 </DataGrid.Columns>
                                 <i:Interaction.Behaviors>
-                                    <VBeh:DataGridGroupByBehavior  SetGroupByProrName="GetDiscipleTypeDisplay" />
+                                    <VBeh:DataGridGroupByBehavior SetGroupByProrName="GetDiscipleTypeDisplay" />
                                 </i:Interaction.Behaviors>
                             </DataGrid>
                         </Border>
@@ -133,27 +147,25 @@
         </Grid>
     </VWin:MainWindowBase.LeftContent>
     <VWin:MainWindowBase.BottomCustomAreas>
-        <StackPanel Orientation="Horizontal"
-                    VerticalAlignment="Center">
-            <vc:TitleContent Title="灵石"
-                             Margin="0,0,3,2"
-                             FontSize="15"
-                             TitleForeground="{StaticResource BaseForeground}"
-                             TitleVerticalAlignment="Center"
-                             TitleWidth="50">
-                <TextBox IsReadOnly="True"
-                         Text="{Binding OSDC.united.Money}"
-                         FontSize="12"
-                         Width="100" />
+        <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
+            <vc:TitleContent
+                Title="灵石"
+                Margin="0,0,3,2"
+                FontSize="15"
+                TitleForeground="{StaticResource BaseForeground}"
+                TitleVerticalAlignment="Center"
+                TitleWidth="50">
+                <TextBox
+                    Width="100"
+                    FontSize="12"
+                    IsReadOnly="True"
+                    Text="{Binding OSDC.united.Money}" />
             </vc:TitleContent>
-            <Border BorderThickness="1"
-                    BorderBrush="#ddd" />
-            <TextBlock Text="测试"
-                       FontSize="15" />
+            <Border BorderBrush="#ddd" BorderThickness="1" />
+            <TextBlock FontSize="15" Text="测试" />
         </StackPanel>
     </VWin:MainWindowBase.BottomCustomAreas>
     <Grid>
-        <ContentControl Content="{Binding ShowUI}"
-                        Margin="5" />
+        <ContentControl Margin="5" Content="{Binding ShowUI}" />
     </Grid>
 </VWin:MainWindowBase>

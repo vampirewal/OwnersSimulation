@@ -12,6 +12,7 @@
 #endregion
 
 using NPOI.POIFS.FileSystem;
+using OwnersSimulation.Model;
 using OwnersSimulation.Model.Component;
 using OwnersSimulation.Model.Equip;
 using OwnersSimulation.Model.Self;
@@ -22,10 +23,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Vampirewal.Core.Interface;
+using Vampirewal.Core.IoC;
 using Vampirewal.Core.SimpleMVVM;
 
-namespace OwnersSimulation.ViewModel.MainPage
+namespace OwnersSimulation.ViewModel
 {
+    [VampirewalIoCRegister(ViewModelKeys.DiscipleEquipTableViewModel, RegisterType.ViewModel)]
     public class DiscipleEquipTableViewModel : DetailVM<Disciple>
     {
         private IOwnerSimulationDataContext _OSDC;
@@ -50,6 +53,8 @@ namespace OwnersSimulation.ViewModel.MainPage
             {
                 var aa = DtlEntity;
                 SetEntity(entity);
+
+                var aabb = this.ViewId;
             }
         }
 
@@ -79,7 +84,7 @@ namespace OwnersSimulation.ViewModel.MainPage
             if(DtlEntity.Level>=w.EquipMinLevel)
                 OSDC.WearEquip(w, DtlEntity);
             else
-                Dialog.ShowPopupWindow("等级不够无法穿戴该装备！",WindowsManager.Windows["MainView"], Vampirewal.Core.WpfTheme.WindowStyle.MessageType.Error);
+                Dialog.ShowPopupWindow("等级不够无法穿戴该装备！",WindowsManager.GetInstance().GetDialogWindow(ViewId), Vampirewal.Core.WpfTheme.WindowStyle.MessageType.Error);
         });
 
         public RelayCommand SaleEquipCommand => new RelayCommand(() => 
@@ -113,7 +118,7 @@ namespace OwnersSimulation.ViewModel.MainPage
                 {
                     OSDC.DeleteEquip();
 
-                    Dialog.ShowPopupWindow($"总计售卖金额：{AllAmount} 灵石！", WindowsManager.Windows["MainView"], Vampirewal.Core.WpfTheme.WindowStyle.MessageType.Successful);
+                    Dialog.ShowPopupWindow($"总计售卖金额：{AllAmount} 灵石！", WindowsManager.GetInstance().GetDialogWindow(ViewId), Vampirewal.Core.WpfTheme.WindowStyle.MessageType.Successful);
                 }
                 
             }

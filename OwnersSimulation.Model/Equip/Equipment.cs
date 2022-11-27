@@ -20,7 +20,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Vampirewal.Core;
+using Vampirewal.Core.Attributes;
 using Vampirewal.Core.Models;
+using Vampirewal.Core.OperationExcelService;
 
 namespace OwnersSimulation.Model.Equip
 {
@@ -30,6 +32,10 @@ namespace OwnersSimulation.Model.Equip
     [SugarTable("EquipBase")]
     public class EquipBase: DetailBaseModel
     {
+        [SugarColumn(IsIgnore  = true)]
+        public new string BillId { get; set; }
+
+
         private string _EquipNo;
         /// <summary>
         /// 装备编号
@@ -139,12 +145,22 @@ namespace OwnersSimulation.Model.Equip
     ///<para><paramref name="BillId"/>是门派的<paramref name="BillId"/> </para> 
     /// </summary>
     [SugarTable("Equipment")]
-    public class Equipment : EquipBase
+    public partial class Equipment : EquipBase
     {
         public Equipment()
         {
             //构造函数
         }
+
+        private string _BillId;
+        [SugarColumn(IsNullable = false)]
+        [ExportExcel("BillId", "BillId", true)]
+        public new string BillId
+        {
+            get { return _BillId; }
+            set { _BillId = value; }
+        }
+
 
         private bool _IsEquip;
         /// <summary>
@@ -178,13 +194,29 @@ namespace OwnersSimulation.Model.Equip
             private set { _EquipDiscipleName = value; DoNotify(); }
         }
 
+        
+
+        private EquipMaterial _equipMaterial = EquipMaterial.Inferior;
+        /// <summary>
+        /// 装备品质
+        /// </summary>
+        public EquipMaterial equipMaterial
+        {
+            get { return _equipMaterial; }
+            set { _equipMaterial = value; DoNotify(); }
+        }
+
+    }
+
+    public partial class Equipment
+    {
         /// <summary>
         /// 穿装备
         /// </summary>
         /// <param name="disciple"></param>
         public void WearEquip(Disciple disciple)
         {
-            IsEquip=true;
+            IsEquip = true;
             EquipDiscipleID = disciple.DtlId;
             EquipDiscipleName = disciple.DName;
         }
@@ -198,17 +230,6 @@ namespace OwnersSimulation.Model.Equip
             EquipDiscipleID = string.Empty;
             EquipDiscipleName = string.Empty;
         }
-
-        private EquipMaterial _equipMaterial = EquipMaterial.Inferior;
-        /// <summary>
-        /// 装备品质
-        /// </summary>
-        public EquipMaterial equipMaterial
-        {
-            get { return _equipMaterial; }
-            set { _equipMaterial = value; DoNotify(); }
-        }
-
     }
 
     /// <summary>

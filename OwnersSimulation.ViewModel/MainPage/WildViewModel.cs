@@ -11,6 +11,7 @@
 //----------------------------------------------------------------*/
 #endregion
 
+using OwnersSimulation.Model;
 using OwnersSimulation.Model.Component;
 using OwnersSimulation.Model.Self;
 using OwnersSimulation.ViewModel.Extension;
@@ -21,13 +22,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Vampirewal.Core.Interface;
+using Vampirewal.Core.IoC;
 using Vampirewal.Core.SimpleMVVM;
 
-namespace OwnersSimulation.ViewModel.MainPage
+namespace OwnersSimulation.ViewModel
 {
     /// <summary>
     /// 野外页面VM
     /// </summary>
+    [VampirewalIoCRegister(ViewModelKeys.WildViewModel, RegisterType.ViewModel)]
     public class WildViewModel : ViewModelBase
     {
         public IOwnerSimulationDataContext OSDC { get; set; }
@@ -93,7 +96,7 @@ namespace OwnersSimulation.ViewModel.MainPage
             {
                 TimeSpan ts= (TimeSpan)(c.TaskFinishedTime-DateTime.Now);
 
-                Dialog.ShowPopupWindow($"任务完成还需要{ts.TotalSeconds.ToString("0.00")}秒", WindowsManager.Windows["MainView"], Vampirewal.Core.WpfTheme.WindowStyle.MessageType.Error);
+                Dialog.ShowPopupWindow($"任务完成还需要{ts.TotalSeconds.ToString("0.00")}秒", WindowsManager.GetInstance().Windows["MainView"], Vampirewal.Core.WpfTheme.WindowStyle.MessageType.Error);
             }
             
         });

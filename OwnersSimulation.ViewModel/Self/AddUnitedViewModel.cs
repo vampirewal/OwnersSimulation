@@ -11,6 +11,7 @@
 //----------------------------------------------------------------*/
 #endregion
 
+using OwnersSimulation.Model;
 using OwnersSimulation.Model.Self;
 using System;
 using System.Collections.Generic;
@@ -20,13 +21,15 @@ using System.Threading.Tasks;
 using System.Windows;
 using Vampirewal.Core;
 using Vampirewal.Core.Interface;
+using Vampirewal.Core.IoC;
 using Vampirewal.Core.SimpleMVVM;
 
-namespace OwnersSimulation.ViewModel.Self
+namespace OwnersSimulation.ViewModel
 {
     /// <summary>
     /// 新增门派VM
     /// </summary>
+    [VampirewalIoCRegister(ViewModelKeys.AddUnitedViewModel, RegisterType.ViewModel)]
     public class AddUnitedViewModel:BillVM<United>
     {
         public AddUnitedViewModel(IDataContext dc):base(dc)

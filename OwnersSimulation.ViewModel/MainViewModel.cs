@@ -13,7 +13,6 @@
 
 using OwnersSimulation.Model;
 using OwnersSimulation.Model.Component;
-using OwnersSimulation.Model;
 using OwnersSimulation.Model.Self;
 using System;
 using System.Collections.Generic;
@@ -25,21 +24,29 @@ using System.Windows;
 using Vampirewal.Core.Interface;
 using Vampirewal.Core.SimpleMVVM;
 using OwnersSimulation.ViewModel.Extension;
+using Vampirewal.Core.IoC;
+using Vampirewal.Core.DBContexts;
 
 namespace OwnersSimulation.ViewModel
 {
+    [VampirewalIoCRegister(ViewModelKeys.MainViewModel, RegisterType.ViewModel)]
     public class MainViewModel : BillVM<United>
     {
         public IOwnerSimulationDataContext OSDC { get; set; }
 
         private IDialogMessage Dialog { get; set; }
-        public MainViewModel(IDataContext dc,IAppConfig config, IOwnerSimulationDataContext osdc,IDialogMessage dialog
+
+        private SqlSugarRepository<Disciple> repDisciple { get; set; }
+
+        public MainViewModel(IDataContext dc,IAppConfig config, IOwnerSimulationDataContext osdc,IDialogMessage dialog, SqlSugarRepository<Disciple> _repDisciple
             ) 
             : base(dc, config)
         {
 
             OSDC = osdc;
             Dialog = dialog;
+
+            repDisciple = _repDisciple;
             //构造函数
 
             Title = config.AppChineseName;
@@ -75,7 +82,7 @@ namespace OwnersSimulation.ViewModel
 
                 //curDisciples.ForEach(f => Disciples.Add(f));
 
-                ShowUI = Messenger.Default.Send<FrameworkElement>("GetView", ViewKeys.WildView);
+                ShowUI = WindowsManager.GetInstance().GetView( ViewKeys.WildView);
 
                 //CreateData(owner.BillId);
 
@@ -83,6 +90,11 @@ namespace OwnersSimulation.ViewModel
             }
 
             ReturnResult = false;
+        }
+
+        public override void MessengerRegister()
+        {
+            //Messenger.Default.Register<object>(this, "GetLoginPassData", GetLoginPassData);
         }
 
         private bool ReturnResult { get; set; }
@@ -112,22 +124,37 @@ namespace OwnersSimulation.ViewModel
         #region 私有方法
         private void CreateData(string OwnerId)
         {
-            List<Disciple> disciplesss=new List<Disciple>();
 
-            for (int i = 0; i < 50; i++)
+            try
             {
-                Disciple d=new Disciple()
+                repDisciple.CurrentBeginTran();
+
+                for (int i = 0; i < 50; i++)
                 {
-                    DName=OSDC.GetSingleName(),
-                    BillId=OwnerId,
-                    discipleType =DiscipleType.Outside1,
-                    Level=1
-                };
+                    Disciple d = new Disciple()
+                    {
+                        DName = OSDC.GetSingleName(),
+                        BillId = OwnerId,
+                        discipleType = DiscipleType.Outside1,
+                        Level = 1
+                    };
 
-                disciplesss.Add(d);
+                    repDisciple.Insert(d);
+                }
+                repDisciple.CurrentCommitTran();
             }
+            catch (Exception ex)
+            {
+                repDisciple.CurrentRollbackTran();
+                throw ex;
+            }
+            
+            //DC.AddEntityList(disciplesss);
+        }
 
-            DC.AddEntityList(disciplesss);
+        public void GetLoginPassData(object o)
+        {
+
         }
         #endregion
 
@@ -149,8 +176,8 @@ namespace OwnersSimulation.ViewModel
             OSDC.ClearData();
 
             ReturnResult = true;
-
-            ((Window)View).Close();
+            ((Window)View).DialogResult = true;
+            CloseView();
 
         });
 
@@ -166,10 +193,10 @@ namespace OwnersSimulation.ViewModel
             switch (s)
             {
                 case "wild":
-                    ShowUI=Messenger.Default.Send<FrameworkElement>("GetView",ViewKeys.WildView);
+                    ShowUI= WindowsManager.GetInstance().GetView(ViewKeys.WildView);
                     break;
                 case "United":
-                    ShowUI = Messenger.Default.Send<FrameworkElement>("GetView", ViewKeys.UnitedView);
+                    ShowUI = WindowsManager.GetInstance().GetView(ViewKeys.UnitedView);
                     break;
             }
 
